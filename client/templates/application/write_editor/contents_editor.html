@@ -1,0 +1,236 @@
+<template name="contentsEditor">
+
+    <!-- {{#if hpSearchShow}} -->
+    <!-- 타임캡슐 친구 검색 -->
+    {{#if and hpSearchShow (g_isEqual hpContentType 'TC')}}
+      {{> searchUser hpAddUserList}}
+    {{/if}}
+
+    <!-- 자녀/반려동물 검색 -->
+    {{#if and hpSearchShow (g_isEqual hpContentType 'BD')}}
+      {{> searchFamily users=hpAddUserList subType=hpContentSubType}}
+    {{/if}}
+
+    <!-- {{#if hpProileImgData.isShow}}
+      {{> editProfileImage hpProileImgData}}
+    {{/if}} -->
+
+    <!-- {{#if hpAddFamilyData.isShow}}
+      {{> addFamily hpAddFamilyData}}
+    {{/if}} -->
+
+
+    <!-- {{/if}} -->
+    <div class="fake-div"></div>
+    <div class="content-editor {{#if or hpSearchShow hpAddFamilyData.isShow hpProileImgData.isShow}}display-none{{/if}}">
+
+
+
+  <!-- ============================== step1 ============================================= -->
+    <div class="step2 max768">
+      <div class="detail-header txt-menu">
+        <div class="sticky">
+          <div class="max768">
+            <div class="wrap">
+              <div class="item-list">
+
+                <div class="item cursor-pointer">
+                  <a href="#" class="back-step" id="back">
+                    <div class="icon cursor-pointer">
+                      <i class="imsm-icon icon-back"></i>
+                    </div>
+                  </a>
+                </div>
+                <div class="item title" id="headerTitle">
+                  {{{hpEditorTitle}}}
+                  {{#unless or hpIsQuestion (g_isEqual hpContentSubType 'BS0001') (g_isEqual hpContentSubType 'LL0001')}}
+                    <span class="guide-info-icon" id="guide-info">
+                      <!-- <i class="imsm-icon icon-guide"></i> -->
+                      <img src="/images/icon/guide.svg" alt="">
+                    </span>
+                  {{/unless}}
+                </div>
+                <div class="item cursor-pointer save">
+                  저장
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="sticky">
+          <div class="max768">
+            <div class="wrap">
+              <!-- 날짜입력 -->
+              <div class="item-row date-row">
+                <div class="item date-label">
+                  {{hpDateTitle}}
+                </div>
+                <div class="item date">
+                  <!-- <input type="date" data-date="" data-date-format="DD MMMM YYYY" id="mDate"> -->
+                  <input type="text" id="mDate" readonly>
+                  <!-- {{> anyDatePicker}} -->
+                </div>
+              </div>
+
+              <!-- 제목 -->
+              <div class="item-row">
+                <div class="main-input title" >
+                    <input type="text" id="title" value="{{#if hpExtraData}}{{hpExtraData.title}}{{/if}}" placeholder="제목"/>
+                </div>
+              </div>
+
+              <!-- 내용 -->
+              <div class="item-row">
+                <div class="main-input context" >
+                    <!-- <textarea name="Text1" cols="40" rows="20" placeholder="{{#if g_isEqual hpHint.type 'P'}}{{hpHint.text}}{{/if}}" id="context" value="{{#if g_isEqual hpHint.type 'V'}}{{hpHint.text}}{{/if}}"></textarea> -->
+                    <textarea name="Text1" placeholder="{{#if g_isEqual hpHint.type 'P'}}{{hpHint.text}}{{/if}}" id="context" value="{{#if g_isEqual hpHint.type 'V'}}{{hpHint.text}}{{/if}}"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-bottom">
+        <div class="max768">
+          <div class="tag-and-image">
+            <div class="prevent over-pop">
+              <div class="max768">
+                <div class=slide-anime>
+
+                  <div class="pop-top" style="{{#if or (hpShowCamera) (hpShowUser)}}height:121px;{{/if}}">
+                    <div class="tag-area">
+                      <div class="main-input" >
+                        <input type="text" placeholder="#태그 ' , '로 구분하여 입력" id="tag"/>
+                      </div>
+                    </div>
+                    <div class="slide">
+
+                    {{#if hpShowCamera}}
+                      <!-- 추가된 사진 이미지 목록 -->
+                      <div class="camera-slide">
+                        <div class="item">
+                          <input type="file" name="attachment[]" multiple="multiple" accept="image/*" style="display: none;" id="addImage"/>
+                          <a href="javascript:document.getElementById('addImage').click();" class="" id="addherf">
+                            <div class="btn-add-img">
+                              <i class="imsm-icon icon-plus"></i>
+                            </div>
+                          </a>
+                        </div>
+                        {{#each hpImageList}}
+                          <div class="item">
+                            <div class="img-wrap">
+                              <!-- <a href="{{g_getThumbUri this.data}}" download="aaaaa"> -->
+                                <img src="{{g_getThumbUri this.data}}" alt="image-place" data-modal-template="editProfileImage" class="{{this.imageClass}}">
+                              <!-- </a> -->
+                            </div>
+                            <div class="icon cursor-pointer" id="btnDelete">
+                              <i class="imsm-icon icon-close-thin"></i>
+                            </div>
+                          </div>
+                        {{/each}}
+                      </div>
+                    {{/if}}
+
+                    {{#if hpShowUser}}
+                      {{#if or (g_isEqual hpContentType 'BD') (g_isEqual hpContentSubType 'TC0002')}}
+                        <!-- 추가된 사용자 목록 -->
+                        <div class="user-slide">
+                          <div class="item add-user">
+                            {{#if g_isEqual hpContentSubType 'TC0002'}}
+                              <div class="btn-add-img cursor-pointer" id="addFriends">
+                                <i class="imsm-icon icon-plus"></i>
+                              </div>
+                            {{else}}
+                              <div class="btn-add-img cursor-pointer" id="addFamily">
+                                <i class="imsm-icon icon-plus"></i>
+                              </div>
+                            {{/if}}
+                          </div>
+                            {{#each hpAddUserList}}
+                            <div class="item">
+                              <div class="selected-users">
+                              <div class="user-info">
+                                <div class="profile-img">
+                                  <div class="remove-user cursor-pointer" id="delUser">
+                                    <i class="imsm-icon icon-close-thin"></i>
+                                  </div>
+                                  <img src="{{g_makeImageSrc this.profileImg ''}}" alt="image-place">
+                                </div>
+                                <div class="ellipsis-singleline-nick">
+                                  {{#if g_isEqual hpContentType 'BD'}}
+                                    {{this.name}}
+                                  {{else}}
+                                    {{this.nickName}}
+                                  {{/if}}
+                                </div>
+                              </div>
+                            </div>
+                            </div>
+                            {{/each}}
+                        </div>
+                      {{/if}}
+                    {{/if}}
+                    </div>
+
+                  </div>
+
+                  <div class="pop-bottom">
+                    <div class="bottom-menu">
+                      {{#if or (g_isEqual hpContentType 'BD') (g_isEqual hpContentSubType 'TC0002') }}
+                      <div  class="btn-camera">
+                        <div class="input-article icon cursor-pointer-style">
+                          <a href="" class="">
+                            <i class="imsm-icon icon-camera"></i>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="btn-user {{#if hpShowUser}} selected {{/if}}">
+                        <div class="input-article icon cursor-pointer-style">
+                          <a href="" class="">
+                            <i class="imsm-icon icon-my"></i>
+                          </a>
+                        </div>
+                      </div>
+                      {{else}}{{#if g_isEqual hpContentSubType 'BS0001'}}
+                      <div  class="btn-camera">
+                        <div class="input-article icon cursor-pointer-style">
+                          <a href="" class="">
+                            <i class="imsm-icon icon-camera"></i>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="btn-lock">
+                        <div class="toggle" style="font-size: 15px; color: #f64040;">
+                          비공개
+                          <label class="switch">
+                            <input type="checkbox" id="lock" {{hpLockChecked}}>
+                            <div class="slider round"></div>
+                          </label>
+                        </div>
+                      </div>
+                      {{else}}
+                      <div  class="btn-camera last-one">
+                        <div class="input-article icon cursor-pointer-style">
+                          <a href="" class="">
+                            <i class="imsm-icon icon-camera"></i>
+                          </a>
+                        </div>
+                      </div>
+                      {{/if}}{{/if}}
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- detail-bottom -->
+
+
+    </div>
+  </div>
+</template>

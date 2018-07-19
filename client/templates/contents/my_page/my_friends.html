@@ -1,0 +1,119 @@
+<template name="myFriends">
+  <div class="user-list">
+
+    <div class="friend-notice receive">
+        <!-- 이미지 파일 -->
+          <div class="context">
+            <i class="imsm-icon icon-notice {{#if g_isGreaterThan hpResFriendCnt 0}}color-red{{/if}}"></i>
+            받은친구요청 <span class="color-red" id="resFrienCount">{{hpResFriendCnt}}</span>
+          </div>
+
+        <div class="btn-select round-radius selected btn-response" id="resUserList">
+          <div class="right">
+            확인
+          </div>
+        </div>
+    </div>
+    <div class="friend-notice request">
+        <!-- 이미지 파일 -->
+          <div class="context">
+            <i class="imsm-icon icon-notice {{#if g_isGreaterThan hpReqFriendCnt 0}}color-red{{/if}}"></i>
+            보낸친구요청 <span class="color-red" id="recFrienCount">{{hpReqFriendCnt}}</span>
+          </div>
+
+        <div class="btn-select round-radius selected btn-response" id="reqUserList">
+          <div class="right">
+            확인
+          </div>
+        </div>
+    </div>
+
+    <div class="search-user">
+      <div class="roundtype-input">
+        <div class="round-radius">
+          <div class="type-input">
+            <input type="text" placeholder="이름/ID/별명 검색" id="searchWord"/>
+          </div>
+          <div class="btn-save">
+            <a href="#" class="" id="searchFrdList">
+              <i class="imsm-icon icon-search"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    {{#if hpFriendsData}}
+      <div class="user-list">
+        {{#each hpFriendsData}}
+          <div class="{{#if hpInfinityCount @index}} display-none {{else}} user-profile-list {{/if}}">
+            <!-- 이미지 파일 -->
+            <div class="profile-img">
+              <!-- <img src="{{g_makeImageSrc profile.profileImg ''}}" alt="image-place" data-modal-template="editProfileImage"> -->
+              <a id="userProfile" class="dropdown-toggle" href="#" data-toggle="dropdown">
+                <img src="{{g_makeImageSrc profile.profileImg ''}}" alt="image-place">
+              </a>
+              {{#if myFrien}}
+                {{#if hpSelectedUser _id}}
+                  {{> dropdownmenuUser userId=_id}}
+                {{/if}}
+              {{/if}}
+            </div>
+
+
+            <div class="profile-text">
+              <!-- 이름 -->
+              <div class="profile-name">
+                {{profile.nickName}}({{profile.name}})
+              </div>
+              <!-- 아이디 -->
+              <div class="profile-sub">
+                {{username}}
+              </div>
+            </div>
+            {{#unless responMe}}
+              {{#if type}}
+              <!-- <div class="btn-select  round-radius {{#if hpSelect @index}} selected {{/if}}" id={{@index}}> -->
+              <div class="btn-select  round-radius" name="cancleRecfriend" id={{@index}}>
+                <div class="right btn-delete" id="delete">요청취소</div>
+              </div>
+              {{else}}
+                <!-- 친구인지 아닌지 -->
+                {{#if myFrien}}
+                <!-- 친구일 경우 -->
+                  <div class="btn-select  round-radius selected " name="myDelfriend" id={{@index}}>
+                    <div class="right btn-delete" id="">삭제</div>
+                  </div>
+                {{else}}
+                <!-- 친구가 아닌 경우 -->
+                  <div class="btn-select  round-radius selected " name="addfriend" id={{@index}}>
+                    <div class="right btn-delete" id="add">추가</div>
+                  </div>
+                {{/if}}
+
+              {{/if}}
+            <!-- responsMe unless else -->
+            {{else}}
+              <div class="btn-select  round-radius selected " name="acceptRec" id={{@index}}>
+                <div class="right btn-delete" id="">수락</div>
+              </div>
+            <!-- responsMe unless end -->
+            {{/unless}}
+          </div>
+
+        {{/each}}
+      </div>
+    {{else}}
+      {{> myFriendsEmpty}}
+    {{/if}}
+
+    {{#if hpDeteleConfirmPageOpen}}
+      {{> myFriendsDelete hpSelectedUserInfo}}
+    {{/if}}
+
+    {{#if hpAddConfirmPageOpen}}
+      {{> myFriendsAdd hpSelectedUserInfo}}
+    {{/if}}
+  </div>
+</template>

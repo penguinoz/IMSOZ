@@ -1,0 +1,116 @@
+<template name="lifeMap">
+  <div class="lifeMap contents-detail max768" id="lifeMapPage">
+    <div class="content-editor">
+        {{#with hpUserInfo}}
+          <div class="step1 max768">
+            <div class="detail-header txt-menu">
+              <div class="sticky">
+                <div class="max768">
+                  <div class="wrap">
+                    <div class="item-list">
+
+                      <div class="item">
+                        <a href="#" class="back" id="close">
+                          <div class="icon cursor-pointer color-black">
+                            <i class="imsm-icon icon-close-thin"></i> 라이프 맵
+                          </div>
+                        </a>
+                      </div>
+                      <div class="item">
+                        <!-- 디자인때문에 빈거 넣어둠 -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="detail-body">
+              <div class="item-row">
+                <div class="item">
+                  시작일
+                </div>
+                <div class="item">
+                  <input type="date" data-date="" data-date-format="DD MMMM YYYY" value="{{this.birthDate}}" id="startDate">
+                </div>
+              </div>
+              <div class="item-row">
+                <div class="item">
+                  종료일
+                </div>
+                <div class="item">
+                  <input type="date" data-date="" data-date-format="DD MMMM YYYY" value="{{this.dDate}}" id="endDate">
+                </div>
+              </div>
+
+              <div class="item-row">
+                <div class="item">
+                  주제
+                </div>
+                <div class="item">
+                  <select class="selectpicker ml10" data-width="75px" name="lockOp" id="category" title="주제를 선택해주세요." required>
+                    {{#with hpContentType}}
+                      <option value="ALL">전체</option>
+                      {{#each g_getLifeMapSubject}}
+                        <option value="{{code}}">{{name}}</option>
+                      {{/each}}
+                    {{/with}}
+                  </select>
+                </div>
+              </div>
+              <div class="item-row">
+                <div class="item">
+                  영역
+                </div>
+                <div class="item">
+                  <select class="selectpicker ml10" data-width="75px" name="lockOp" id="subcategory" title="영역을 선택해주세요." required>
+                    {{#with hpContentType}}
+                      {{#if g_isEqual this 'ALL'}}
+                        <option value="ALL">전체</option>
+                      {{else}}
+                        <option value="ALL">전체</option>
+                        {{#each g_getLifeMapSubjectChild this}}
+                        <option value="{{code}}">{{name}}</option>
+                        {{/each}}
+                      {{/if}}
+                    {{/with}}
+                  </select>
+                </div>
+              </div>
+
+              {{#unless hpIsVisit}}
+              <div class="item-row">
+                <div class="item">
+                  비공개 포함
+                </div>
+                <div class="item">
+                  <div class="toggle">
+                    <label class="switch">
+                      <input type="checkbox" id="lock">
+                      <div class="slider round"></div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              {{/unless}}
+
+            </div>
+          </div>
+        {{/with}}
+      <div class="detail-bottom">
+        <div class="btn-bottom save">
+          <div class="sticky-bottom">
+            <div class="max768">
+              <div class="txt-sub-title" id="createMap">
+                확인
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- <div class="black-over" id="modal" data-backdrop="static" aria-hidden="false" style=""></div> -->
+</template>

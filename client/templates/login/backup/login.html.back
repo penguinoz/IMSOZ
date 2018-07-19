@@ -1,0 +1,58 @@
+<template name="login">
+  <div class="login max768">
+    <div class="wrap">
+      <div class="title">
+        <div class="bi">
+          <img src="/images/bg/BI_2.svg" alt="">
+        </div>
+      </div>
+
+      <div class="item-row">
+        <div class="main-input name">
+          <input type="text" placeholder="아이디" id="loginUserId"/>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="main-input name">
+          <input type="password" placeholder="비밀번호" id="loginPassword" />
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="main-button  cursor-pointer btn-login">
+          로그인
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="find-info cursor-pointer">
+          - <span id="findId">아이디찾기</span> / <span id="findPasswd">비밀번호 찾기</span> -
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="main-button  cursor-pointer registration">
+          회원가입
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="main-button  cursor-pointer showIms" id="movePreview">
+          둘러보기
+        </div>
+      </div>
+      {{#if hpIsShow}}
+        <button id="facebookLogin" class="facebooklog-in-in hidden" style="color:#3B5998">Facebook Login</button>
+        <button id="googleLogin" class="googleLogin-in-in hidden" style="color:#000000">google Login</button>
+        <button id="kakaoLogin" class="kakaoLogin-in-in hidden" style="color:#000000">kakao Login</button>
+
+        <div id="sociallogin" class="hidden">
+          {{> loginButtons}}
+          {{#if currentUser}}
+            {{currentUser.profile.login}}
+          {{/if}}
+        </div>
+      {{/if}}
+      <!-- <fb:login-button
+        scope="public_profile,email"
+        onlogin="checkLoginState();">
+      </fb:login-button> -->
+    </div>
+  </div>
+</template>

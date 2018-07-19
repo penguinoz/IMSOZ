@@ -1,0 +1,37 @@
+<template name="inheritanceEmpty">
+    <div class="empty">
+      {{#if g_isEqual hpTemplateInfo 'inheritanceTo'}}
+        <div class="image">
+          <img src="/images/bg/blank_inheritance_img.png" itemprop="thumbnail" alt="">
+
+        </div>
+        <div class="context txt-title">
+          당신의 삶의 기록을 <br />
+          사랑하는 사람들에게 <br />
+          전달 해 보세요.<br />
+        </div>
+        <!-- <div class="addInheritor button">
+          <div class="main-button cursor-pointer confirm">상속하기</div>
+        </div> -->
+      {{else}}{{#if  g_isEqual hpTemplateInfo 'inheritanceFromList'}}
+        <div class="image">
+          <img src="/images/bg/blank_inheritance_img2.png" itemprop="thumbnail" alt="">
+        </div>
+        <div class="context txt-title">
+          상속받은 내역이 없습니다.
+        </div>
+      {{else}}
+        <div class="image">
+          <!-- {{hpBucketData.dic.imageUrl}} -->
+          <img src="/images/bg/blank_inheritance_img3.png" itemprop="thumbnail" alt="">
+        </div>
+        <div class="context txt-title">
+          당신의 마지막 시간을<br/>
+          알려 줄 사람은 누구입니까?
+        </div>
+        <!-- <div class="addGuardian button">
+          <div class="main-button cursor-pointer confirm">가디언 등록하기</div>
+        </div> -->
+      {{/if}}{{/if}}
+    </div>
+</template>

@@ -1,0 +1,50 @@
+<template name="timelineTemplate02">
+  <!-- 작은 이미지 사용 -->
+    <!-- 아이콘 -->
+    <div class="icon">
+      <!-- <i class="imsm-icon {{icon}}"></i> -->
+      <img src="/images/icon/timeline/{{icon}}" alt="">
+    </div>
+    {{#if isShared}}
+    <div class="icon lock">
+      <img src="/images/icon/timeline/shared.svg" alt="">
+    </div>
+    {{/if}}
+    {{#if lock}}
+    <div class="icon lock">
+      <img src="/images/icon/timeline/lock.svg" alt="">
+    </div>
+    {{/if}}
+
+    <!-- template_content 영역 -->
+    <div class="content">
+      <div id="titleTag" class="txt-sub-title ellipsis-singleline">{{title}}</div>
+
+      <div class="thumbnail-wrapper {{#unless g_isExist image}}display-none {{/unless}}">
+        <figure class="thumbnail">
+          <div class="image">
+            <!-- {{#if g_isExist image}}
+              <img id="imageTag" class="width-100" src="{{g_makeImageSrc image ''}}" alt="" >
+            {{/if}} -->
+            <a href="#" style="background:url({{g_makeImageSrc image ''}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+              <div class="trans-overlay">
+                <img src="/images/bg/img_frame.png" class="img-frame-shadow width-100" itemprop="thumbnail" alt="">
+              </div>
+            </a>
+          </div>
+        </figure>
+      </div>
+      <!-- <div class="image-area">
+        <figure id="123">
+          <div class="image">
+            <a href="#" style="background:url('http://images.hwlife.hscdn.com//library/i0716_thumb.jpg') no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+              <div class="trans-overlay">
+                <img src="/images/bg/shadow_cover.png" class="img-frame-shadow" itemprop="thumbnail" alt="">
+              </div>
+            </a>
+          </div>
+        </figure>
+      </div> -->
+      <div class="timeline-context ellipsis-multi4">{{{context}}}</div>
+    </div>
+</template>

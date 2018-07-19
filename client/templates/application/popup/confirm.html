@@ -1,0 +1,42 @@
+<template name="confirm">
+  {{#with hpConfirmData}}
+  <div class="max286">
+    <div class="confirm">
+      <div class="prevent over-pop">
+        <div class="max286">
+          <div class="popContent">
+            <div class="pop-top">
+              <div class="main-button cursor-pointer">
+                <div class="info">
+                  {{#if title}}
+                    <div class="title">
+                      {{{title}}}
+                    </div>
+                  {{/if}}
+
+                  {{#if context}}
+                    <div class="context">
+                      {{{context}}}
+                    </div>
+                  {{/if}}
+                </div>
+              </div>
+            </div>
+            <div class="pop-bottom">
+              <div class="main-button cursor-pointer">
+                {{#if singleBtn}}
+                  <div class="btn-title btn-cancel">{{btnName}}</div>
+                {{else}}
+                  <div class="btn-title btn-cancel">아니오</div>
+                  <div class="btn-title btn-confirm">예</div>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/with}}
+  <div class="black-over confirm" id="modal" data-backdrop="static" aria-hidden="false" style=""></div>
+</template>

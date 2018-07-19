@@ -1,0 +1,74 @@
+<template name="timelineTemplate04">
+  <!-- 버키스토리 -->
+  <!-- 아이콘 -->
+  <div class="icon">
+    <!-- <i class="imsm-icon {{icon}}"></i> -->
+    <img src="/images/icon/timeline/{{icon}}" alt="">
+  </div>
+  {{#if isShared}}
+  <div class="icon lock">
+    <img src="/images/icon/timeline/shared.svg" alt="">
+  </div>
+  {{/if}}
+  {{#if lock}}
+  <div class="icon lock">
+    <img src="/images/icon/timeline/lock.svg" alt="">
+  </div>
+  {{/if}}
+
+  <!-- template_content 영역 -->
+  <div class="content">
+    <!-- image -->
+    <!-- <img class="image" id="tlTempImg" src="{{img}}" alt="" style="width:80%;"> -->
+    <!-- <div class="thumbnail-wrapper {{#if bIsCompleted}}completed{{/if}}">
+      <figure class="thumbnail">
+        <div class="image">
+          {{#if g_isExist bImage}}
+            <a href="#" style="background:url({{g_makeImageSrc bImage ''}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+              <div class="trans-overlay">
+                <img src="/images/bg/shadow_cover.png" class="img-frame-shadow" itemprop="thumbnail" alt=""  id="imageTag">
+              </div>
+            </a>
+          {{/if}}
+        </div>
+          <div class="bucket">
+            {{#if bIsCompleted}}
+              <div class="complete-txt color-lemon">
+                  <i class="imsm-icon icon-crown"></i> 나 이거 했어!
+              </div>
+            {{/if}}
+            <div class="title color-white ellipsis-singleline">{{bTitle}}</div>
+          </div>
+      </figure>
+    </div> -->
+    <div class="thumbnail-wrapper buckey-story">
+        <figure class="thumbnail">
+          <div class="image">
+            {{#if g_isExist image}}
+              <a href="#" style="background:url({{g_makeImageSrc image ''}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                <div class="trans-overlay">
+                  <img src="/images/bg/shadow_cover.png" class="img-frame-shadow" itemprop="thumbnail" alt=""  id="imageTag">
+                </div>
+              </a>
+              <!-- <img id="imageTag"  class="{{image.imageClass}}" src="{{g_makeImageSrc image ''}}" alt=""> -->
+            {{else}}
+              {{#if g_isExist bImage}}
+                <a href="#" style="background:url({{g_makeImageSrc bImage ''}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                  <div class="trans-overlay">
+                    <img src="/images/bg/shadow_cover.png" class="img-frame-shadow" itemprop="thumbnail" alt=""  id="imageTag">
+                  </div>
+                </a>
+                <!-- <img id="imageTag" class="width-100" src="{{g_makeImageSrc image 'thumb'}}" alt="" > -->
+              {{/if}}
+            {{/if}}
+          </div>
+          <div class="bucket">
+            <div class="title txt-sub-title color-white ellipsis-singleline">{{bTitle}}</div>
+          </div>
+        </figure>
+    </div>
+    <!-- text -->
+    <div class="color-black ellipsis-singleline" id="tlTempTitle"><span class="color-green">[스토리] </span>{{title}}</div>
+    <div class="timeline-context ellipsis-multi2">{{{context}}}</div>
+  </div>
+</template>

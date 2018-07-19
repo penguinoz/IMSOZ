@@ -1,0 +1,16 @@
+<template name="index">
+  {{#if hpContentsTemplate.header}}
+    {{> header isMine=hpIsMyPage}}
+  {{/if}}
+  <div class="contents">
+    {{> UI.dynamic template=hpContentsTemplate.templateName data=hpContentsTemplate.data}}
+  </div>
+  {{#if hpContentsTemplate.header}}
+    {{> footer isMine=hpIsMyPage}}
+  {{/if}}
+
+  <!-- 가이드 -->
+  {{#if hpGuideShow}}
+    {{> UI.dynamic template=hpGuideShow.templateName data=hpGuideShow.data}}
+  {{/if}}
+</template>

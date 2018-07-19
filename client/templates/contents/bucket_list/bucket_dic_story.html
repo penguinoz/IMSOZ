@@ -1,0 +1,111 @@
+<template name="bucketDicStory">
+    <div class="bucket-dic bucket-detail">
+      <!-- {{hpBucketListData.isDataExist}} -->
+
+      {{#with hpBuckyStoryData.buckyStoryData}}
+      <div id="myBucketInfo">
+        <!-- <span>마이버킷리스트</span> {{hpBucketListData.myBucketCnt}}개 중 {{hpBucketListData.myCompletedCnt}}개 완성 -->
+        <div class="category">
+          <select class="selectpicker ml10" data-width="75px" name="lockOp" id="category" title="주제를 선택해주세요." required>
+            {{#each hpCodeList}}
+            <option value="{{code}}">{{name}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <div class="info">
+          {{hpBuckyStoryData.buckyStoryFullCnt}}개
+        </div>
+      </div>
+      <div class="story" style="border-top:1px solid #ececec; margin-top:11px;">
+        <div class="story-list">
+            {{#each this}}
+              <div class="story-summery" id="{{_id}}">
+                <div class="user-profile">
+                  <!-- 이미지 파일 -->
+                  <div class="profile-img">
+                    <a id="userProfile" class="dropdown-toggle" href="#" data-toggle="dropdown">
+                      <img src="{{g_makeImageSrc this.users_docs.profile.profileImg ''}}" alt="image-place">
+                    </a>
+                    {{#if hpSelectedUser this.userId}}
+                      {{> dropdownmenuUser userId=this.userId}}
+                    {{/if}}
+                    <!-- {{> dropdownMenuUserCard targetUserId=this.userId}} -->
+                  </div>
+
+                  <div class="profile-text">
+                    <!-- 이름 -->
+                    <div class="profile-name txt-sub-title">
+                      {{this.users_docs.profile.nickName}}
+                    </div>
+
+                    <!-- 글 등록시간 -->
+                    <div class="profile-sub">
+                      {{this.mDate}}
+                    </div>
+                  </div>
+
+                  <div class="feedback-btn">
+                    <!-- <div class="bucketList-detail cursor-pointer">
+                      <i class="imsm-icon icon-airplane"></i> 버킷리스트
+                    </div> -->
+                    <div class="content-info">
+                      <i class="imsm-icon icon-heart-line"></i> {{this.like.length}}
+                      <!-- <i class="imsm-icon {{#if hpIsMyLikeConetnt this._id}}icon-heart-fill color-red{{else}}icon-heart-line{{/if}} cursor-pointer" id="likeList"></i> -->
+                      <!-- <i class="imsm-icon icon-comment cursor-pointer" id="commentMove"></i> -->
+                      <i class="imsm-icon icon-comment cursor-pointer"></i>{{this.comment.length}}
+                    </div>
+                  </div>
+                </div>
+                <div class="image-area">
+                  <figure class="cursor-pointer" id="storyContent">
+                    {{#if images}}
+                      <div class="image">
+                        <a href="#" style="background:url({{g_makeImageSrc images.[0] 'thumb'}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                          <div class="trans-overlay">
+                            <img src="/images/bg/img_frame.png" class="img-frame-shadow" itemprop="thumbnail" alt="">
+                          </div>
+                        </a>
+                      </div>
+                    {{/if}}
+                    <div class="context-area">
+                      <div class="title txt-sub-title">{{{this.title}}}</div>
+                      <div class="content ellipsis-multi2">{{{this.context}}}</div>
+                    </div>
+                  </figure>
+                </div>
+              </div>
+            {{/each}}
+        </div>
+      </div>
+        {{#if hpBuckyStoryData.buckyStoryData}}
+          {{> scrollPosition}}
+        {{/if}}
+      {{else}}
+      <div id="myBucketInfo">
+        <!-- <span>마이버킷리스트</span> {{hpBucketListData.myBucketCnt}}개 중 {{hpBucketListData.myCompletedCnt}}개 완성 -->
+        <div class="category">
+          <select class="selectpicker ml10" data-width="75px" name="lockOp" id="category" title="주제를 선택해주세요." required>
+            {{#each hpCodeList}}
+            <option value="{{code}}">{{name}}</option>
+            {{/each}}
+          </select>
+        </div>
+        <div class="info">
+          0개
+        </div>
+      </div>
+        <!-- {{#if g_isEqual hpBucketListData.myBucketCnt.length 0}}
+          {{> myBucketEmpty}}
+        {{else}} -->
+          {{> searchEmpty}}
+        <!-- {{/if}} -->
+      {{/with}}
+      <!-- {{hpChangeFilter filter}} -->
+
+    <!-- {{#if hpIsSelectedMy}}
+      {{> floatButton type='allBucket'}}
+    {{else}}
+      {{> floatButton type='myBucket'}}
+    {{/if}} -->
+  </div>
+</template>

@@ -1,0 +1,51 @@
+<template name="saveData">
+  <div class="ending-note">
+    <div class="ending-note-wrap" id="ending-note-wrap">
+
+      세이브 데이타 화
+      <!-- 프로필 -->
+      <div>
+        <span>전체</span><input type="file" accept="file_extension|audio/*|video/*|image/*|media_type" value="all"/><br/>
+
+
+        <span>이미지</span><input type="file" accept="file_extension|image/*" value="image"/><br/>
+        <span>비디오</span><input type="file" accept="file_extension|video/*" value="video"/><br/>
+        <span>미디어타입</span><input  type="file" accept="file_extension|media_type" value="media_type"/><br/>
+
+        <span>이미지2</span><input type="file" id="capsuleImage" value=""  accept="image/*"/><br/>
+        <span>카메라</span><input type="file" id="capsuleImage" value=""  capture="camera"/><br/>
+
+
+        <span>다중 선택</span><input type='file'  accept="image/*" multiple><br/>
+        <span>다중 선택2</span><input type="file" name="attachment[]" multiple="multiple" accept="image/*"/><br/>
+        <span>다중 선택3</span><input type="file" multiple accept='application/image'><br/>
+
+        <div class="input-article icon-style">
+          <input type="file" id="capsuleImage" value="" style="display: none;" accept="image/*" capture="camera"/>
+          <input type="text" name="fileName" placeholder="" disabled style="width:220px;"/>
+          <a href="javascript:document.getElementById('capsuleImage').click();" class="btn mapImg"><i class="ion-images"></i></a>
+        </div>
+      </div>
+      <!-- 타임라인 -->
+      <div class="timecapsul-map" id="saveDataSumImages">
+        <img class="timecapsul-map" src="" alt="" id="capsuleImageViewer">
+      </div>
+
+      <select class="selectpicker ml10" data-width="75px" name="lockOp" id="lockOp" title="공개구분을 선택해주세요." required>
+        <!-- <option value="" disabled selected>공개구분</option> -->
+        <option value="false">공개</option>
+        <option value="true">비공개</option>
+      </select>
+      <input type="text" class="" id="meTitle" placeholder="제목을 입력하세요." title="제목을 입력하세요." required="true">
+      <input type="text" class="" id="content" placeholder="본문내용 작성부분." title="본문내용 작성부분." required="true">
+      <input class="single-calendar" type="text" id="my-datepicker1" ref="singleCalendar" placeholder="날짜입력" required="true" readonly="">
+      <div class="tag">
+        <ul id="tagUlList">
+          <input type="text" class="tag-input" id="inputTag" placeholder="태그 입력 후 엔터" maxlength="15"/>
+        </ul>
+      </div>
+
+    </div>
+    <button type="button" name="button" id="save">저장</button>
+  </div>
+</template>

@@ -1,0 +1,354 @@
+<template name="bucketDicDetail">
+{{#with hpBucketData}}
+  <div class="bucket-detail max768" >
+    <!-- 상세 헤더메뉴 -->
+    <div class="detail-header txt-menu">
+      <div class="sticky">
+        <div class="max768">
+          <div class="wrap">
+            <div class="item-list">
+              <div class="item cursor-pointer" id="back">
+                <a href="#" class="defaultmouse">
+                  <div class="icon">
+                    <i class="imsm-icon icon-back"></i>
+                  </div>
+                  <p></p>
+                </a>
+              </div>
+
+              <div class="item last">
+                <a href="#" class="defaultmouse" id="like">
+                  <div class="icon">
+                    <!-- <i class="imsm-icon icon-search"></i> -->
+                    <i class="imsm-icon {{#if hpIsLiked}}icon-heart-fill color-red{{else}}icon-heart-line{{/if}}"></i>
+                  </div>
+                  <!-- <p>좋아요</p> -->
+                </a>
+              </div>
+              {{#if this.dic.myBucketId}}
+                {{#if hpIsOwner}}
+                  <div class="item">
+                    <a href="#" class="defaultmouse" id="delete">
+                      <div class="icon">
+                        <i class="imsm-icon icon-trash-can"></i>
+                      </div>
+                    </a>
+                  </div>
+                {{else}}
+                  <div class="item" style="padding:15px 8px 17px 8px;">
+                    <a href="#" class="defaultmouse" id="bl-cancel" style="font-size:25px;">
+                      <div class="icon">
+                        <i class="imsm-icon icon-bucket-add-cancel"></i>
+                      </div>
+                    </a>
+                  </div>
+                {{/if}}
+                <div class="item box-button {{#if this.dic.isCompleted}} back-color-red border-color-red{{/if}}">
+                    <a href="#" class="defaultmouse" id="complete">
+                      <div class="icon {{#if this.dic.isCompleted}} color-white {{/if}}">
+                        <i class="imsm-icon icon-crown"></i> 나 이거 했어!
+                      </div>
+                    </a>
+                </div>
+              {{else}}
+                <div class="item box-button back-color-green border-color-green">
+                  <a href="#" class="defaultmouse" id="follow">
+                    <div class="icon color-white">
+                      <i class="imsm-icon icon-bucket-add"></i> 내 버킷에 담기
+                    </div>
+                  </a>
+                </div>
+              {{/if}}
+
+              {{#if hpIsOwner}}
+                <div class="item txt-bold">
+                  <a href="#" class="" id="userBucketListEditor">
+                    <div class="icon">
+                      <i class="imsm-icon icon-pen"></i>
+                    </div>
+                  </a>
+                </div>
+              {{else}}
+                {{#unless this.dic.userId}}
+                  {{#if hpIsAdmin}}
+                    <div class="item txt-bold">
+                      <a href="#" class="" id="bucketListEditor">
+                        <div class="icon">
+                          <i class="imsm-icon icon-pen"></i>
+                        </div>
+                      </a>
+                    </div>
+                  {{/if}}
+                {{/unless}}
+              {{/if}}
+                <!-- <p>따라하기</p> -->
+              <!-- <div class="item">
+                <a href="#" class="defaultmouse" id="writeStory">
+                  <div class="icon">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                  </div>
+                  <p>글쓰기</p>
+                </a>
+              </div> -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 상세 내용 -->
+    <div class="detail-body">
+      <!-- dictionary 영역 -->
+      <div class="dic-summary">
+        <div class="sub-info">
+          <div class="item-list">
+            <!-- {{#if this.dic.isCompleted}}
+              <div class="item txt-bold complete">
+                <i class="glyphicon glyphicon-tower"></i> 버킷완료
+              </div>
+            {{/if}} -->
+
+            <div class="item txt-bold" id="category">
+              <a href="#" class="cursor-default" >
+                버킷리스트 > <span class="color-green">{{g_getCodeName "bucket" this.dic.category}}</span>
+              </a>
+            </div>
+            <div class="item" id="followCnt">
+              <i class="imsm-icon icon-bucket-add"></i>
+              <span style="margin-left:3px"><strong>{{this.dic.followCnt}}</strong></span>
+            </div>
+            <div class="item" id="likeCnt">
+              <i class="imsm-icon icon-heart-line"></i>
+              <span style="margin-left:3px"><strong>{{hpLikeData.length}}</strong></span>
+            </div>
+
+          </div>
+        </div>
+        <div class="context-area">
+            <div class="title txt-title">
+              <!-- 스킨스쿠버 자격증 따기!!!! -->
+              <!-- {{this.dic.title}} -->
+            </div>
+            <!-- <div class="content ellipsis-multi2">
+              {{{this.dic.context}}}
+            </div> -->
+
+          </div>
+          <div class="image-area">
+            <figure id="123">
+              <div class="btn-detail top-hide display-none">
+                <a href="#" class="" id="hideDetail">
+                  <div class="round-radius" style="background: #0000007a;">
+                    <span>접기</span>
+                    <i class="imsm-icon icon-down"  style="transform: rotate(180deg); margin: 0 -8px 0 12px;"></i>
+                  </div>
+                </a>
+              </div>
+              <div class="image">
+                <a href="#" style="background:url({{g_makeImageSrc this.dic.titleImage ''}} ) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                  <div class="trans-overlay">
+                    <img src="/images/bg/bucket_shadow.png" id="img-frame" class="img-frame-shadow" itemprop="thumbnail" alt="">
+                  </div>
+                </a>
+              </div>
+              <div class="overlay-contents">
+                <div class="img-conut">
+                  <!-- + {{this.dic.images.length}} -->
+                  <div class="title">
+                    {{this.dic.title}}
+                  </div>
+                  <div class="tag-list">
+                    {{#each this.dic.tagList}}
+                      <span class="tag">#{{this}} </span>
+                    {{/each}}
+                  </div>
+                </div>
+              </div>
+              <div class="btn-detail">
+                <a href="#" class="" id="showDetail">
+                  상세보기
+                  <div class="round-radius">
+                    <i class="imsm-icon icon-down"></i>
+                  </div>
+                </a>
+              </div>
+
+            </figure>
+          </div>
+
+
+          <div class="story detail-area display-none">
+            <div class="story-list">
+              <!-- <div class="sub-info">
+                {{g_dateFormChange this.dic.regDate 'korYMD'}} {{#if g_isExist this.dic.category}}<span class="category"><strong>{{g_getCodeName "bucket" this.dic.category}}</strong></span>{{/if}}
+              </div>
+              <div class="title txt-title-lg">
+                <div class="quotes">
+                  <i class="imsm-icon icon-double-quotes-start"></i>
+                </div>
+                {{this.dic.title}}
+                <div class="quotes">
+                  <i class="imsm-icon icon-double-quotes-end"></i>
+                </div>
+
+              </div> -->
+              <div class="">
+                <div class="title txt-title-lg" style="font-family:'아리따부리',aritabl,'Noto Sans',arial,sans-serif;">
+                  <!-- <div class="quotes">
+                    <i class="imsm-icon icon-double-quotes-start"></i>
+                  </div> -->
+                  {{this.dic.title}}
+                  <!-- <div class="quotes">
+                    <i class="imsm-icon icon-double-quotes-end"></i>
+                  </div> -->
+
+                </div>
+                <div class="context-area">
+                  <div class="content">
+                    {{{this.dic.context}}}
+                  </div>
+                </div>
+                {{#if this.dic.isUserBucket}}
+                  {{#each this.dic.images}}
+                    <div class="image-area">
+                      <figure id="123">
+                        <div class="image">
+                          <a href="#" style="background:url({{g_makeImageSrc this ''}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                            <div class="trans-overlay">
+                              <img src="/images/bg/img_frame.png" class="img-frame-shadow" itemprop="thumbnail" alt="">
+                            </div>
+                          </a>
+                        </div>
+                      </figure>
+                    </div>
+                  {{/each}}
+                {{/if}}
+                <div class="tag-area txt-title color-default">
+                  {{#each this.dic.tagList}}
+                    <span class="tag">#{{this}} </span>
+                  {{/each}}
+                </div>
+                <div class="btn-detail hideDetail">
+                  <a href="#" class="" id="hideDetail">
+                    <div class="">
+                      접기
+                    </div>
+                    <div class="round-radius">
+                      <i class="imsm-icon icon-down"></i>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!-- {{/with}} -->
+      </div>
+
+      <!-- 버키스토리 영역  -->
+      <div class="story">
+        <div class="tab-menu txt-sub-title">
+          {{#unless this.dic.lock}}
+          <div class="">
+            <a herf="#" id="buckyStory" class="{{#if hpSelected 'buckyStory'}}selected{{/if}}">
+              <strong>모두의</strong>
+            </a>
+          </div>
+          <div class="">
+            <a herf="#" id="friendBuckyStory" class="{{#if hpSelected 'friendBuckyStory'}}selected{{/if}}">
+              <strong>친구의</strong>
+            </a>
+          </div>
+          {{/unless}}
+          <div class="">
+            <a herf="#" id="myBuckyStory" class="{{#if hpSelected 'myBuckyStory'}}selected{{/if}}">
+              <strong>나의 버키스토리</strong>
+            </a>
+          </div>
+        </div>
+        <div class="story-list">
+        {{#if g_isGreaterThan this.story.length '0'}}
+
+            {{#each this.story}}
+              <div class="story-summery">
+                <div class="user-profile">
+                  <!-- 이미지 파일 -->
+                  <div class="profile-img">
+                    <a id="userProfile" class="dropdown-toggle" href="#" data-toggle="dropdown">
+                      <img src="{{g_makeImageSrc this.users_docs.profile.profileImg ''}}" alt="image-place">
+                    </a>
+                    {{#if hpSelectedUser this.users_docs._id}}
+                      {{> dropdownmenuUser userId=this.users_docs._id}}
+                    {{/if}}
+                    <!-- {{> dropdownMenuUserCard targetUserId=this.userId}} -->
+                  </div>
+
+                  <div class="profile-text">
+                    <!-- 이름 -->
+                    <div class="profile-name txt-sub-title">
+                      {{this.users_docs.profile.nickName}}
+                    </div>
+
+                    <!-- 글 등록시간 -->
+                    <div class="profile-sub">
+                      {{this.mDate}}
+                    </div>
+                  </div>
+
+                  <div class="feedback-btn">
+                    <i class="imsm-icon icon-heart-line"></i> {{hpGetLikeCount this._id}}
+                    <!-- <i class="imsm-icon {{#if hpIsMyLikeConetnt this._id}}icon-heart-fill color-red{{else}}icon-heart-line{{/if}} cursor-pointer" id="likeList"></i> -->
+                    <!-- <i class="imsm-icon icon-comment cursor-pointer" id="commentMove"></i> -->
+                    <i class="imsm-icon icon-comment cursor-pointer"></i>{{hpGetCommCount this._id}}
+                  </div>
+                </div>
+                <div class="image-area">
+                  <figure class="cursor-pointer" id="storyContent">
+                    {{#if images}}
+                      <div class="image">
+                        <a href="#" style="background:url({{g_makeImageSrc images.[0] 'thumb'}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                          <div class="trans-overlay">
+                            <img src="/images/bg/img_frame.png" class="img-frame-shadow" itemprop="thumbnail" alt="">
+                          </div>
+                        </a>
+                      </div>
+                    {{/if}}
+                    <div class="context-area">
+                      <div class="title txt-sub-title">{{{this.title}}}</div>
+                      <div class="content ellipsis-multi2">{{{this.context}}}</div>
+                    </div>
+                  </figure>
+                </div>
+              </div>
+            {{/each}}
+        {{else}}
+          <div class="main-button cursor-default">등록된 스토리가 없습니다.</div>
+        {{/if}}
+        </div>
+
+
+      </div>
+    </div>
+    {{> floatButton type='writeBuckyStory'}}
+    <!-- <dic class="float-button">
+      <div class="float-layer">
+        <div class="max768">
+          <a href="#" class="writeStory">
+            <div class="icon">
+              <i class="imsm-icon icon-search"></i>
+            </div>
+          </a>
+        </div>
+      </div>
+    </dic> -->
+  </div>
+  <!-- 완료처리 컨펌 -->
+  {{#if hpCompleteConfirmData}}
+    {{> bucketCompleteconfirm hpCompleteConfirmData}}
+  {{/if}}
+
+  {{#if hpPopupGuide}}
+    {{> guidePopup01 hpPopupGuide}}
+  {{/if}}
+{{/with}}
+</template>

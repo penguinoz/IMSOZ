@@ -1,0 +1,52 @@
+<template name="officialNotification01">
+  {{#with hpNotiData}}
+    <div class="official-notification">
+      <div class="max768">
+        <div class="">
+          <div class="prevent over-pop">
+            <div class="max768">
+              <div class="popContent">
+                <div class="pop-head txt-title color-white cursor-pointer" id="btn-close">
+                  <!-- 닫기 -->
+                   <i class="imsm-icon icon-close-thin"></i>
+                </div>
+                <div class="pop-top">
+                  <!-- 가이드 문구 -->
+                  <div class="context-area color-white">
+                    <div class="title-area">
+
+                      <div class="reg-date">
+                        {{this.updateDate}}
+                        <!-- 2018-01-08 12:00:22 -->
+                      </div>
+                      <div class="notice-txt">
+                        공지사항
+                      </div>
+                    </div>
+                    <div class="off-noti-title">
+                      {{this.title}}
+                      <!-- 노티 테스트 타이틀 -->
+                    </div>
+                    <div class="off-noti-context">
+                      {{{this.context}}}
+                    </div>
+                  </div>
+                </div>
+                <div class="pop-bottom">
+                  <div class="not-show-today">
+                    <input type="checkbox" id="check01" name="check01"> 오늘 하루 그만보기
+                  </div>
+                  <div class="cursor-pointer noti-close" id="btn-close">
+                      <div class="btn-title">닫기</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="noti-over" id="modal" data-backdrop="static" aria-hidden="false" style=""></div>
+    </div>
+  {{/with}}
+</template>

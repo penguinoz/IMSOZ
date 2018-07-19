@@ -1,0 +1,91 @@
+<template name="myPage">
+    <div class="my-page max768">
+      <!-- 상세 헤더메뉴 -->
+      <!-- {{#if hpSelectedTemplate.header}}
+      <div class="detail-header txt-menu">
+        <div class="sticky">
+          <div class="max768">
+            <div class="wrap">
+              <div class="item-list">
+
+                <div class="item cursor-pointer" id="back">
+                  <a href="#" class="defaultmouse">
+                    <div class="icon">
+                      <i class="imsm-icon icon-back"></i> 마이페이지
+                    </div>
+                  </a>
+                </div>
+                <div class="sub-menu">
+                  <div class="menu cursor-pointer {{#if hpSelected 'myFriends'}}selected{{/if}}"  id="myFriends">
+                    친구
+                  </div>
+                  <div class="menu cursor-pointer {{#if hpSelected 'myPoint'}}selected{{/if}}" id="myPoint">
+                    포인트
+                  </div>
+                  <div class="menu cursor-pointer {{#if hpSelected 'myInfo'}}selected{{/if}}" id="myInfo">
+                    내정보
+                  </div>
+                  {{#if hpIsAdmin}}
+                    <div class="menu cursor-pointer {{#if hpSelected 'admin'}}selected{{/if}}" id="admin">
+                      관리자
+                    </div>
+                  {{/if}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/if}} -->
+      {{#if hpSelectedTemplate.header}}
+      <!-- 카테고리 슬라이드 -->
+      <div class="top-sub-menu">
+        <div class='category-slide sticky'>
+          <div class="max768">
+            <div class="category-slide-wrap">
+              <div class="category-list">
+                <div class="category-position">
+                  <div class="category-item">
+                    <a href="#" class="defaultmouse {{#if hpSelected 'myFriends'}} selected {{/if}}" id="myFriends">
+                      <p>친구</p>
+                    </a>
+                  </div>
+                </div>
+                <div class="category-position">
+                  <div class="category-item">
+                    <a href="#" class="defaultmouse {{#if hpSelected 'myPoint'}} selected {{/if}}" id="myPoint">
+                      <p>포인트</p>
+                    </a>
+                  </div>
+                </div>
+                <div class="category-position">
+                  <div class="category-item">
+                    <a href="#" class="defaultmouse {{#if hpSelected 'myInfo'}} selected {{/if}}" id="myInfo">
+                      <p>내정보</p>
+                    </a>
+                  </div>
+                </div>
+                {{#if hpIsAdmin}}
+                <div class="category-position">
+                  <div class="category-item">
+                    <a href="#" class="defaultmouse {{#if hpSelected 'admin'}} selected {{/if}}" id="admin">
+                      <p>관리자</p>
+                    </a>
+                  </div>
+                </div>
+                {{/if}}
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/if}}
+
+    <!-- 상세 내용 -->
+    <div class="detail-body sub">
+      {{> UI.dynamic template=hpSelectedTemplate.templateName data=hpSelectedTemplate.data}}
+    </div>
+  </div>
+</template>

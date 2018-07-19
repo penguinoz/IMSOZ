@@ -1,0 +1,64 @@
+<template name="inheritanceFromList">
+  {{#unless hpInhListData}}
+   {{> inheritanceEmpty}}
+  {{else}}
+    <div class="inherit-List">
+      <div class="gallery">
+        {{#each hpInhListData}}
+          <figure id="{{_id}}">
+            <div class="list-img">
+              <a href="#" style="background:url({{image}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                <div class="trans-overlay">
+                  <img src="/images/bg/shadow_cover.png" class="img-frame-shadow" itemprop="thumbnail" alt="">
+                </div>
+              </a>
+              <div class="overlay-contents head-button">
+                {{#if isPassAway}}
+                  {{#if hpIsExistLetter _id}}
+                    <a href="#" class="note" id="note">
+                      <i class="imsm-icon icon-message color-yellow"></i>
+                    </a>
+                  {{/if}}
+                {{/if}}
+                <a href="#" class="delInhUser" id="delInhUser">
+                  <i class="imsm-icon icon-close-thin color-white cursor-pointer" ></i>
+                </a>
+                <!-- <i class="imsm-icon icon-close-thin color-white cursor-pointer" id="delInhUser"></i>
+
+                <div class="note cursor-pointer">
+                  <i class="imsm-icon icon-message"></i>
+                </div> -->
+
+              </div>
+              <div class="overlay-contents upside">
+                <!-- <ul class="ellipsis-multi2-thumb">
+                  <li>{{profile.introduction}}</li>
+                </ul> -->
+              </div>
+              <div class="overlay-contents downside cursor-pointer">
+                <div class="profile">
+                  <!-- <div class="ribon">
+                    <img src="/images/icon/icon_ihnRebon.svg" alt="image-place" data-modal-template="editProfileImage">
+                  </div> -->
+                  <img src="{{g_makeImageSrc profileImg ''}}" alt="image-place" data-modal-template="editProfileImage">
+                  <div class="nick-name">
+                    {{#if isPassAway}}<img src="/images/icon/icon_ihnRebon.svg" alt="image-place" data-modal-template="editProfileImage">{{/if}}{{name}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </figure>
+        {{/each}}
+      </div>
+    </div>
+  {{/unless}}
+
+  <!-- <button id="openCodePopup">코드입력</button> -->
+  {{> floatButton type='insertIhCode'}}
+  {{#if hpInhFromCodePopup}}
+    {{> inheritanceAddRecieveinh}}
+  {{/if}}
+  {{#if hpInPophInfo}}
+    {{> inheritanceInfoPopup hpInPophInfo}}
+  {{/if}}
+</template>

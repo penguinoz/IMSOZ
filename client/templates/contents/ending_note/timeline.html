@@ -1,0 +1,114 @@
+<template name="timeline">
+  <div class="timeline">
+    <div class="vertical-line">
+
+    </div>
+    <div class="timeline-contents max768">
+      <!-- 기대수명 -->
+      <div class="sticky-menu">
+        <div class="max768">
+          <div class="wrap">
+            <div class="exp-life-info" id="exp-life-info">
+              <div class="txt-bold context">
+                <i class="imsm-icon icon-dot"></i>
+                <div>
+                  엔딩까지... {{hpExpDate.date}} (<input class="cursor-pointer" type="text" id="expAge" value="{{hpExpDate.age}}"/>세)
+                  <!-- {{hpScrollData}} {{hpExpDate.date}} (<input class="cursor-pointer" type="text" id="expAge" value="{{hpExpDate.age}}"/>세) -->
+
+                </div>
+              </div>
+            </div>
+
+            <!-- {{#with hpQuestion}}
+            <div class="question-sticky display-none context cursor-pointer" id="todayQuestion">
+              <div class="txt-bold">
+                <i class="imsm-icon icon-question"></i>
+                <div>
+                  {{this.question}}
+                  <div class="today-question">
+                    <i class="imsm-icon icon-pen"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{/with}} -->
+          </div>
+        </div>
+      </div>
+
+      {{#with hpQuestion}}
+      <div class="question" id="question">
+        <!-- <img class="icon" src="/images/icon/icon_title_bullet.jpg" alt="image-place"> -->
+        <i class="imsm-icon icon-question"></i>
+        <div class="txt-bold cursor-pointer" id="todayQuestion">{{question}}
+          <div class="today-question">
+            <i class="imsm-icon icon-pen"></i>
+          </div>
+        </div>
+      </div>
+      {{/with}}
+
+
+      {{#if timelineInfo}}
+      <!-- 타임라인 각 템플릿 -->
+      <div class="timeline-template">
+        <!-- 상위템플릿에서 전달한 정보 그대로 사용 핼퍼 사용하지 않음 (검색시 갱신때문에) -->
+        {{#each timelineInfo}}
+          <!-- <div class="template-group {{this.tempType}} {{this.lineColor}} cursor-pointer"> -->
+          <div class="template-group {{this.tempType}} {{this.lineColor}} cursor-pointer"  id="{{#if hpIfTypeReturnId this.type}}{{this.bucketId}}{{else}}{{this._id}}{{/if}}" >
+            <!-- 날짜영역 -->
+            {{#if date}}
+            <div class="line-date">
+              <div class="year {{dateStyle}}">
+                {{date}}
+              </div>
+              <!-- <div class="monthDateDay">
+              </div> -->
+            </div>
+            {{/if}}
+
+            <!-- 데이터 영역 -->
+            {{> UI.dynamic template=this.templateName data=this}}
+          </div>
+        {{/each}}
+      </div>
+      {{else}}
+      <!-- border: 1px solid #ecececec;
+    border-radius: 5px;
+    margin: 12px 12px 12px 31px;
+    padding: 13px; -->
+      <div class="empty-timeline timeline-template">
+        <div class="template-group">
+          <div class="icon" style="float:left">
+            <!-- <i class="imsm-icon {{icon}}"></i> -->
+            <img src="/images/icon/timeline/icon-bi.svg" alt="">
+          </div>
+          <div class="timeline-contents empty" style="border: 1px solid #ecececec; border-radius: 5px; margin: 0px 12px 12px 31px; padding: 13px;">
+            <div class="image">
+              <!-- {{hpBucketData.dic.imageUrl}} -->
+              <img src="/images/bg/blank_endingnote_img.png" itemprop="thumbnail" alt="">
+            </div>
+            <div class="title txt-title">
+              아직 작성된 이야기가 없습니다.
+            </div>
+            <div class="context">
+              글을 작성하면<br/>
+              당신의 빛나는 일상이<br/>
+              여기, 타임라인에 기록됩니다.
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/if}}
+
+      <!-- 태어난 날 -->
+      <div class="birth-info" id="birth-info">
+        <i class="imsm-icon icon-dot"></i>
+        탄생 ({{hpExpDate.birth}})
+      </div>
+    </div>
+  </div>
+  {{#if hpOpenCapsuleConfirmData}}
+    {{> timecapsuleOpenConfirm hpOpenCapsuleConfirmData}}
+  {{/if}}
+</template>

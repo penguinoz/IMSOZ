@@ -1,0 +1,50 @@
+<template name="floatButtonList">
+  <div class="float-button-list {{#unless hpIsSelected}}flt-icon-pen{{/unless}}">
+    <div class="float-layer {{hpButtonInfo.blink}}">
+      <div class="max768">
+        <a href="#" class="button-group">
+          {{#if hpIsSelected}}
+            {{#each hpCategoryData}}
+              <div class="{{class}} write">
+                <div class="category">
+                  <div class="icon-image">
+                    <span class="menu-name">
+                      {{{this.name}}}
+                    </span>
+                    <img src="/images/icon/timeline/{{this.icon}}" alt="">
+                  </div>
+                </div>
+              </div>
+            {{/each}}
+              <div class="category">
+                <div class="icon color-black">
+                  <i class="imsm-icon icon-close-thin"></i>
+                </div>
+              </div>
+          {{else}}
+
+          <div class="icon">
+            <i class="imsm-icon icon-pen"></i>
+          </div>
+          {{/if}}
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="black-over menu display-none" id="modal" data-backdrop="static" aria-hidden="false" style=""></div>
+</template>
+
+<!-- <template name="writeButtonList">
+  {{#each hpCategoryData}}
+    <figure class="{{class}}" id="write">
+      <div class="category">
+        <div class="icon-image">
+          <img src="/images/icon/timeline/{{this.icon}}" alt="">
+          <div class="menu-name">
+            {{{this.name}}}
+          </div>
+        </div>
+      </div>
+    </figure>
+  {{/each}}
+</template> -->

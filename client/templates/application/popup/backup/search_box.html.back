@@ -1,0 +1,77 @@
+<template name="searchBox">
+  <!-- {{#with hpSearchData}} -->
+  <div class="max768">
+    <div class="search-box">
+      <div class="prevent over-pop display-none">
+        <div class="max768">
+          <div class="popContent">
+            <div class="pop-top">
+              <div class="roundtype-input">
+                <div class="search-area">
+                  <div class="text-search">
+
+                    <div class="type-input">
+                      <input type="text" id="searchField" placeholder="{{hpPlaceHolder}}" value="{{hpSearchText}}"/>
+                    </div>
+                    <div class="btn-save">
+                      <a href="#" class="" id="btnSearch">
+                        <i class="imsm-icon icon-search txt-bold txt-title"></i>
+                      </a>
+                    </div>
+                  </div>
+                  {{#if g_isEqual hpFilterType 'IM'}}
+                  <div class="filter">
+                    <div class="type-area">
+                      <span class="{{hpSelectedTypes 'AL'}}" id="AL">전체</span>
+                      {{#each hpTypeData}}
+                      <span class="{{hpSelectedTypes this.code}}">
+                        {{g_getCodeName 'searchCode' this.code}}
+                      </span>
+                      {{/each}}
+                    </div>
+                    <div class="sub-type-area">
+                      <span class="{{hpSeletedSubType 'AL'}}" id="AL">전체</span>
+                      {{#each hpSubTypeData}}
+                      <span class="{{hpSeletedSubType this.code}}">
+                        {{g_getCodeName 'searchCode' this.code}}
+                      </span>
+                      {{/each}}
+                    </div>
+                    <!-- 본인IMS일경우만 비밀글 포함 표시 -->
+                    {{#if hpIsPageOwner}}
+                      <div class="lock-area">
+                        <div class="toggle">
+                          <i class="imsm-icon icon-lock"></i> 비공개 포함
+                          <label class="switch">
+                            <input type="checkbox" id="isSecret" {{hpLockChecked}}>
+                            <div class="slider round"></div>
+                          </label>
+                        </div>
+                      </div>
+                    {{/if}}
+                  </div>
+                {{else}}
+                <!-- 버킷리스트 검색 -->
+                  <div class="filter bucket">
+                    <div class="type-area">
+                      <span class="{{hpSelectedTypes 'AL'}}" id="AL">전체</span>
+                      {{#each hpTypeData}}
+                        <span class="{{hpSelectedTypes this.code}}">
+                          {{this.name}}
+                        </span>
+                      {{/each}}
+                    </div>
+                  </div>
+                  {{/if}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="height: 100%;" id="blackPage"></div>
+      </div>
+    </div>
+  </div>
+  <!-- {{/with}} -->
+  <div class="black-over" id="modal" data-backdrop="static" aria-hidden="false" style=""></div>
+</template>

@@ -1,0 +1,30 @@
+<template name="userJoinInfo">
+  <div class="log-list">
+    <div>
+      <input type="text" name="searchName" value="" placeholder="이름입력">
+      <span>기간 : <input type="date" name="sDate" value=""></span> ~ <span><input type="date" name="eDate" value=""></span>
+      <input type="button" name="searchBtn" value="검색"><input type="button" name="searchBtnAll" value="전체검색">
+    </div>
+
+    <table>
+      <tr>
+        <th>이름</th>
+        <th>별명</th>
+        <th>나이</th>
+        <th>성별</th>
+        <!-- <th>가입일2</th> -->
+        <th>가입일</th>
+      </tr>
+      {{#each hpUserListData}}
+        <tr>
+          <td class="user-name">{{this.name}}</td>
+          <td class="user-codeName">{{this.nickName}}</td>
+          <td class="user-age">{{this.age}}</td>
+          <td class="user-sex">{{this.sex}}</td>
+          <!-- <td class="user-regDate">{{this.regDate}}</td> -->
+          <td class="user-regDate">{{g_dateFormChange this.regDate 'HMS'}}</td>
+        </tr>
+      {{/each}}
+    </table>
+  </div>
+</template>

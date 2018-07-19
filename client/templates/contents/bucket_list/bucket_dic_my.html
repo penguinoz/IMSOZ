@@ -1,0 +1,129 @@
+<template name="bucketDicMy">
+    <div class="bucket-dic">
+      <!-- {{hpBucketListData.isDataExist}} -->
+
+      {{#if hpBucketListData.isDataExist}}
+        <div id="myBucketInfo">
+          <!-- <span>마이버킷리스트</span> {{hpBucketListData.myBucketCnt}}개 중 {{hpBucketListData.myCompletedCnt}}개 완성 -->
+          <div class="category">
+            <select class="selectpicker ml10" data-width="75px" name="lockOp" id="category" title="주제를 선택해주세요." required>
+              {{#each hpCodeList}}
+              <option value="{{code}}">{{name}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="info">
+            {{hpBucketListData.myBucketCnt}}개 중 {{hpBucketListData.myCompletedCnt}}개 완성
+          </div>
+        </div>
+        <!-- 추천 버킷리스트 목록 -->
+        <div class="dic-list">
+          <div class="gallery">
+            <figure class="cursor-pointer" id="addBucket">
+              <div class="list-img">
+                <a href="#" style="background:#ececec" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                  <div class="trans-overlay">
+                    <img src="/images/bg/shadow_cover.png" class="img-frame-shadow" itemprop="thumbnail" alt="">
+                  </div>
+                </a>
+                <div class="overlay-contents">
+                  <ul class="">
+                    <li class="add-bucket">+</li>
+                  </ul>
+                </div>
+              </div>
+            </figure>
+
+            {{#each hpBucketListData.bucketData}}
+              <figure class="cursor-pointer bucket-dic-content" id="{{_id}}">
+                <div class="list-img">
+                  <a href="#" style="background:url({{g_makeImageSrc image ''}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize" id="content">
+                    <div class="trans-overlay">
+                      <img src="/images/bg/shadow_cover.png" class="img-frame-shadow" itemprop="thumbnail" alt="">
+                    </div>
+                  </a>
+                  <div class="bucketInfo color-white">
+                    {{#if tempSave}}
+                      작성중......
+                    {{/if}}
+                    <i class="imsm-icon icon-heart-line"></i> {{likeCnt}}
+                    <i class="imsm-icon icon-bucket-add"></i> {{followCnt}}
+                    <i class="imsm-icon icon-bucky-story"></i> {{storyCnt}}
+                  </div>
+                  <div class="overlay-contents">
+
+                    {{#if isCompleted}}
+                    <div class="completed color-lemon">
+                      <div class="icon">
+                        <i class="imsm-icon icon-crown"></i>
+                      </div>
+                      <div class="complete-txt">
+                        나 이거 했어!
+                      </div>
+                      <!-- <div class="category">
+                        {{category}}
+                      </div> -->
+                    </div>
+                    {{/if}}
+                    <ul class="ellipsis-bucketDic-thumb">
+                      <li>{{title}}</li>
+                    </ul>
+                  </div>
+                </div>
+              </figure>
+            {{/each}}
+          </div>
+        </div>
+
+        {{#if hpBucketListData.bucketData}}
+          {{> scrollPosition}}
+        {{/if}}
+      {{else}}
+      <div id="myBucketInfo">
+        <div class="category">
+            <select class="selectpicker ml10" data-width="75px" name="lockOp" id="category" title="주제를 선택해주세요." required disabled>
+            {{#each hpCodeList}}
+            <option value="{{code}}">{{name}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+        {{#if g_isEqual hpBucketListData.myBucketCnt.length 0}}
+          <!-- {{> myBucketEmpty}} -->
+          <!-- <div id="myBucketInfo">
+            나만의 버킷리스트를 만들어보세요!
+          </div> -->
+          <div class="dic-list">
+            <div class="gallery">
+              <figure class="cursor-pointer" id="addBucket">
+                <div class="list-img">
+                  <a href="#" style="background:#ececec" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                    <div class="trans-overlay">
+                      <img src="/images/bg/shadow_cover.png" class="img-frame-shadow" itemprop="thumbnail" alt="">
+                    </div>
+                  </a>
+                  <div class="overlay-contents">
+                    <ul class="">
+                      <li class="add-bucket">+</li>
+                    </ul>
+                  </div>
+                </div>
+              </figure>
+            </div>
+          </div>
+        {{else}}
+          {{> searchEmpty}}
+        {{/if}}
+      {{/if}}
+      <!-- {{hpChangeFilter filter}} -->
+
+    <!-- {{#if hpIsSelectedMy}}
+      {{> floatButton type='allBucket'}}
+    {{else}}
+      {{> floatButton type='myBucket'}}
+    {{/if}} -->
+  </div>
+</template>
+<template name="scrollPosition">
+
+</template>

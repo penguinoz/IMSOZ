@@ -1,0 +1,95 @@
+<template name="bucketList">
+  <div class="bucket-list max768">
+    <div class="top-sub-menu">
+      <!-- 카테고리 슬라이드 -->
+      <div class='category-slide sticky'>
+        <div class="max768">
+          <div class="category-slide-wrap">
+            <div class="category-list">
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="defaultmouse {{#if hpSelected 'all'}} selected {{/if}}" id="all">
+                    <!-- <div class="icon">
+                      <i class="glyphicon glyphicon-book"></i>
+                    </div> -->
+                    <!-- <i class="imsm-icon icon-fork-spoon"></i> -->
+                    <p>너도해볼래?</p>
+                  </a>
+                </div>
+              </div>
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="defaultmouse {{#if hpSelected 'my'}} selected {{/if}}" id="my">
+                    <!-- <div class="icon">
+                    <i class="glyphicon glyphicon-thumbs-up"></i>
+                  </div> -->
+                  <!-- <i class="imsm-icon icon-airplane"></i> -->
+                  <!-- <i class="glyphicon glyphicon-star"></i> -->
+                  <p>내가할꺼야!</p>
+                </a>
+              </div>
+            </div>
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="defaultmouse {{#if hpSelected 'buckystory'}} selected {{/if}}" id="buckystory">
+                    <!-- <div class="icon">
+                      <i class="imsm-icon icon-airplane"></i>
+                    </div> -->
+                    <!-- <i class="glyphicon glyphicon-map-marker"></i> -->
+                    <p>버키스토리</p>
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 작은 메뉴 -->
+      <div class='category-slide-mini sticky display-none'>
+        <div class="max768">
+          <div class="category-slide-wrap">
+            <div class="category-list">
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="defaultmouse {{#if hpSelected 'my'}} selected {{/if}}" id="my">
+                    <div class="icon">
+                      <!-- <i class="imsm-icon icon-airplane"></i> -->
+                      <i class="glyphicon glyphicon-thumbs-up"></i>
+                    </div>
+                    <!-- <p>전체</p> -->
+                  </a>
+                </div>
+              </div>
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="defaultmouse {{#if hpSelected 'all'}} selected {{/if}}" id="all">
+                    <div class="icon">
+                      <!-- <i class="imsm-icon icon-fork-spoon"></i> -->
+                      <i class="glyphicon glyphicon-book"></i>
+                    </div>
+                    <!-- <p>먹고싶은</p> -->
+                  </a>
+                </div>
+              </div>
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="defaultmouse {{#if hpSelected 'buckystory'}} selected {{/if}}" id="buckystory">
+                    <div class="icon">
+                      <i class="imsm-icon icon-airplane"></i>
+                    </div>
+                    <!-- <p>가고싶은</p> -->
+                  </a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- {{> bucketDicHome filter=hpBucketFilter}} -->
+    {{> UI.dynamic template=hpContentsTemplate.templateName data=menu}}
+  </div>
+</template>

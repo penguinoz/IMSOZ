@@ -1,0 +1,102 @@
+<template name="header">
+  <div class="header max768">
+    <div class="sticky">
+      <div class="max768">
+        <div class="wrap">
+          <div class="item-list txt-menu">
+
+            <div class="item cursor-pointer" id="imsTitle">
+              <div class="bi">
+                <img src="/images/bg/BI.svg" alt="">
+              </div>
+            </div>
+
+            <!-- index 템플릿에서 넘겨받은 값 isMine 본인 엔딩노트 여부-->
+            {{#if isMine}}
+              {{#if g_isLogined}}
+                <div class="item txt-bold">
+                  <a href="#" class="" id="logout">
+                    <div class="icon">
+                      <i class="imsm-icon icon-login"></i>
+                    </div>
+                  </a>
+                </div>
+                <div class="item txt-bold">
+                  <a href="#" class="" id="my">
+                    <div class="icon">
+                        <i class="imsm-icon icon-my"></i>
+                    </div>
+                  </a>
+                </div>
+              {{else}}
+                <div class="item">
+                  <a href="#" class="" id="login">
+                    <div class="icon">
+                      <i class="imsm-icon icon-login"></i>
+                    </div>
+                  </a>
+                </div>
+              {{/if}}
+            {{/if}}
+            {{#unless isMine}}
+              <div class="item txt-bold">
+                <a href="#" class="" id="myEnding">
+                  <div class="icon">
+                    <i class="imsm-icon icon-home"></i>
+                  </div>
+                </a>
+              </div>
+            {{/unless}}
+            {{#if hpIsShowSearchBox}}
+            <div class="item txt-bold">
+              <a href="#" class="" id="search">
+                <div class="icon">
+                  <i class="imsm-icon icon-search"></i>
+                </div>
+              </a>
+            </div>
+            {{/if}}
+            {{#if hpIsAdmin}}
+              <div class="item txt-bold">
+                <a href="#" class="" id="bucketListEditor">
+                  <div class="icon">
+                    <i class="imsm-icon icon-document"></i>
+                  </div>
+                </a>
+              </div>
+            {{/if}}
+              <!-- <div class="item txt-bold">
+                <a href="/legal/privacy" class="" id="lpTest" target="_blank">
+                  <div class="icon">
+                    <i class="imsm-icon icon-bucket"></i>
+                  </div>
+                </a>
+              </div> -->
+
+
+
+          </div>
+          <div class="tab-menu txt-sub-title">
+            <div class="">
+              <a herf="#" id="endingNote" class="{{#if hpSelected 'endingNote'}}selected{{/if}}"><strong>엔딩 노트</strong></a>
+            </div>
+            {{#if isMine}}
+              <div class="">
+                <a herf="#" id="bucketList" class="{{#if hpSelected 'bucketList'}}selected{{/if}}"><strong>버킷리스트</strong></a>
+              </div>
+              <div class="">
+                <a herf="#" id="inheritance" class="{{#if hpSelected 'inheritance'}}selected{{/if}}"><strong>상속</strong></a>
+              </div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{#if hpSearchData}}
+    {{> searchBox hpSearchData}}
+  {{/if}}
+
+
+</template>

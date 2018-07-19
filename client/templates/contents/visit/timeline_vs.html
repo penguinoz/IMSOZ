@@ -1,0 +1,57 @@
+<template name="timelineVs">
+  <div class="timeline">
+    <div class="vertical-line">
+
+    </div>
+    <div class="timeline-contents max768">
+      <!-- 기대수명 -->
+      <div class="sticky-menu">
+        <div class="max768">
+          <div class="wrap">
+            <div class="exp-life-info" id="exp-life-info">
+              <div class="txt-bold context">
+                <i class="imsm-icon icon-dot"></i>
+                <div>
+                  엔딩까지... {{hpExpDate.date}} (  <input class="" type="text" id="expAge" value="{{hpExpDate.age}}" readonly/>세)
+                  <!-- {{hpScrollData}} {{hpExpDate.date}} (<input class="cursor-pointer" type="text" id="expAge" value="{{hpExpDate.age}}"/>세) -->
+
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <!-- 타임라인 각 템플릿 -->
+      <div class="timeline-template">
+        <!-- 상위템플릿에서 전달한 정보 그대로 사용 핼퍼 사용하지 않음 (검색시 갱신때문에) -->
+        {{#each timelineInfo}}
+          <!-- <div class="template-group {{this.tempType}} {{this.lineColor}} cursor-pointer"> -->
+          <div class="template-group {{this.tempType}} {{this.lineColor}} cursor-pointer" id="{{#if hpIfTypeReturnId this.type}}{{this.bucketId}}{{else}}{{this._id}}{{/if}}">
+            <!-- 날짜영역 -->
+            {{#if date}}
+            <div class="line-date">
+              <div class="year">
+                {{date}}
+              </div>
+              <!-- <div class="monthDateDay">
+              </div> -->
+            </div>
+            {{/if}}
+
+            <!-- 데이터 영역 -->
+            {{> UI.dynamic template=this.templateName data=this}}
+          </div>
+        {{/each}}
+      </div>
+
+      <!-- 태어난 날 -->
+      <div class="birth-info" id="birth-info">
+        <i class="imsm-icon icon-dot"></i>
+        탄생 ({{hpExpDate.birth}})
+      </div>
+    </div>
+  </div>
+</template>

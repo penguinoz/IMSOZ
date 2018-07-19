@@ -1,0 +1,56 @@
+<template name="guardianAddFin">
+  <div class="final-step max768">
+    <div class="detail-header txt-menu">
+      <div class="sticky">
+        <div class="max768">
+          <div class="wrap">
+            <div class="item-list">
+
+              <div class="item">
+                <a href="#" class="defaultmouse" id="backSearchUser">
+                  <div class="icon">
+                    <i class="imsm-icon icon-back"></i>
+                  </div>
+                </a>
+              </div>
+              <!-- <div class="item txt-normal">
+                가디언코드 <span class="color-black">{{hpInhCode}}</span>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="user-info v-center">
+      <div class="profile-img">
+        <div class="image">
+          <!-- {{hpBucketData.dic.imageUrl}} -->
+          <img src="{{g_makeImageSrc hpInhUserInfo.profile.profileImg ''}}" alt="image-place" data-modal-template="editProfileImage">
+          <!-- todo user프로필 이미지로 바꾸기 -->
+          <!-- <img src="{{hpInhUserInfo.profile.profileImg}}" alt="image-place" data-modal-template="editProfileImage"> -->
+        </div>
+      </div>
+      <div class="title txt-title">
+        <span>{{hpInhUserInfo.profile.name}}</span>님을 당신의 가디언으로 등록합니다.<br/><br/>
+      </div>
+      <div class="context ">
+        가디언이란<br/>
+        내가 세상과 이별했음을 It's my story에<br/>
+        알려주는 사람을 의미합니다.
+      </div>
+
+      <div>
+        <div class="btn-bottom save">
+          <div class="sticky-bottom">
+            <div class="max768">
+              <div class="txt-sub-title">
+                완료
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

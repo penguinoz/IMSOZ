@@ -1,0 +1,38 @@
+<template name="timecapsuleOpenConfirm">
+  {{#with hpConfirmData}}
+  <div class="max700">
+    <div class="guide-pop tc-open">
+      <div class="prevent over-pop">
+        <div class="max700">
+
+          <div class="popContent">
+            <div class="pop-head txt-title color-white cursor-pointer">
+              <!-- 닫기 -->
+              <i class="imsm-icon icon-close btn-cancel cursor-pointer"></i>
+            </div>
+            <div class="pop-top">
+              <!-- 가이드 이미지 -->
+              <div class="image-place">
+                <img src="/images/bg/pop_timecapsule.png" class="" itemprop="thumbnail" alt="">
+                <div class="context-area">
+                  <div class="top">
+                    {{{title}}}
+                  </div>
+                  <div class="bottom color-white">
+                    {{{context}}}
+                  </div>
+                </div>
+                <div class="button-box cursor-pointer">
+                  <div class="btn-title btn-cancel">취소</div>
+                  <div class="btn-title btn-confirm">확인</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/with}}
+  <div class="black-over" id="modal" data-backdrop="static" aria-hidden="false" style=""></div>
+</template>

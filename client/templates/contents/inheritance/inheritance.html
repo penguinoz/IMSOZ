@@ -1,0 +1,74 @@
+<template name="inheritance">
+{{#unless hpIsEnoughPoint}}
+ {{> inheritancePrevent}}
+{{/unless}}
+
+
+  <div class="inheritance max768">
+    <div class="top-sub-menu">
+      <!-- 카테고리 슬라이드 -->
+      <div class='category-slide sticky'>
+        <div class="max768">
+          <div class="category-slide-wrap">
+            <div class="category-list">
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="{{#if hpSelected 'btn_to'}} selected {{/if}}" id=btn_to>
+                    <!-- <div class="icon">
+                      <img src="/images/icon/menu_inheritance1.svg" alt="">
+                    </div> -->
+                    <!-- <i class="glyphicon glyphicon-time"></i> -->
+                    <!-- <i class="imsm-icon icon-inheritance01"></i> -->
+                    <p>나를기억해</p>
+                  </a>
+                </div>
+              </div>
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="{{#if hpSelected 'btn_from'}} selected {{/if}}" id=btn_from>
+                    <!-- <div class="icon">
+                      <img src="/images/icon/menu_inheritance2.svg" alt="">
+                    </div> -->
+                    <!-- <i class="imsm-icon icon-inheritance02"></i> -->
+                    <!-- <i class="glyphicon glyphicon-book"></i> -->
+                    <p>니가그리워</p>
+                  </a>
+                </div>
+              </div>
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="{{#if hpSelected 'btn_guardian'}} selected {{/if}}" id=btn_guardian>
+                    <!-- <div class="icon">
+                      <img src="/images/icon/menu_inheritance3.svg" alt="">
+                    </div> -->
+                    <!-- <i class="imsm-icon icon-inheritance03"></i> -->
+                    <!-- <i class="glyphicon glyphicon-user"></i> -->
+                    <p>가디언</p>
+                  </a>
+                </div>
+              </div>
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="{{#if hpSelected 'btn_funaral'}} selected {{/if}}" id=btn_funaral>
+                    <!-- <div class="icon">
+                      <img src="/images/icon/menu_inheritance4.svg" alt="">
+                    </div> -->
+                    <!-- <i class="imsm-icon icon-inheritance04"></i> -->
+                    <!-- <i class="glyphicon glyphicon-tag"></i> -->
+                    <p>장례희망</p>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{> UI.dynamic template=hpSelectedTemplate}}
+    {{> inheritanceFunaralMenu}}
+    <!-- {{> inheritanceToList}}
+    {{> inheritanceFromList}} -->
+  </div>
+  <div class="black-over display-none" id="modal" data-backdrop="static" aria-hidden="false" style=""></div>
+  <!-- {{> inheritancePrevent}} -->
+</template>

@@ -1,0 +1,38 @@
+<template name="guardianAdd">
+    <div class="addUser max768">
+    {{#if hpSelectedTemplate.header}}
+      <div class="detail-header txt-menu">
+        <div class="sticky">
+          <div class="max768">
+            <div class="wrap">
+              <div class="item-list">
+
+                <div class="item cursor-pointer" id="back">
+                  <a href="#" class="defaultmouse">
+                    <div class="icon">
+                      <!-- <i class="imsm-icon icon-search"></i> -->
+                      <i class="imsm-icon icon-back"></i> 가디언
+                    </div>
+                  </a>
+                </div>
+                <div class="sub-menu">
+                  <div class="menu cursor-pointer {{#if hpSelected 'imsUser'}}selected{{/if}}" id="imsUser">
+                    친구
+                  </div>
+                  <div class="menu cursor-pointer {{#if hpSelected 'nonImsUser'}}selected{{/if}}"  id="nonImsUser">
+                    직접입력
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/if}}
+
+    <div class="detail-body sub">
+      {{> UI.dynamic template=hpSelectedTemplate.templateName data=hpSelectedTemplate.data}}
+    </div>
+  </div>
+</template>

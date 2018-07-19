@@ -1,0 +1,24 @@
+<template name="timelineEmpty">
+  <div class="timeline">
+    <div class="timeline-contents empty">
+        <div class="image">
+          <!-- {{hpBucketData.dic.imageUrl}} -->
+          <img src="/images/bg/blank_endingnote_img.png" itemprop="thumbnail" alt="">
+        </div>
+        <div class="title txt-title">
+          더 나은 삶을 위한 이야기를 남겨보세요.
+        </div>
+        <div class="context">
+          이 세상 모두의 인생이 똑같을 수 없습니다.<br/>
+          엔딩노트는 소중한 당신만의 삶이 기록된<br/>
+          타임라인 입니다.<br/><br/>
+          지금, 여기에 당신을 남겨보세요
+        </div>
+        {{#if buttonUse}}
+          <div class="writeStory button">
+            <div class="main-button cursor-pointer confirm">글쓰기</div>
+          </div>
+        {{/if}}
+    </div>
+  </div>
+</template>

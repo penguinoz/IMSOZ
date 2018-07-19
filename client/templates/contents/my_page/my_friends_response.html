@@ -1,0 +1,69 @@
+<template name="myFriendsResponse">
+  <div class="response max768">
+    <div class="detail-header txt-menu">
+      <div class="sticky">
+        <div class="max768">
+          <div class="wrap">
+            <div class="item-list">
+
+              <div class="item cursor-pointer" id="backFriend">
+                <a href="#" class="defaultmouse">
+                  <div class="icon">
+                    {{#if hpSelectedFrom}}
+                      <i class="imsm-icon icon-back"></i> 받은친구요청
+                    {{else}}
+                      <i class="imsm-icon icon-back"></i> 보낸친구요청
+                    {{/if}}
+                  </div>
+                </a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-body">
+      <div class="user-list">
+        <div class="user-list">
+          {{#each hpFriendsData}}
+          <div class="{{#if hpInfinityCount @index}} display-none {{else}} user-profile-list {{/if}}">
+            <!-- 이미지 파일 -->
+            <div class="profile-img">
+                <img src="{{g_makeImageSrc profile.profileImg ''}}" alt="image-place" data-modal-template="editProfileImage">
+            </div>
+
+
+            <div class="profile-text">
+              <!-- 이름 -->
+              <div class="profile-name">
+                {{profile.nickName}}({{profile.name}})
+              </div>
+              <!-- 아이디 -->
+              <div class="profile-sub">
+                {{username}}
+              </div>
+            </div>
+            {{#if hpSelectedFrom}}
+              <div class="btn-select  round-radius {{#unless hpSelect @index}} selected {{/unless}}" id={{@index}} name="acceptFrien">
+                <div class="right">
+                  수락
+                </div>
+              </div>
+            {{else}}
+              <div class="btn-select  round-radius" id={{@index}} name="cancleReqFriend">
+                <div class="right">
+                  <div class="right btn-delete">요청취소</div>
+                </div>
+              </div>
+            {{/if}}
+
+          </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</template>

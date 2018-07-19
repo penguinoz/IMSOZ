@@ -1,0 +1,70 @@
+<template name="editProfileImage">
+
+  {{#if hpUseImageEditor}}
+    <div id="app">
+      {{> React component=AvatarEditor imageSrc=hpImageTarget}}
+    </div>
+  {{else}}
+    <div class="image-editor">
+      <div class="prevent">
+        <div class="max768">
+          <div class="detail-header txt-menu">
+            <div class="sticky">
+              <div class="max768">
+                <div class="wrap">
+                  <div class="item-list">
+                    <div class="item cursor-pointer" id="back">
+                      <a href="#" class="back-step">
+                        <div class="icon cursor-pointer">
+                          <i class="imsm-icon icon-back"></i>
+                        </div>
+                      </a>
+                    </div>
+                    <div class="item">
+                      <!-- 이미지편집 -->
+                    </div>
+                    <div class="item cursor-pointer" id="saveStep2">
+                      완료
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-body">
+              <div class="txt-center">
+                  <div class="profile">
+                    <div class="profile-img">
+                      <img class="main-image" src="{{hpImageSrc.img}}" alt="Generic placeholder image" data-modal-template="editProfileImage">
+                    </div>
+                  </div>
+
+                  <div class="btn-bottom">
+                    <div class="">
+                      <div class="max768">
+                        <div class="searchImage">
+                          <label for="txtImageFile" >
+                            <div class="txt-sub-title">
+                                이미지 검색
+                            </div>
+                          </label>
+                          <input type="file" class="txtImageFile" name="attachment[]" id="txtImageFile" style="display:none;" multiple="multiple" accept="image/*"/>
+                        </div>
+                        <div class="setDefault">
+                          <label>
+                            <div class="txt-sub-title">
+                                기본 이미지로 변경
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/if}}
+</template>

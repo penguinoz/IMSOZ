@@ -1,0 +1,10 @@
+<template name="index">
+  {{#if hpContentsTemplate.header}}
+    {{> header isMine=hpIsMyPage}}
+  {{/if}}
+  <div class="contents">
+    {{> UI.dynamic template=hpContentsTemplate.templateName data=hpContentsTemplate.data}}
+  </div>
+  <!-- {{> footer}} -->
+
+</template>

@@ -1,0 +1,363 @@
+import {global} from '/imports/global/global_things.js';
+var templateName = "bucketDicHome";
+
+var dragFlag = false;
+var x, y, pre_x, pre_y;
+
+var instance;
+var metoerCallControl = false;
+var blHomeStatue;
+Template.bucketDicHome.onCreated(function(){
+  instance = this;
+  instance.category = this.data.filter.charAt(this.data.filter.length-1),
+  // console.log(this);
+  // instance.bucketListData = new ReactiveVar([]);
+  instance.userId = null;
+  metoerCallControl = false;
+
+
+  blHomeStatue = Session.get("bucketListStatus");
+  if(blHomeStatue){
+    instance.selectedMenu = new ReactiveVar(blHomeStatue.filter);
+    instance.isMyBucket = new ReactiveVar(blHomeStatue.isMy);
+  }else{
+    instance.selectedMenu = new ReactiveVar(this.data.filter);
+    instance.isMyBucket = new ReactiveVar(false);
+  }
+
+  // Session.set("bucketListStatus",null);
+
+
+  //둘러보기 일 경우
+  var isVisitor = false;
+  if(Meteor.userId()){
+    instance.userId = Meteor.userId();
+  }
+
+  //데이터 없으면 초기 데이터 만듬
+  // Meteor.call("createNewSampleBucketLs",bucketListData);
+
+  //버킷리스트 전체 데이터 가져오기
+
+  var dataCount = 0;
+  var searchObj = {
+    text : "",
+    type : ['AL'],
+  };
+  var bkDataList = Session.get('bucketListData');
+  if(!bkDataList){
+    if(instance.isMyBucket.get()){
+      fn_getMyBucketList(instance.userId, instance.selectedMenu.get(), dataCount, searchObj);
+    } else {
+      fn_getAllBucketList(instance.userId, instance.selectedMenu.get(), dataCount, searchObj);
+    }
+  }
+
+  //네비게이션 데이터
+  var navData ={
+    type : 'BL',
+    prevTemplate : "bucketList"
+  };
+  //1. 이전 페이지 정보 (새로고침되기전가지 계속 유지)
+  Session.set('nav_bucketDicHome', navData);
+  //2. 넘길 정보
+  Session.set('navData', navData);
+});
+
+Template.bucketDicHome.onRendered(function(){
+  var position = Session.get("scrollPosition");
+  if(!Session.get("bucketListData")){
+    $(".loading").show();
+  } else if(position){
+    setTimeout(function () {
+      if($("#"+position)[0]){
+        var scrollPosition = $("#"+position).offset().top;
+        $('html, body').animate({
+          scrollTop: scrollPosition-250
+        }, 0);
+      }
+    });
+    // $(".loading").hide();
+  }
+  Session.set("scrollPosition",null);
+
+  //무한스크롤
+  $(window).scroll(function() {
+    var calc =  $(window).scrollTop() / ($(document).height() - $(window).height()) * 100;
+    if (calc > 70) {
+    //기존 데이터 가져오기
+     // var insData = instance.bucketListData.get();
+     var insData = Session.get('bucketListData');
+
+     var dataCount = 0;
+     // 타임라인 정보가 있을경우, 해당 타임라인의 갯수 저장
+     if( insData.bucketData && insData.bucketData.length){
+       dataCount = insData.bucketData.length;
+     }
+     // if(insData.searchWord ){
+     //   datacount = 0;
+     // }
+
+     if(!insData.isDataExist || insData.isFinalData){
+       // console.log("this is final");
+       return;
+     }
+
+     if(metoerCallControl){
+       $(".loading").hide();
+       return;
+     }
+
+     metoerCallControl = true;
+
+    if(instance.isMyBucket.get()){
+      fn_getMyBucketList(instance.userId, instance.selectedMenu.get(), dataCount, insData.searchObj);
+    } else {
+      fn_getAllBucketList(instance.userId, instance.selectedMenu.get(), dataCount, insData.searchObj);
+    }
+   }
+  });
+});
+
+Template.bucketDicHome.helpers({
+  hpBucketListData: function(){
+    // return Template.instance().bucketListData.get();
+    // console.log(Session.get('bucketListData').bucketData.length);
+    return Session.get('bucketListData');
+  },
+  // hpChangeFilter: function(_data){
+  //   // if(blHomeStatue){
+  //   //   blHomeStatue = null;
+  //   //   return;
+  //   // }
+  //   // instance.selectedMenu.set(_data);
+  //   // Session.get('bucketListData',null);
+  //   if(Session.get('bucketListData') && Session.get('bucketListData').category !== _data){
+  //     Template.instance().selectedMenu.set(_data);
+  //     var searchObj = {
+  //       text : "",
+  //       type : "",
+  //     };
+  //     if(instance.isMyBucket.get()){
+  //       fn_getMyBucketList(instance.userId, _data, 0, searchObj);
+  //     } else {
+  //       fn_getAllBucketList(instance.userId, _data, 0, searchObj);
+  //     }
+  //   }
+  // },
+  hpChangeFilter: function(_data){
+    // if(blHomeStatue){
+    //   blHomeStatue = null;
+    //   return;
+    // }
+    // instance.selectedMenu.set(_data);
+    // Session.get('bucketListData',null);
+    if(Session.get('bucketListData') && Session.get('bucketListData').category !== _data){
+      Template.instance().selectedMenu.set(_data);
+      // var searchObj = {
+      //   text : "",
+      //   type : "",
+      // };
+      var insData = Session.get('bucketListData');
+      if(instance.isMyBucket.get()){
+        fn_getMyBucketList(instance.userId, _data, 0, insData.searchObj);
+      } else {
+        fn_getAllBucketList(instance.userId, _data, 0, insData.searchObj);
+      }
+    }
+  },
+  hpSearchCallBack :  function(_searchObj){
+    // var insData = instance.bucketListData.get();
+    // var insData = Session.get('bucketListData');
+    if(metoerCallControl)return;
+    metoerCallControl = true;
+
+    if(instance.isMyBucket.get()){
+      fn_getMyBucketList(instance.userId, instance.selectedMenu.get(), 0, _searchObj);
+    } else {
+      fn_getAllBucketList(instance.userId, instance.selectedMenu.get(), 0, _searchObj);
+    }
+  },
+  hpIsSelectedMy : function(){
+    return instance.isMyBucket.get();
+  },
+
+});
+
+Template.bucketDicHome.events({
+  "click figure.bucket-dic-content": function(e, t){
+    e.preventDefault();
+
+    // alert($("#"+this._id).offset().top);
+    var navData ={
+      prevTemplate : "bucketList",
+      contentId : this._id,
+      category: t.category, //this.category.charAt(this.category.length-1),
+      type : 'BS'
+    };
+
+
+    Session.set('navData', navData);
+    Session.set("bucketListStatus",{isMy:t.isMyBucket.get(), filter:t.data.filter});
+    Router.go('bucketDetail', {_id: this._id},{replaceState: false});
+
+    // 1. 로그 사용여부확인
+    if(global.writeLog){
+      //2. 로그 생성
+       Meteor.call('setLog', 'LG0017', Meteor.userId(),'BL', this._id); //버킷리스트 컨텐츠 클릭
+    }
+  },
+  //내 버킷 추가
+  "click #addBucket": function(e, t){
+    // console.log('내 버킷 추가');
+    // var confrimData = {
+    //   title : '서비스 준비중입니다.',
+    //   context : '',
+    //   templateName : 'bucketDicHome',
+    //   returnData : null,
+    //   singleBtn : true,
+    //   btnName : '확인'
+    // };
+    //
+    // Session.set('confrim_center', confrimData);
+    // return;
+
+
+
+    Session.set("bucketListStatus",{isMy:t.isMyBucket.get(), filter:t.data.filter});
+    Router.go("writeBucket",{},{replaceState: false});
+  },
+  "mousedown .category-slide-wrap": function(e, t){
+    dragFlag = true;
+    var obj = $(".category-slide-wrap");
+    x = obj.scrollLeft();
+    y = obj.scrollTop();
+
+    pre_x = e.screenX;
+    pre_y = e.screenY;
+
+    $(".category-slide-wrap").css("cursor", "pointer");
+  },
+  "mousemove .category-slide-wrap": function(e, t){
+    if (dragFlag) {
+      var obj = $(".category-slide-wrap");
+      obj.scrollLeft(x - e.screenX + pre_x);
+      obj.scrollTop(y - e.screenY + pre_y);
+
+      return false;
+    }
+  },
+  "mouseup .category-slide-wrap": function(e, t){
+    dragFlag = false;
+    $(".category-slide-wrap").css("cursor", "default");
+  },
+
+  //내꺼, 전체 구분
+  // "click .float-button a":function(e,t){
+  //   e.preventDefault();
+  //   // Session.set("opneToglePamamSession",true);
+  //   var searchObj = {
+  //     text : "",
+  //     type : ,
+  //   };
+  //
+  //   $(window).scrollTop(0);
+  //   if(instance.isMyBucket.get()){
+  //     instance.isMyBucket.set(false);
+  //     fn_getAllBucketList(instance.userId, instance.selectedMenu.get(), 0, searchObj);
+  //     // 1. 로그 사용여부확인
+  //     if(global.writeLog){
+  //       //2. 로그 생성
+  //        Meteor.call('setLog', 'LG0018', Meteor.userId(),'BL', ''); //버킷리스트 All
+  //     }
+  //
+  //   } else {
+  //     instance.isMyBucket.set(true);
+  //     fn_getMyBucketList(instance.userId, instance.selectedMenu.get(), 0, searchObj);
+  //
+  //     // 1. 로그 사용여부확인
+  //     if(global.writeLog){
+  //       //2. 로그 생성
+  //        Meteor.call('setLog', 'LG0019', Meteor.userId(),'BL',''); //버킷리스트 my
+  //     }
+  //   }
+  //   //버튼 전환
+  // },
+});
+
+Template.bucketDicHome.onDestroyed(function(){
+  $(window).off('scroll');
+});
+
+function fn_getMyBucketList(_userId, _filter, _dataCount, _searchObj){
+  // console.log(_userId, _filter);
+  // $(".loading").show();
+  Meteor.call("getMyBucketList", _userId, _filter, _dataCount, _searchObj,  function(error, result){
+    if (error){
+      console.log(error);
+    } else {
+
+      if(_dataCount > 0){
+        // var prevData = instance.bucketListData.get();
+        var prevData = Session.get('bucketListData');
+        // console.log(prevData, result);
+        prevData.bucketData = prevData.bucketData.concat(result.bucketData);
+        result.bucketData = prevData.bucketData;
+      }
+      metoerCallControl = false;
+
+      // instance.bucketListData.set(result);
+      Session.set('bucketListData',result);
+      $(".loading").hide();
+    }
+  });
+}
+
+function fn_getAllBucketList(_userId, _filter, _dataCount, _searchObj){
+  // console.log(_userId, _filter);
+  // $(".loading").show();
+  Meteor.call("getAllBucketList", _userId, _filter, _dataCount, _searchObj,  function(error, result){
+    if (error){
+      console.log(error);
+    } else {
+
+      if(_dataCount > 0){
+        // var prevData = instance.bucketListData.get();
+        var prevData = Session.get('bucketListData');
+        // console.log(prevData, result);
+        prevData.bucketData = prevData.bucketData.concat(result.bucketData);
+        result.bucketData = prevData.bucketData;
+      }
+      metoerCallControl = false;
+
+      // instance.bucketListData.set(result);
+      Session.set('bucketListData',result);
+      $(".loading").hide();
+    }
+  });
+}
+
+Template.bucketDicHome.onDestroyed(function(){
+  $(".loading").hide();
+});
+//
+// Template.scrollPosition.onCreated(function(){
+//   var position = Session.get("scrollPosition");
+//   console.log(position);
+// });
+//
+// Template.scrollPosition.onRendered(function(){
+//   var position = Session.get("scrollPosition");
+//   if(position && Session.get('bucketListData')){
+//     // d = document.getElementById(position);
+//     // var scrollPosition = d.offsetTop;
+//     var scrollPosition = $("#"+position).offset().top;
+//     // alert(Session.get('bucketListData').bucketData.length);
+//     alert(scrollPosition);
+//     $('html, body').animate({
+//           scrollTop: scrollPosition-250
+//     }, 0);
+//     // Session.set("scrollPosition",null);
+//     $(".loading").hide();
+//   }
+// });

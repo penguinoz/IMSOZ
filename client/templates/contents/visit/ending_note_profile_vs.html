@@ -1,0 +1,27 @@
+<template name="endingNoteProfileVs">
+  {{#with hpProfileData}}
+    <div class="user-profile">
+      <!-- 이미지 파일 -->
+      <div class="profile-img">
+        <img src="{{g_makeImageSrc this.profileImg ''}}" alt="image-place" data-modal-template="editProfileImage">
+      </div>
+
+      <div class="profile-text">
+        <!-- 이름 -->
+        <div class="profile-name txt-bold txt-darker">
+          {{this.name}}
+        </div>
+
+        <!-- 소개 -->
+        <div class="profile-sub">
+          <input class="cursor-pointer" type="text" id="introduction" value="{{this.introduction}}" maxlength="30" readonly/> <span class="display-none" id="charCount"> {{hpCharCount}}/30</span>
+        </div>
+
+      </div>
+      <div class="profile-end cursor-pointer" id="lifeMap">
+        <i class="imsm-icon icon-lifemap"></i>
+        <!-- <div class="">life map</div> -->
+      </div>
+    </div>
+  {{/with}}
+</template>

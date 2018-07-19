@@ -1,0 +1,33 @@
+<template name="categoryMenuPopup">
+
+  <div class="max768">
+    <div class="category-pop">
+      <div class="prevent over-pop">
+        <div class="max768">
+          <div class="popContent">
+            <div class="pop-head txt-title color-white cursor-pointer" id="btn-cancel">
+              <!-- 닫기 -->
+              <i class="imsm-icon icon-close"></i>
+            </div>
+            <div class="pop-top">
+              {{#each hpCategoryData}}
+                <figure class="{{class}} write">
+                  <div class="category">
+                    <div class="icon-image">
+                      <img src="/images/icon/timeline/{{this.icon}}" alt="">
+                      <div class="menu-name">
+                        {{{this.name}}}
+                      </div>
+                    </div>
+                  </div>
+                </figure>
+              {{/each}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="black-over" id="modal" data-backdrop="static" aria-hidden="false" style=""></div>
+</template>

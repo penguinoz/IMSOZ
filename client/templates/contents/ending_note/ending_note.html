@@ -1,0 +1,40 @@
+<template name="endingNote">
+  <div class="ending-note max768">
+    <div class="ending-note-wrap" id="ending-note-wrap">
+      <!-- 프로필 -->
+      {{#if g_isLogined}}
+        {{> endingNoteProfile}}
+      {{/if}}
+
+      <!-- 타임라인 -->
+      {{#if hpTimeline}}
+        {{#if hpTimeline.isDataExist}}
+          {{> timeline hpTimeline}}
+          {{> floatButtonList type='writeStory'}}
+        {{else}}
+          {{#if hpTimeline.bySearch}}
+            {{> searchEmpty}}
+          {{else}}
+            {{#if hpIsLogin}}
+              {{> timeline hpTimeline}}
+              {{> floatButtonList type='writeStory' blink=true}}
+            {{else}}
+              {{> timelineEmpty buttonUse = false}}
+              {{> floatButtonList type='writeStory'}}
+            {{/if}}
+          {{/if}}
+        {{/if}}
+      {{/if}}
+    </div>
+  </div>
+  <!-- {{#if hpLifeMapShow}}
+    {{> lifeMap}}
+  {{/if}} -->
+  {{#if hpShowNoti}}
+    {{> officialNotification01}}
+  {{/if}}
+
+  <!-- {{#if hpCategoryPopup}}
+    {{> categoryMenuPopup}}
+  {{/if}} -->
+</template>

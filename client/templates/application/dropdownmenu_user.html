@@ -1,0 +1,12 @@
+<template name="dropdownmenuUser">
+  {{#if hpIsShow}}
+    <div class="dropdown-menu user-pop">
+      <div class="wirte-time-capsule cursor-pointer {{#unless hpWriteCapsule}} disabled-div {{/unless}}">
+        타임캡슐 작성
+      </div>
+      <div class="relation-info cursor-pointer {{#unless hpRelation.enable}} disabled-div {{/unless}}">
+        {{hpRelation.value}}
+      </div>
+    </div>
+  {{/if}}
+</template>

@@ -1,0 +1,92 @@
+<template name="searchFamily">
+
+    <div class="searchUser addUser max768 {{#if or hpAddFamilyData.isShow hpProileImgData.isShow}}display-none{{/if}}" style="z-index: 11;">
+      <div class="detail-header txt-menu">
+        <div class="sticky">
+          <div class="max768">
+            <div class="wrap">
+              <div class="item-list">
+                <div class="item cursor-pointer" id="backsearchFamily">
+                  <a href="#" class="defaultmouse">
+                    <div class="icon">
+                      <!-- <i class="imsm-icon icon-search"></i> -->
+                      <i class="imsm-icon icon-back"></i>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div class="detail-body">
+      <div class="user-list">
+        <div class="search-list">
+          {{#unless hpSearchResult}}
+          <div class="title txt-center">
+            대상을 추가해 주세요
+          </div>
+          {{else}}
+          <div class="title">
+            대상을 선택해 주세요
+          </div>
+            {{#each hpSearchResult}}
+              <div class="user-profile-list">
+                <!-- 이미지 파일 -->
+                <div class="profile-img">
+                  <img src="{{g_makeImageSrc profileImg ''}}" alt="image-place" data-modal-template="editProfileImage">
+                </div>
+                <div class="profile-text">
+                  <!-- 이름 -->
+                  <div class="profile-name">
+                    {{name}}
+                  </div>
+                  <!-- 아이디 -->
+                  <!-- <div class="profile-sub">
+                    {{username}}
+                  </div> -->
+                </div>
+                <div class="btn-select  round-radius {{#if hpSelect _id}} selected {{/if}}">
+                  <div class="right">
+                    선택
+                  </div>
+                </div>
+                <div class="btn-modify  round-radius selected" id="editFamily">
+                  <div class="right">
+                    수정
+                  </div>
+                </div>
+              </div>
+            {{/each}}
+          {{/unless}}
+          <div class="add-family cursor-pointer" id="addFamily">
+            <div class="btn-add-img">
+              추가 <i class="imsm-icon icon-plus"></i>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="btn-bottom" id="addFamilyconfirm">
+            <div class="sticky-bottom">
+              <div class="max768">
+                <div class="txt-sub-title">
+                  확인
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{#if hpProileImgData.isShow}}
+    {{> editProfileImage hpProileImgData}}
+  {{/if}}
+
+  {{#if hpAddFamilyData.isShow}}
+    {{> addFamily hpAddFamilyData}}
+  {{/if}}
+</template>

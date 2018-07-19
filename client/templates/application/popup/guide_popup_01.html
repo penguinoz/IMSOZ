@@ -1,0 +1,46 @@
+<template name="guidePopup01">
+  <!-- 버킷리스트 완료 할때 스토리가 없으면 스토리 넣으라는 팝업 -->
+  {{#with hpPopupData}}
+  <div class="max768">
+    <div class="guide-pop">
+      <div class="prevent over-pop">
+        <div class="max768">
+          <div class="popContent">
+            <div class="pop-head txt-title color-white cursor-pointer" id="btn-cancel">
+              <!-- 닫기 -->
+              <i class="imsm-icon icon-close"></i>
+            </div>
+            <div class="pop-top">
+              <!-- 가이드 이미지 -->
+              <div class="image-place">
+                <img src="{{image}}" class="" itemprop="thumbnail" alt="">
+              </div>
+              <!-- 가이드 문구 -->
+              <div class="context-area color-white">
+                <div>
+                  {{title}}
+                </div>
+                <div>
+                  {{{context}}}
+                </div>
+              </div>
+            </div>
+            <!-- <div class="pop-bottom">
+              <div class="main-button cursor-pointer">
+                {{#if singleBtn}}
+                  <div class="btn-title btn-cancel">{{btnName}}</div>
+                {{else}}
+                  <div class="btn-title btn-cancel">취소</div>
+                  <div class="btn-title btn-confirm">성공</div>
+                {{/if}}
+              </div>
+            </div> -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/with}}
+  <div class="black-over" id="modal" data-backdrop="static" aria-hidden="false" style=""></div>
+</template>

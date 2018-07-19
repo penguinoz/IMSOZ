@@ -1,0 +1,20 @@
+{
+  "name": "IMSM",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.44",
+    "bcrypt": "^1.0.3",
+    "browserify": "^16.1.1",
+    "buffer": "^5.1.0",
+    "html2canvas": "^1.0.0-alpha.12",
+    "meteor-node-stubs": "^0.3.3",
+    "random": "^1.0.0-beta-1",
+    "react": "^16.3.1",
+    "react-avatar-editor": "^11.0.2",
+    "react-dom": "^16.3.1",
+    "timers-browserify": "^2.0.10"
+  }
+}

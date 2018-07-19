@@ -1,0 +1,34 @@
+<!-- 메인 -->
+<template name="layout">
+	<div class="main-bg"></div>
+	<div id="warp">
+		<div class="container max768">
+      {{> yield}}
+    </div>
+  </div>
+	{{> loading}}
+	{{#if g_confrim}}
+    {{> confirm g_confrim}}
+  {{/if}}
+</template>
+
+<!-- 상속타임라인 -->
+<template name="layout2">
+	<div class="main-bg"></div>
+	<div id="warp">
+		<div class="container max768">
+	      {{> yield}}
+    </div>
+  </div>
+	{{> loading}}
+	{{#if g_confrim}}
+		{{> confirm g_confrim}}
+	{{/if}}
+</template>
+
+<!-- 알림팝업용 -->
+<!-- <template name="layout3">
+	{{#if hpLayout3}}
+		{{> yield}}
+	{{/if}}
+</template> -->

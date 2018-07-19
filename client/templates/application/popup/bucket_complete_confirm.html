@@ -1,0 +1,89 @@
+<template name="bucketCompleteconfirm">
+  {{#with hpConfirmData}}
+  <div class="max700">
+    <div class="guide-pop bl-complete">
+      <div class="prevent over-pop">
+        <div class="max700">
+
+          <div class="popContent">
+            <div class="pop-head txt-title color-white cursor-pointer">
+              <!-- 닫기 -->
+              <i class="imsm-icon icon-close btn-cancel cursor-pointer"></i>
+            </div>
+            <div class="pop-top">
+              <!-- 가이드 이미지 -->
+              <div class="image-place">
+                <img src="/images/bg/pop_bucket_complete.png" class="" itemprop="thumbnail" alt="">
+                <div class="context-area">
+                  <div class="top">
+                    {{{title}}}
+                  </div>
+                  <div class="bottom color-white">
+                    {{{context}}}
+                  </div>
+                </div>
+                <div class="button-box cursor-pointer">
+                  <div class="btn-title btn-cancel">취소</div>
+                  <div class="btn-title btn-confirm">성공</div>
+                </div>
+              </div>
+              <!-- 가이드 문구 -->
+
+              <!-- <div class="context-area color-white">
+                <div class="top">
+                  {{{title}}}
+                </div>
+                <div class="bottom">
+                  {{{context}}}
+                </div>
+              </div> -->
+            </div>
+            <!-- <div class="pop-bottom">
+              <div class="main-button cursor-pointer">
+                {{#if singleBtn}}
+                  <div class="btn-title btn-confirm">{{btnName}}</div>
+                {{else}}
+                  <div class="btn-title btn-cancel">취소</div>
+                  <div class="btn-title btn-confirm">성공</div>
+                {{/if}}
+              </div>
+            </div> -->
+          </div>
+          <!-- <div class="popContent">
+            <div class="pop-top  txt-title">
+              <figure class="cursor-pointer">
+                  <div class="image">
+                    <a href="#" style="background:url(/images/bg/pop_bucket_complete.png) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                      <div class="trans-overlay">
+                        <img src="/images/bg/img_frame.png" class="img-frame-shadow" itemprop="thumbnail" alt="">
+                      </div>
+                    </a>
+                  </div>
+              </figure>
+              <div class="context-area">
+                <div>
+                  {{title}}
+                </div>
+                <div>
+                  {{{context}}}
+                </div>
+              </div>
+            </div>
+            <div class="pop-bottom">
+              <div class="main-button cursor-pointer">
+                {{#if singleBtn}}
+                  <div class="btn-title btn-confirm">{{btnName}}</div>
+                {{else}}
+                  <div class="btn-title btn-cancel">취소</div>
+                  <div class="btn-title btn-confirm">성공</div>
+                {{/if}}
+              </div>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/with}}
+  <div class="black-over" id="modal" data-backdrop="static" aria-hidden="false" style=""></div>
+</template>

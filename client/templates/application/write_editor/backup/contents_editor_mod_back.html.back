@@ -1,0 +1,292 @@
+<template name="contentsEditorMod">
+  <div class="fake-div"></div>
+  {{#with hpStoryData}}
+  {{#if hpSearchShow}}
+    {{> searchUser hpAddUserList}}
+  {{/if}}
+  {{#if hpAddFamilyData.isShow}}
+    {{> addFamily hpAddFamilyData}}
+  {{/if}}
+  {{#if hpProileImgData.isShow}}
+    {{> editProfileImage hpProileImgData}}
+  {{/if}}
+  <div class="content-editor {{#if or hpSearchShow hpAddFamilyData.isShow hpProileImgData.isShow}}display-none{{/if}}">
+    <div class="step1 max768 {{#unless hpDisplayStep1}}display-none{{/unless}}">
+      <div class="detail-header txt-menu">
+        <div class="sticky">
+          <div class="max768">
+            <div class="wrap">
+              <div class="item-list">
+
+                <div class="item">
+                  <a href="#" class="back" id="">
+                    <div class="icon cursor-pointer">
+                      <i class="imsm-icon icon-close-thin"></i>
+                    </div>
+                  </a>
+                </div>
+                <div class="item next cursor-pointer">
+                  글수정
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="item-row">
+          <div class="item">
+            날짜
+          </div>
+          <div class="item">
+            <input type="date" data-date="" data-date-format="DD MMMM YYYY" value="{{this.mDate}}" id="mDate">
+          </div>
+        </div>
+
+        <div class="item-row">
+          <div class="item">
+            주제
+          </div>
+          <div class="item">
+            <select class="selectpicker ml10" data-width="75px" name="lockOp" id="category" title="주제를 선택해주세요." required>
+              {{#with hpContentType}}
+                {{#each g_getSubjectList this}}
+                  <option value="{{code}}" selected="{{#if g_isEqual ../../type code}}selected{{/if}}">{{name}}</option>
+                {{/each}}
+              {{/with}}
+            </select>
+          </div>
+        </div>
+        <div class="item-row">
+          <div class="item">
+            영역
+          </div>
+          <div class="item">
+            <select class="selectpicker ml10" data-width="75px" name="lockOp" id="subcategory" title="영역을 선택해주세요." required>
+              {{#with hpContentType}}
+                {{#each g_getSubjectChild this}}
+                  <option value="{{code}}" selected="{{#if g_isEqual ../../subType code}}selected{{/if}}">{{name}}</option>
+                {{/each}}
+              {{/with}}
+            </select>
+          </div>
+        </div>
+
+        {{#if g_isEqual hpContentType 'BS'}}
+          <div class="item-row">
+            <div class="item">
+              비공개
+            </div>
+            <div class="item">
+              <div class="toggle">
+                <label class="switch">
+                  {{#if this.lock}}
+                    <input type="checkbox" id="lock" checked="checked">
+                  {{else}}
+                    <input type="checkbox" id="lock">
+                  {{/if}}
+                    <div class="slider round"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+        {{/if}}
+
+        <!-- 타임캡슐 > 친구에게 선택시 -->
+        {{#if g_isEqual hpSelectedOption 'TC0002'}}
+            <!-- 추가된 대상자 정보 -->
+            {{#each hpAddUserList}}
+              <div class="item-row option user-list-area">
+                <div class="user-list">
+                  <div class="user-profile-list">
+                    <!-- 이미지 파일 -->
+                    <div class="profile-img">
+                        <img src="{{g_makeImageSrc profileImg ''}}" alt="image-place" data-modal-template="editProfileImage">
+                    </div>
+
+                    <div class="profile-text">
+                      <!-- 이름 -->
+                      <div class="profile-name">
+                        {{name}}
+                      </div>
+                      <!-- 아이디 -->
+                      <div class="profile-sub">
+                        {{username}}
+                      </div>
+                    </div>
+                    <!-- <div class="btn-select  round-radius {{#unless hpSelect @index}} selected {{/unless}}" id={{@index}} name="acceptFrien"> -->
+                    <div class="btn-select  round-radius selected" id="delFriend">
+                      <div class="right">
+                        삭제
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {{/each}}
+            <div class="item-row cursor-pointer option add-user " id="search">
+              <div class="add"> + </div>
+            </div>
+        {{/if}}
+
+
+        <!-- 육아일기 선택시 -->
+        {{#if or (g_isEqual hpSelectedOption 'BD') (g_isEqual hpSelectedOption 'BD0001') (g_isEqual hpSelectedOption 'BD0002')}}
+          <!-- 추가된 대상자 정보 -->
+            {{#each hpAddUserList}}
+              <div class="item-row option user-list-area" >
+                <div class="user-list">
+                  <div class="user-profile-list">
+                    <!-- 이미지 파일 -->
+                    <div class="profile-img" id=editFamily>
+                        <img src="{{g_makeImageSrc profileImg ''}}" alt="image-place" data-modal-template="editProfileImage">
+                    </div>
+
+                    <div class="profile-text">
+                      <!-- 이름 -->
+                      <div class="profile-name">
+                        {{name}}
+                      </div>
+                      <!-- 아이디 -->
+                      <div class="profile-sub">
+                        {{g_getAge birthday}}
+                      </div>
+                    </div>
+                    <!-- <div class="btn-select  round-radius {{#unless hpSelect @index}} selected {{/unless}}" id={{@index}} name="acceptFrien"> -->
+                    <div class="btn-select round-radius cursort-pointer {{hpSelectedFamily _id}}" id="selectFamily">
+                      <div class="right">
+                        선택
+                      </div>
+                    </div>
+                    <div class="del-family cursor-pointer"  id="delFamily">
+                        <i class="imsm-icon icon-close-thin"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {{/each}}
+            <div class="item-row cursor-pointer option add-user " id="addFamily">
+              <div class="add"> + </div>
+            </div>
+        {{/if}}
+
+      </div>
+    </div>
+
+
+  <!-- ============================== step2 ============================================= -->
+    <div class="step2 max768  {{#if hpDisplayStep1}}display-none{{/if}}">
+      <div class="detail-header txt-menu">
+        <div class="sticky">
+          <div class="max768">
+            <div class="wrap">
+              <div class="item-list">
+
+                <div class="item cursor-pointer" id="back">
+                  <a href="#" class="back-step" id="back">
+                    <div class="icon cursor-pointer">
+                      <i class="imsm-icon icon-back"></i>
+                    </div>
+                  </a>
+                </div>
+                <div class="item">
+                  </div>
+                <div class="item cursor-pointer save">
+                  저장
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="sticky">
+          <div class="max768">
+            <div class="wrap">
+              <div class="item-row">
+                <div class="main-input title" >
+                  <input type="text" placeholder="제목" id="title" value="{{this.title}}"/>
+                </div>
+              </div>
+
+              <div class="item-row">
+                <div class="main-input context" >
+                  <textarea name="Text1" cols="40" rows="5" placeholder="글 작성" id="context">{{{this.context}}}</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-bottom">
+        <div class="max768">
+          <div class="tag-and-image">
+            <div class="prevent over-pop">
+              <div class="max768">
+                <div class=slide-anime>
+
+                  <div class="pop-top"  style="{{#if g_isGreaterThan hpImageList.length 0}}height:125px;{{/if}}" >
+                    <div class="tag-area">
+                      <div class="main-input" >
+                        <input type="text" placeholder="#태그 ' , '로 구분하여 입력" id="tag" value="{{this.tagList}}"/>
+                      </div>
+                    </div>
+                    <div class="slide">
+                      <div class="camera-slide">
+                        <div class="item">
+                          <input type="file" name="attachment[]" multiple="multiple" accept="image/*" style="display: none;" id="addImage"/>
+                          <a href="javascript:document.getElementById('addImage').click();" id="addherf">
+                            <div class="btn-add-img">
+                              <i class="imsm-icon icon-plus"></i>
+                            </div>
+                          </a>
+                        </div>
+                        {{#each hpImageList}}
+                          <div class="item">
+                            <div class="img-wrap">
+                              <img src="{{#if g_getThumbUri this.data}}{{g_getThumbUri this.data}}{{else}}{{g_makeImageSrc this 'thumb'}}{{/if}}" alt="image-place" data-modal-template="editProfileImage" class="{{this.imageClass}}">
+                            </div>
+                            <div class="icon cursor-pointer" id="btnDelete">
+                              <i class="imsm-icon icon-close-thin"></i>
+                            </div>
+                          </div>
+                        {{/each}}
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="pop-bottom">
+                    <div class="bottom-menu">
+                      <div  class="btn-camera">
+                        <div class="input-article icon cursor-pointer-style">
+                          <!-- <input type="file" name="attachment[]" multiple="multiple" accept="image/*" style="display: none;"/> -->
+                          <!-- <input type="text" name="fileName" placeholder="" disabled style="width:220px;"/> -->
+                          <a href="" class="">
+                            <i class="imsm-icon icon-camera"></i>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="btn-tag">
+                        <div class="input-article icon cursor-pointer-style">
+                          <a href="" class="">
+                            #
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- detail-bottom -->
+
+
+    </div>
+  </div>
+  {{/with}}
+</template>

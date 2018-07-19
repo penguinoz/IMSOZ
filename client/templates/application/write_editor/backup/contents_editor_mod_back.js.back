@@ -1,0 +1,927 @@
+import {collections as CLT} from '/imports/global/collections.js';
+import {global} from '/imports/global/global_things.js';
+import { Random } from 'meteor/random';
+
+var template = 'contentsEditorMod';
+var dragFlag = false;
+Template.contentsEditorMod.onCreated(function(){
+  var instance = this;
+  instance.contentId = instance.data._id;
+  instance.storyData = new ReactiveVar();
+
+  instance.displayStep1 = new ReactiveVar(false);
+  instance.imageList = new ReactiveVar();
+  instance.contentType = new ReactiveVar();
+  instance.extraData = new ReactiveVar();
+  instance.showCamera = false;
+  instance.imageArray = [];
+  instance.imageUploadArray=[];
+  instance.imageDelArray = [];
+
+  instance.selectedFamily = new ReactiveVar();
+  instance.selectedOption = new ReactiveVar();
+
+  Session.set('addFamily_showProfileImgEditor', false); //가족 프로필 사진 편집 화면
+  Session.set('editor_search_user_show',false); //친구검색 화면 띄우는 flag;
+  Session.set('editor_add_family_data',false); //가족등록 화면 띄우는 flag;
+  Session.set('editor_addUserList',null); //검색, 등록 화면에서 처리된 결과 넘겨받음;
+
+  Session.set('confrim_center', false);
+
+  if(Session.get('navData') && Session.get('navData').type){
+    switch(Session.get('navData').type){
+      //미지막편지 수정
+      case 'LL':
+      Meteor.call("getLastLetter",instance.data._id, function(err,res){
+        if(err){
+          console.log(err);
+        } else {
+          instance.storyData.set(res);
+          if(res.images.length > 0){
+            instance.imageArray = res.images;
+            instance.imageList.set(res.images);
+            instance.showCamera = true;
+          }
+
+          instance.contentType.set(res.type);
+        }
+      });
+      break;
+      //육아일기 수정
+      case 'BD':
+      Meteor.call("getEditStoryById",instance.data._id, function(err,res){
+        if(err){
+          console.log(err);
+        } else {
+          instance.storyData.set(res);
+          if(res.images.length > 0){
+            instance.imageArray = res.images;
+            instance.imageList.set(res.images);
+            instance.showCamera = true;
+          }
+
+          instance.contentType.set(res.type);
+          instance.selectedOption.set(res.subType);
+          instance.selectedFamily.set(res.targetId);
+
+          Meteor.call('getFamilyData', Meteor.userId(), res.subType, function(error, result){
+            if(error){
+              console.log(error);
+            } else {
+              Session.set('editor_addUserList', result);
+            }
+          });
+
+        }
+      });
+
+      break;
+      case "TC":
+      //전달받은 contentId를 통해서 데이터 로드
+      Meteor.call("getEditStoryById",instance.data._id, function(err,res){
+        if(err){
+          console.log(err);
+        } else {
+          instance.selectedOption.set('TC0002');
+          instance.storyData.set(res);
+          if(res.images.length > 0){
+            instance.imageArray = res.images;
+            instance.imageList.set(res.images);
+            instance.showCamera = true;
+          }
+
+          instance.contentType.set(res.type);
+        }
+      });
+      break;
+      default :
+      //전달받은 contentId를 통해서 데이터 로드
+      Meteor.call("getEditStoryById",instance.data._id, function(err,res){
+        if(err){
+          console.log(err);
+        } else {
+          instance.storyData.set(res);
+          if(res.images.length > 0){
+            instance.imageArray = res.images;
+            instance.imageList.set(res.images);
+            instance.showCamera = true;
+          }
+
+          instance.contentType.set(res.type);
+        }
+      });
+    }
+  }
+
+  if(Session.get('navData') && Session.get('navData').data){
+    instance.extraData.set(Session.get('navData').data);
+  }
+});
+
+Template.contentsEditorMod.onRendered(function(){
+  // $(".camera-slide").hide();
+  // $(".content-editor .step2 .pop-top").height(125);
+});
+
+Template.contentsEditorMod.events({
+  "click .back": function(e, t){
+    e.preventDefault();
+    // console.log(Session.get('prevMenuInfo'));
+    // if(Session.get('navData') && Session.get('navData').prevTemplate){
+    //   if(Session.get('navData').contentId){
+    //     Router.go(Session.get('navData').prevTemplate,  {_id: Session.get('navData').contentId},{replaceState: false});
+    //   } else{
+    //     Router.go(Session.get('navData').prevTemplate,{},{replaceState: false});
+    //   }
+    // } else {
+    //   Router.go('endingNote',{},{replaceState: false});
+    // }
+
+
+    if(Session.get('navData') && Session.get('navData').prevTemplate){
+      if(Session.get('navData').pageOwnerId && Session.get('navData').contentId){
+        Router.go(Session.get('navData').prevTemplate,  {_id: Session.get('navData').pageOwnerId, contentId:Session.get('navData').contentId},{replaceState: false});
+      }else {
+        switch(Session.get('navData').prevTemplate){
+          case 'inheritanceTo':
+            Router.go('inheritanceTo', {},{replaceState: false});
+            break;
+          default:
+            Router.go('contentDetail',  {_id:t.contentId},{replaceState: false});
+            break;
+        }
+      }
+    } else {
+      Router.go('contentDetail',{_id:t.contentId},{replaceState: false});
+    }
+  },
+  "click .next": function(e, t){
+
+    if($('#subcategory').val() === 'TC0002'){
+      if(!Session.get('editor_addUserList')){
+        alert('타임캡슐을 보낼 대상을 선택하세요');
+        return;
+      }
+    }
+
+    t.displayStep1.set(false);
+
+    // 처음시작할때 herf가 등록되지 않는 문제가 있어서 추가함
+    $("#addherf").attr("href", "javascript:document.getElementById('addImage').click();");
+  },
+  "click .back-step": function(e,t){
+    t.displayStep1.set(true);
+  },
+  "click .btn-camera": function(e,t){
+    // console.log(t.showCamera);
+    if(t.showCamera){
+      t.showCamera=false;
+      // $(".camera-slide").slideUp();
+      $(".camera-slide").hide();
+      $(".content-editor .step2 .pop-top").height(46);
+    } else {
+      t.showCamera=true;
+      // $(".camera-slide").slideDown();
+      $(".camera-slide").show();
+      $(".content-editor .step2 .pop-top").height(125);
+    }
+
+  },
+  "mousedown .slide": function(e, t){
+    // console.log('mousedown');
+    dragFlag = true;
+    var obj = $(".slide");
+    x = obj.scrollLeft();
+    y = obj.scrollTop();
+
+    pre_x = e.screenX;
+    pre_y = e.screenY;
+
+    $(".slide").css("cursor", "pointer");
+
+
+    // $('#result').text(dragFlag);
+  },
+  "mousemove .slide": function(e, t){
+    // console.log('mousemove');
+    if (dragFlag) {
+      var obj = $(".slide");
+      obj.scrollLeft(x - e.screenX + pre_x);
+      obj.scrollTop(y - e.screenY + pre_y);
+
+      //$('#result').text((x - e.screenX + pre_x) + "," + (y - e.screenY + pre_y));
+      return false;
+    }
+  },
+  "mouseup .slide": function(e, t){
+    // console.log('mouseup');
+    dragFlag = false;
+    $(".slide").css("cursor", "default");
+  },
+  "change #addImage": function(e, t){
+    var imageObjs = e.target.files;
+
+    _.each(imageObjs, function(imageObj){
+      var reader = new FileReader();
+      reader.readAsDataURL(imageObj);
+
+      // var fName = imageObj.name.substring(0, imageObj.name.lastIndexOf('.'));
+      var extension = imageObj.name.substring(imageObj.name.lastIndexOf('.')+1);
+
+      // $("[name=fileName]").val(imageObj.name);
+
+      reader.onload = function  () {
+        var tempImage = new Image();
+        tempImage.src = reader.result;
+        // console.log(reader.result);
+        tempImage.onload = function () {
+          // var tempImg = new Image();
+          // tempImg.src = reader.result;
+          var targetImage = this;
+
+          EXIF.getData(imageObj, function(e,r) {
+            var width = targetImage.width;
+            var height = targetImage.height;
+            var orientation = 1;
+            var imageClass = 'height-100';
+            /////////////thumb/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //이미지 사이즈 조정
+            if(targetImage.width >= targetImage.height){
+              imageClass ='height-100';
+              if(targetImage.width > 400){
+                width = 400;
+                height = targetImage.height * (400/targetImage.width);
+              }
+            } else {
+              imageClass ='width-100';
+              if(targetImage.height > 312){
+                height = 312;
+                width = targetImage.width * (312/targetImage.height);
+              }
+            }
+
+            //보기용 canvas생성 (thumbnail용)
+            var canvas2 = document.createElement('canvas');
+            var canvasContext2 = canvas2.getContext("2d");
+
+            orientation = EXIF.getTag(this, "Orientation");
+            if ([5,6,7,8].indexOf(orientation) > -1) {
+              canvas2.width = height;
+              canvas2.height = width;
+            } else {
+              canvas2.width = width;
+              canvas2.height = height;
+            }
+
+            //이미지 회전 (휴대폰 이미지 방향 문제)
+            switch (orientation) {
+              case 2: canvasContext2.transform(-1, 0, 0, 1, width, 0); break;
+              case 3: canvasContext2.transform(-1, 0, 0, -1, width, height ); break;
+              case 4: canvasContext2.transform(1, 0, 0, -1, 0, height ); break;
+              case 5: canvasContext2.transform(0, 1, 1, 0, 0, 0); break;
+              case 6: canvasContext2.transform(0, 1, -1, 0, height , 0); break;
+              case 7: canvasContext2.transform(0, -1, -1, 0, height , width); break;
+              case 8: canvasContext2.transform(0, -1, 1, 0, 0, width); break;
+              default: canvasContext2.transform(1, 0, 0, 1, 0, 0);
+            }
+
+
+            canvasContext2.drawImage(targetImage, 0, 0, width, height);
+            var dataURIThumb = canvas2.toDataURL("image/jpeg");
+            // var dataURIThumb = tempImage.src;
+
+            var newFileName = Random.id();
+            var newFilePath = global.s3.bucketPath + global.s3.folder.story + '/' + newFileName + '_thumb.' + extension;
+
+
+            /////////////origin/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            width = targetImage.width;
+            height = targetImage.height;
+
+            if(targetImage.width >= targetImage.height){
+              if(targetImage.width > 1024){
+                width = 1024;
+                height = targetImage.height * (1024/targetImage.width);
+              }
+            } else {
+              if(targetImage.height > 800){
+                height = 800;
+                width = targetImage.width * (800/targetImage.height);
+              }
+            }
+
+            var canvas = document.createElement('canvas');
+            var canvasContext = canvas.getContext("2d");
+
+            orientation = EXIF.getTag(this, "Orientation");
+            if ([5,6,7,8].indexOf(orientation) > -1) {
+              canvas.width = height;
+              canvas.height = width;
+            } else {
+              canvas.width = width;
+              canvas.height = height;
+            }
+
+            switch (orientation) {
+              case 2: canvasContext.transform(-1, 0, 0, 1, width, 0); break;
+              case 3: canvasContext.transform(-1, 0, 0, -1, width, height ); break;
+              case 4: canvasContext.transform(1, 0, 0, -1, 0, height ); break;
+              case 5: canvasContext.transform(0, 1, 1, 0, 0, 0); break;
+              case 6: canvasContext.transform(0, 1, -1, 0, height , 0); break;
+              case 7: canvasContext.transform(0, -1, -1, 0, height , width); break;
+              case 8: canvasContext.transform(0, -1, 1, 0, 0, width); break;
+              default: canvasContext.transform(1, 0, 0, 1, 0, 0);
+            }
+
+            canvasContext.drawImage(targetImage, 0, 0, width, height);
+            // var dataURI = tempImage.src;
+            var dataURI = canvas.toDataURL("image/jpeg");
+
+            // newFilePath = global.s3.bucketPath + global.s3.folder.story + '/' + newFileName + '_origin.' + extension;
+
+            //위치정보 저장
+            var latitued = EXIF.getTag(this, "GPSLatitude");
+            var longitude = EXIF.getTag(this, "GPSLongitude");
+
+            var image ={
+              type : '_origin',
+              bucketUrl : global.s3.bucketPath,
+              folder : global.s3.folder.story + '/',
+              fileName : newFileName,
+              extension : extension,
+              data : [
+                {uri: dataURI, type:'_origin'},
+                {uri: dataURIThumb, type:'_thumb'}
+              ],
+              lat : latitued ? global.fn_toDecimal(latitued) : null,
+              lng : longitude ? global.fn_toDecimal(longitude) : null,
+              imageClass : imageClass
+            };
+
+            // 저장할 데이터
+            t.imageUploadArray.push(image); //업로드용
+            t.imageArray.push(image); //DB입력용
+            t.imageList.set(t.imageArray); //화면 출력용
+          });
+        };
+      }; //reader.onload = function
+    }); //each
+
+  },
+  "change #category": function(e, t){
+    Session.set('editor_addUserList', null);
+    $('#subcategory').val(); //자녀 기본선택
+    t.contentType.set($('#category').val());
+    t.selectedOption.set($('#category').val());
+    // 주제별 화면 변경
+    switch($('#category').val()){
+      // 1) 일상
+      case 'IM':
+      setTimeout(function(){
+        $('#subcategory').val('IM0001'); //자녀 기본선택
+      });
+
+      if(global.writeLog){
+        //로그 생성
+        Meteor.call('setLog', 'LG0042', Meteor.userId(), $('#category').val(), 'IM0001'); //스토리 선택
+      }
+      break;
+      // $('#lock').prop('checked', false);
+      break;
+      // 2) 육아일기
+      case 'BD':
+      // 자녀, 반려동물정보 가져오기 OR 대상 추가 버튼
+      setTimeout(function(){
+        $('#subcategory').val('BD0001'); //자녀 기본선택
+      });
+      Meteor.call('getFamilyData', Meteor.userId(), 'BD0001', function(error, result){
+        if(error){
+          console.log(error);
+        } else {
+          Session.set('editor_addUserList', result);
+        }
+      });
+
+      if(global.writeLog){
+        //로그 생성
+        Meteor.call('setLog', 'LG0046', Meteor.userId(), $('#category').val(), 'BD0001'); //육아일기 선택
+      }
+      // $('#lock').prop('checked', false);
+      break;
+      // 3) 타임캡슐
+      case 'TC':
+      // $('#mDate').val(global.fn_dateFormat(global.fn_getCalDate(global.fn_dateFormat().YMD, global.timeCapsuleDefaultTermDay, 'SUM')).YMD);
+      setTimeout(function(){
+        $('#subcategory').val('TC0002'); //친구 기본선택
+        t.selectedOption.set('TC0002');
+      });
+
+      // $('#lock').prop('checked', true);
+      if(global.writeLog){
+        //로그 생성
+        Meteor.call('setLog', 'LG0047', Meteor.userId(), $('#category').val(), 'TC0001'); //타임캡슐 선택
+      }
+      // $('#lock').prop('checked', true);
+      break;
+      case 'EN'://유서
+      // $('#lock').prop('checked', true);
+      if(global.writeLog){
+        //로그 생성
+        Meteor.call('setLog', 'LG0048', Meteor.userId(), $('#category').val(), 'EN0001'); //유서 선택
+      }
+      break;
+      case 'LL': //마지막 편지
+        // $('#lock').prop('checked', true);
+        break;
+      case 'SC': //학교
+        // $('#lock').prop('checked', false);
+        if(global.writeLog){
+          //로그 생성
+          Meteor.call('setLog', 'LG0043', Meteor.userId(), $('#category').val(), 'SC0001'); //학교 선택
+        }
+        break;
+      case 'CR': //커리어
+        // $('#lock').prop('checked', false);
+        if(global.writeLog){
+          //로그 생성
+          Meteor.call('setLog', 'LG0044', Meteor.userId(), $('#category').val(), 'CR0001'); //커리어 선택
+        }
+        break;
+      case 'DR': //꿈
+        // $('#lock').prop('checked', false);
+        if(global.writeLog){
+          //로그 생성
+          Meteor.call('setLog', 'LG0043', Meteor.userId(), $('#category').val(), 'DR0001'); //꿈 선택 선택
+        }
+        break;
+    }
+
+
+
+  },
+  "change #subcategory": function(e, t){
+    t.selectedOption.set($('#subcategory').val());
+    Session.set('editor_addUserList', null);
+    switch($('#subcategory').val()){
+      // 1) 육아일기
+      case 'BD0001':
+      //자녀정보 채우기
+      // console.log('자녀정보 채우기');
+      Meteor.call('getFamilyData', Meteor.userId(), $('#subcategory').val(), function(error, result){
+        if(error){
+          console.log(error);
+        } else {
+          Session.set('editor_addUserList', result);
+        }
+      });
+      break;
+      case 'BD0002':
+      //반려동물 채우기
+      // console.log('반려동물정보 채우기');
+
+      Meteor.call('getFamilyData', Meteor.userId(), $('#subcategory').val(), function(error, result){
+        if(error){
+          console.log(error);
+        } else {
+          Session.set('editor_addUserList', result);
+        }
+      });
+      break;
+      case 'TC0002':
+      //친구에게 선택시 화면 하단
+      // 2) 타임캡슐
+      //   - 대상 추가 버튼
+      //   - 친구 검색 화면
+      //   - 등록된 친구 화면
+      //   - 날짜 > 개봉일
+      //
+      Session.set('editor_addUserList', null);
+      // console.log('친구검색 화면 표시');
+      break;
+      // 3) 오늘의 질문
+      case 'TQ0001':
+      //   - 영역 별 선택타이틀 제목 수정 (ex : 날짜 > 결혼기념일)
+      console.log('오늘의 질문 선택');
+      break;
+      default:
+    }
+
+
+  },
+  "change #mDate": function(e, t){
+    e.preventDefault();
+
+    // 임시로 막아놓음 테스트를 위해서
+    // if($('#category').val() === 'TC'){
+    //   var diffDays = global.fn_diffDateTime($('#mDate').val()).diffDay;
+    //   if(diffDays < global.timeCapsuleMinDay){
+    //   var confrimData = {
+    //     title : '타임캡슐 개봉일은 오늘을 기준으로<br/>' + global.timeCapsuleMinDay + '일 이후부터 선택 가능합니다.',
+    //     context : '',
+    //     templateName : 'contentsEditor',
+    //     returnData : null,
+    //     singleBtn : true,
+    //     btnName : '확인'
+    //   };
+    //
+    //   Session.set('confrim_center', confrimData);
+    //
+    //     $('#mDate').val(global.fn_dateFormat(global.fn_getCalDate(global.fn_dateFormat().YMD, global.timeCapsuleMinDay, 'SUM')).YMD);
+    //   }
+    // }
+  },
+  "click .save":function(e, t){
+    e.preventDefault();
+
+    //데이터 검증
+    if(!$('#title').val().trim()){
+      // alert('제목을 입력해 주세요.');
+      $(".loading").hide();
+      var confrimData = {
+        title : '제목을 입력해 주세요.',
+        context : '',
+        templateName : 'contentsEditorMod',
+        returnData : null,
+        singleBtn : true,
+        btnName : '확인'
+      };
+
+      Session.set('confrim_center', confrimData);
+      return;
+    } else if(!$('#context').val().trim()){
+      // alert('내용을 입력해 주세요.');
+      $(".loading").hide();
+      var confrimData = {
+        title : '내용을 입력해 주세요.',
+        context : '',
+        templateName : 'contentsEditorMod',
+        returnData : null,
+        singleBtn : true,
+        btnName : '확인'
+      };
+
+      Session.set('confrim_center', confrimData);
+      return;
+    }
+
+    //로딩 인디케이터 시작
+    $(".loading").show();
+
+    // 이미지 업로드
+    if(t.imageUploadArray.length > 0){
+      global.fn_upLoadeS3Image(t.imageUploadArray); //추가된 image등록
+
+      var tempArray = [];
+      _.each(t.imageArray, function(item){
+        tempArray.push( _.omit(item, 'data'));
+      });
+      t.imageArray = tempArray;
+    }
+
+    if(t.imageDelArray.length > 0){
+      global.fn_deleteS3Img(t.imageDelArray); //삭제된 image 삭제
+    }
+
+    //태그 분리
+    var contentId = t.contentId;
+    var tagArray = [];
+    if($('#tag').val()){
+      var tagString = $('#tag').val();
+      _.each(tagString.split(','), function(tag){
+        var trimTag = tag.trim();
+        var pureTag = trimTag.replace(/#/gi,"");
+        if(pureTag){
+          tagArray.push(pureTag);
+        }
+      });
+    }
+
+    //줄 바꿈 문자를 기준으로 textarea 문자열을 분리
+    var context = $("#context").val().replace(/ /g, "&nbsp;");
+    var txtBox = document.getElementById("inputbox");
+    var lines = context.split("\n");
+
+    //내용을 HTML 버전으로 변경
+    var resultString  = "<p>";
+    for (var i = 0; i < lines.length; i++) {
+      // if(lines[i].trim()){
+      resultString += lines[i] + "<br>";
+      // }
+    }
+    resultString += "</p>";
+
+
+
+
+    //DB에 저장
+    var data={};
+    if( t.storyData.get().profileEtc){
+      data.profileEtc = t.storyData.get().profileEtc;
+    }
+    var _id = Random.id();
+    switch(t.contentType.get()){
+      case 'LL':
+      //마지막 편지 저장
+      data.userId = Meteor.userId();
+      data.inheritorId = t.extraData.get().inheritorId;
+      data.type = $("#category").val();
+      data.subType = $("#subcategory").val();
+      data.mDate = $('#mDate').val();
+      data.lock = false;
+      data.title = $('#title').val();
+      data.context = resultString;
+      data.images = t.imageArray;
+      data.tagList =  tagArray;
+      data.updateDate = global.fn_dateFormat().HMS;
+      // "bucketId = t.contentType.get() === 'BS' ? Session.get('navData').contentId : '',
+      setLastLetter(t, data);
+      break;
+      case 'BD':
+      data.userId = Meteor.userId();
+      data.type = $("#category").val();
+      data.subType = $("#subcategory").val();
+      data.mDate = $('#mDate').val();
+      data.lock = false;
+      data.title = $('#title').val();
+      data.context = resultString;
+      data.images = t.imageArray;
+      data.tagList =  tagArray;
+      data.updateDate = global.fn_dateFormat().HMS;
+      data.targetId = t.selectedFamily.get();//Session.get('editor_addUserList') ? _.pluck(Session.get('editor_addUserList'), '_id') : [], //자녀, 반려동물 정보 등록 ['_id','_id','_id','_id','_id']
+      setStory(t, contentId, data);
+      break;
+      case 'TC':
+
+      data.userId = Meteor.userId();
+      data.type = $("#category").val();
+      data.subType = $("#subcategory").val();
+      data.mDate = $('#mDate').val();
+      data.lock = false;
+      data.title = $('#title').val();
+      data.context = resultString;
+      data.images = t.imageArray;
+      data.tagList =  tagArray;
+      data.updateDate = global.fn_dateFormat().HMS;
+      data.targetId = Session.get('editor_addUserList') ? _.pluck(Session.get('editor_addUserList'), '_id') : [];
+      data.isOpened = false;
+      data.isSend = true;
+      data.deleted = false;
+      setStory(t, contentId, data);
+
+      //친구타임라인에 타임캡슐 정보 추가해준다.
+      if(data.subType === 'TC0002'){
+        //친구에게 쓸때 친구의 타임라인에도 저장한다.
+        _.each(Session.get('editor_addUserList'), function(item){
+          data.userId = item._id;
+          data.targetId = [Meteor.userId()];
+          data.capsuleId = contentId;
+          data.isSend = false;
+          setStory(t, Random.id(), data);
+        });
+        var friendsIds = _.pluck(Session.get('editor_addUserList'),'_id');
+        Meteor.call("getTokenIds", friendsIds, function(err,res){
+          if(err)console.log(err);
+          if(res && res.length){
+            //fcm전송
+            var sendObj = {
+              tokenId :_.uniq(_.flatten(_.pluck(res, 'fcmToken'))),
+              body : global.fn_getSysMessage('msg0001').message,
+              title : "It's my story",
+              url : global.siteUrl +"/endingNote"
+            };
+            global.sendFcmMessage(sendObj);
+          }
+        });
+      }
+      break;
+      default:
+      //스토리 저장 설정
+      data.userId = Meteor.userId();
+      data.type = $("#category").val();
+      data.subType = $("#subcategory").val();
+      data.mDate = $('#mDate').val();
+      data.lock = t.contentType.get() === 'BS' ? $('#lock')[0].checked : false;
+      data.title = $('#title').val();
+      data.context = resultString;
+      data.images = t.imageArray;
+      data.tagList =  tagArray;
+      data.bucketId = t.contentType.get() === 'BS' ? Session.get('navData').bucketId : '';
+      data.updateDate = global.fn_dateFormat().HMS;
+      setStory(t, contentId, data);
+      break;
+    }
+  },
+  "click #btnDelete":function(e, t){
+    if(_.findWhere(t.imageUploadArray, {fileName : this.fileName})){
+      // console.log('삭제안해도 됨 : ', this.fileName);
+    } else {
+      // console.log('삭제해야됨 : ', this.fileName);
+      t.imageDelArray.push(this);
+    }
+
+    //2. 이후 DB와 화면에 표시될 데이터를 처리한다.
+    t.imageArray = global.fn_removeObjInArr(t.imageArray, 'fileName', this.fileName);
+
+    //3. 업로드 대상일경우 대상에서 제외시킴
+    t.imageUploadArray = global.fn_removeObjInArr(t.imageUploadArray, 'fileName', this.fileName);
+
+    //4.화면 갱신
+    t.imageList.set(t.imageArray);
+  },
+  "focus textarea": function(e, t){
+    if(t.showCamera){
+      t.showCamera=false;
+      // $(".camera-slide").slideUp();
+      $(".camera-slide").hide();
+      $(".content-editor .step2 .pop-top").height(46);
+    }
+  },
+  "click #search":function(e, t){
+    Session.set('editor_search_user_show',true);
+  },
+  "click #delFriend": function(e, t){
+    var tempUsers = [];
+    tempUsers = Session.get('editor_addUserList');
+    tempUsers = global.fn_removeObjInArr(tempUsers, '_id', this._id);
+
+    Session.set('editor_addUserList', tempUsers);
+  },
+  "click #addFamily":function(e,t){
+    var data = {
+      subType : $('#subcategory').val(),
+      isShow:true,
+      data: ''
+    };
+    Session.set('editor_add_family_data',data);
+  },
+  "click #delFamily": function(e,t){
+    if (confirm("선택된 구성원(" +this.name+ ")의 정보가 영구삭제됩니다.\n\n진행하시겠습니까?") === false) {
+      return;
+    }
+
+    Meteor.call('removeFamilyData', Meteor.userId(), this._id, function(error, result){
+      if(error){
+        console.log(error);
+      } else {
+        //목록 갱신
+        //목록 갱신
+        Meteor.call('getFamilyData', Meteor.userId(), $('#subcategory').val(), function(error, result){
+          if(error){
+            console.log(error);
+          } else {
+            Session.set('editor_addUserList', result);
+          }
+        });
+      }
+    });
+  },
+  "click #editFamily": function(e, t){
+    var data = {
+      _id : this._id,
+      name : this.name,
+      birthday : this.birthday,
+      profileImg : this.profileImg,
+      sex : this.sex,
+      subType : $('#subcategory').val(),
+      isShow:true,
+    };
+    Session.set('editor_add_family_data',data);
+  },
+  "click #selectFamily": function(e, t){
+    if(_.contains(t.selectedFamily.get(), this._id)){
+      //제외
+      t.selectedFamily.set(global.fn_removeInArr(t.selectedFamily.get(), this._id));
+    } else {
+      //선택
+      var temp = t.selectedFamily.get()? t.selectedFamily.get() :[];
+      temp.push(this._id);
+      t.selectedFamily.set(temp);
+    }
+  }
+});
+
+Template.contentsEditorMod.helpers({
+  hpDisplayStep1: function(){
+    return Template.instance().displayStep1.get();
+  },
+  hpImageList: function(){
+    return Template.instance().imageList.get();
+  },
+  hpContentType: function() {
+    return Template.instance().contentType.get();
+  },
+  hpExtraData : function() {
+    return Template.instance().extraData.get();
+  },
+  hpStoryData: function(){
+    return Template.instance().storyData.get();
+  },
+  hpConfrimData : function(){
+    return Session.get('confrim_center');
+  },
+  hpSearchShow : function(){
+    return  Session.get('editor_search_user_show');
+  },
+  hpAddFamilyData : function(){
+    return Session.get('editor_add_family_data');
+  },
+  hpSelectedOption : function(){
+    return Template.instance().selectedOption.get();
+  },
+  hpAddUserList : function(){
+    return Session.get('editor_addUserList');
+  },
+  hpProileImgData: function(){
+    return Session.get('addFamily_showProfileImgEditor');
+  },
+  hpSelectedFamily: function(_id){
+    result = '';
+    if(_.contains(Template.instance().selectedFamily.get(), _id))
+    {
+      result = 'selected';
+    }
+    return result;
+  }
+});
+
+//스토리 저장
+function setStory(_instance, _contentId, _contentData){
+  // console.log(setData);
+  Meteor.call('storyUpsert', _contentId, _contentData, function(err, res){
+    if(err){
+      console.log(err);
+    } else {
+
+      //프로파일ETC에 정보수정
+      if(_contentData.profileEtc){
+        Meteor.call('setProfileEtcData', Meteor.userId(), _contentData.profileEtc, _contentData.mDate, function(error, result){
+          if(error){
+            console.log(error);
+            $(".loading").hide();
+          } else {
+            //~~
+          }
+        });
+      }
+
+      var typeCheck = _contentData.type
+      if(typeCheck === 'TC'){
+        typeCheck = 'TC';
+      }
+
+      setTimeout(function () {
+        $(".loading").hide();
+        // Router.go('contentDetail',  {_id: contentId},{replaceState: false});
+        //스크롤 위치를 위해 저장했떤 데이터 삭제
+        Session.set("timelineData",null);
+        Session.set('bucketListData',null);
+        Session.set("bucketListStatus", null);
+        Session.set("scrollPosition", null);
+        
+        Session.set("timelineDataVs",null);
+        Session.set('bucketListDataVs',null);
+        Session.set("bucketListStatusVs", null);
+        Session.set("scrollPositionVs", null);
+
+
+        if(Session.get('navData') && Session.get('navData').prevTemplate && typeCheck !== 'TC'){
+          if(Session.get('navData').pageOwnerId){
+            Router.go('contentDetailVs',  {_id: Session.get('navData').pageOwnerId, contentId:_contentId},{replaceState: false});
+          } else {
+            switch(Session.get('navData').prevTemplate){
+              case 'inheritanceTo':
+                Router.go('inheritanceTo', {},{replaceState: false});
+                break;
+              default:
+                Router.go('contentDetail',  {_id:_contentId},{replaceState: false});
+                break;
+            }
+          }
+        } else {
+          Router.go('endingNote', {},{replaceState: false});
+        }
+
+      }, 2000);
+
+
+    }
+  });
+}
+
+//마지막 편지 저장
+function setLastLetter(_instance, _contentData){
+  Meteor.call('setLastLetter', _contentData, function(error, result){
+    if(error){
+      console.log(error);
+    } else {
+      //상속 화면으로 이동
+      $(".loading").hide();
+      Router.go('inheritanceTo',{},{replaceState: false});
+    }
+  });
+}
+
+Template.contentsEditorMod.onDestroyed(function(){
+  $(".loading").hide();
+  Session.set('editor_addUserList',null); //검색, 등록 화면에서 처리된 결과 넘겨받음;
+});

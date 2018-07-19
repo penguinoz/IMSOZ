@@ -1,0 +1,121 @@
+<template name="lastLetterDetail">
+  {{#with hpLastLetterData}}
+  <div class="contents-detail max768">
+    <!-- 상세 헤더메뉴 -->
+    <div class="detail-header txt-menu">
+      <div class="sticky">
+        <div class="max768">
+          <!-- <div class="wrap {{#unless g_isExist this.titleImage}} black-transparency {{/unless}}"> -->
+          <div class="wrap">
+            <div class="item-list">
+
+              <div class="item cursor-pointer" id="back">
+                <a href="#" class="defaultmouse">
+                  <div class="icon">
+                    <i class="imsm-icon icon-back"></i>
+                  </div>
+                  <p></p>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 상세 내용 -->
+    <div class="detail-body">
+
+      <!-- story 타이틀 -->
+      <div class="dic-summary {{#unless g_isExist this.titleImage}} margin-top-60 {{/unless}}">
+        <div class="context-area">
+          {{#if g_isExist this.titleImage}}
+          <!-- {{#with hpBucketData}} -->
+            <div class="image-area">
+              <figure id="123">
+                <div class="image">
+                  <!-- <a href="#" style="background:url({{this.titleImage}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize"> -->
+                  <a href="#" style="background:url({{g_makeImageSrc this.titleImage ''}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                    <div class="trans-overlay">
+                      <img src="/images/bg/img_frame.png" class="img-frame-shadow" itemprop="thumbnail" alt="">
+                    </div>
+                  </a>
+                </div>
+              </figure>
+            </div>
+            {{/if}}
+          </div>
+
+        <!-- {{/with}} -->
+      </div>
+
+      <!-- 스토리 영역  -->
+      <div class="story">
+        <div class="story-list">
+          <div class="sub-info">
+            {{g_dateFormChange this.mDate 'korYMD'}} {{#if g_isExist this.category}}<span class="category"><strong>{{this.category}}</strong></span>{{/if}}
+          </div>
+          <div class="title txt-title-lg">
+            <div class="quotes">
+              <i class="imsm-icon icon-double-quotes-start"></i>
+            </div>
+            {{this.title}}
+            <div class="quotes">
+              <i class="imsm-icon icon-double-quotes-end"></i>
+            </div>
+
+          </div>
+          <div class="story-summery">
+            <div class="user-profile">
+              <!-- 이미지 파일 -->
+              <div class="profile-img">
+                <!-- <img src="{{g_makeImageSrc this.profileImg  ''}}" alt="image-place"> -->
+                <a id="userProfile" class="dropdown-toggle" href="#" data-toggle="dropdown">
+                  <img src="{{g_makeImageSrc this.profileImg ''}}" alt="image-place">
+                </a>
+                {{> dropdownmenuUser userId=this.userId}}
+              </div>
+
+              <div class="profile-text">
+                <!-- 이름 -->
+                <div class="profile-name txt-bold txt-darker">
+                  {{this.name}}
+                </div>
+              </div>
+            </div>
+            <div class="context-area">
+              <!-- <div class="family-info">
+                {{#each hpFamilyInfo}}
+                <img src="{{g_makeImageSrc this.profileImg ''}}" alt="">
+                {{/each}}
+              </div> -->
+              <div class="content">
+                {{{this.context}}}
+              </div>
+            </div>
+            {{#each this.images}}
+              <div class="image-area">
+                <figure id="123">
+                  <div class="image">
+                    <!-- {{hpBucketData.dic.imageUrl}} -->
+                    <a href="#" style="background:url({{g_makeImageSrc this ''}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                      <div class="trans-overlay">
+                        <img src="/images/bg/img_frame.png" class="img-frame-shadow" itemprop="thumbnail" alt="">
+                      </div>
+                    </a>
+                  </div>
+                </figure>
+              </div>
+              {{/each}}
+              <div class="tag-area txt-title color-default">
+                {{#each this.tagList}}
+                  <span class="tag">#{{this}} </span>
+                {{/each}}
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/with}}
+</template>

@@ -1,0 +1,149 @@
+<template name="myInfo">
+  {{#with hpMyinfoData}}
+  <div class="myInfo txt-center">
+      <div class="profile">
+        <div class="profile-img">
+          <img src="{{g_makeImageSrc this.profileImg ''}}" alt="image-place" data-modal-template="editProfileImage">
+          <div class="edit-img cursor-pointer">
+            <div class="icon">
+              <i class="imsm-icon icon-my"></i>
+            </div>
+          </div>
+        </div>
+        <div class="info">
+          <div class="title">
+            {{this.userName}}
+          </div>
+          <div class="context">
+            {{this.userId}}
+          </div>
+        </div>
+      </div>
+
+      <div class="item-row">
+        <div class="editpage-nametag">소개글</div>
+        <div class="main-input introduction txt-readonly" id="introTextDiv">
+          <input type="text" id="introText" value="{{introduction}}"/>
+        </div>
+        <div style="width:79.5%" class="main-input introduction my-info-edit hidden" id="introTextDivEdit">
+          <div>
+            <input style="height:50px;" type="text" id="introTextEdit" value="{{introduction}}"/>
+            <br><br>
+            <div class="btn-bottom myinfo-savebtn-div">
+              <div class="txt-sub-title myinfo-btn" id="saveIntroText">저장</div>
+              <div class="txt-sub-title myinfo-btn editCloss" id="closeEdit">닫기</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{#unless isSocialServices}}
+      <div class="item-row" id="passwordAre">
+        <div class="editpage-nametag">비밀번호</div>
+        <div class="main-input password txt-readonly" id="passwordDiv">
+          비밀번호 변경
+        </div>
+        <div class="main-input password my-info-edit hidden" id="passwordDivEdit">
+          <div>
+            <input style="width:100%; height:25px" type="password" id="passworEdit" placeholder="변경 비밀번호"/>
+            <input style="width:100%; height:25px" type="password" id="passworEditCheck" placeholder="변경 비밀번호 확인"/>
+            <br><br>
+            <div class="btn-bottom myinfo-savebtn-div">
+              <div class="txt-sub-title myinfo-btn" id="savePassword">저장</div>
+              <div class="txt-sub-title myinfo-btn editCloss" id="closeEdit">닫기</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/unless}}
+      <div class="item-row">
+        <div class="editpage-nametag">닉네임</div>
+        <div class="main-input nickName txt-readonly" id="nickNameDiv">
+          <input type="text" id="userNickName" value="{{nickName}}" readonly/>
+        </div>
+        <div class="main-input nickName my-info-edit hidden" id="nickNameDivEdit">
+          <div>
+            <input style="width:100%; height:25px" type="text" id="nickNamelValue" value="{{nickName}}" readonly/><br>
+            <input style="width:100%; height:25px" type="text" id="nickNameEdit" value="" placeholder="변경하실 닉네임을 작성해 주세요."/>
+            <br><br>
+            <div class="btn-bottom myinfo-savebtn-div">
+              <div class="txt-sub-title myinfo-btn" id="saveNickNameInfo">저장</div>
+              <div class="txt-sub-title myinfo-btn editCloss" id="closeEdit">닫기</div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+      <!-- <div class="item-row">
+        <div class="main-input password">
+          <input type="password" placeholder="새로운 비밀번호 재입력" id="passwordConfirm" />
+        </div>
+      </div> -->
+      <div class="item-row">
+        <div class="editpage-nametag">휴대폰</div>
+        <div class="main-input phone txt-readonly" id="phoneDiv">
+          <input type="text" id="phone" value="{{phone}}" readonly/>
+        </div>
+        <div class="main-input phone my-info-edit hidden" id="phoneDivEdit">
+          <div>
+            <div style="display:flex">
+              <input  type="text" id="phoneEdit" placeholder="인증받을 휴대폰 번호를 입력" value="" />
+              <span style="width:50%" id="checkPhoneAuth" class="cursor-pointer">인증 요청</span>
+            </div>
+            <input style="height:40px" type="text" id="phoneAuthCode" placeholder="인증번호" />
+            <br>
+            <br>
+            <div class="btn-bottom myinfo-savebtn-div">
+              <div class="txt-sub-title myinfo-btn" id="phoneEditSave">저장</div>
+              <div class="txt-sub-title myinfo-btn editCloss" id="closeEdit">닫기</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="editpage-nametag">이메일</div>
+        <div class="main-input email txt-readonly" id="emailDiv">
+          <input type="text" id="email" value="{{email}}" readonly/>
+        </div>
+        <div class="main-input email my-info-edit hidden" id="emailDivEdit">
+          <div>
+            <input style="width:100%; height:25px" type="text" id="emailValue" value="{{email}}" readonly/><br>
+            <input style="width:100%; height:25px" type="text" id="emailEdit" value="" placeholder="변경하실 이메일을 작성해 주세요."/>
+            <br><br>
+            <div class="btn-bottom myinfo-savebtn-div">
+              <div class="txt-sub-title myinfo-btn" id="saveEmailInfo">저장</div>
+              <div class="txt-sub-title myinfo-btn editCloss" id="closeEdit">닫기</div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="item-row">
+        <div class="editpage-nametag">생년월일</div>
+        <div class="main-input birth-day  txt-readonly" id="birthDayDiv">
+          <input type="text" id="birthDay" value="{{birthDay}}" readonly/>
+        </div>
+        <div class="main-input birthDay my-info-edit hidden" id="birthDayDivEdit">
+          <div>
+            <input style="width:100%; height:25px" type="text" id="birthDayValue" value="{{birthDay}}" readonly/><br>
+            변경할 생년월일을 선택하세요.
+            <!-- <input type="date" data-date="" data-date-format="DD MMMM YYYY" value="{{birthDay}}" id="birthDayEdit"> -->
+            {{> anyDatePicker date=birthDay }}
+            <br><br>
+            <div class="btn-bottom myinfo-savebtn-div">
+              <div class="txt-sub-title myinfo-btn" id="saveBirthDayInfo">저장</div>
+              <div class="txt-sub-title myinfo-btn editCloss" id="closeEdit">닫기</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- <div class="item-row cursor-pointer" style="    border: 1px solid #eaeaea;    padding: 19px;    background: #e1e1e1;" id="logout">
+        <div class="logout" >
+          로그아웃
+        </div>
+      </div> -->
+  </div>
+  {{/with}}
+</template>

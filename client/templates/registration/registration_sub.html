@@ -1,0 +1,78 @@
+<template name="registrationSub">
+  <div class="registration sub max768">
+    <div class="detail-header">
+      <div class="">
+        <div class="max768">
+          <div class="wrap">
+            <div class="item-list">
+
+              <div class="item cursor-pointer back">
+                <a href="#" class="defaultmouse back">
+                  <div class="icon">
+                    <i class="imsm-icon icon-close"></i>
+                  </div>
+                </a>
+              </div>
+
+              <div class="item">
+                <div class="title txt-sub-title">
+                  회원가입
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-body">
+      <div class="item-row">
+        <div class="main-input name">
+          <span>이름</span>
+          <input type="text" placeholder="이름을 입력하세요" id="userName" />
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="main-input nickName">
+          <span>닉네임</span>
+          <input type="text" placeholder="별명을 입력하세요" id="userNickName" />
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="main-input email">
+          <span>이메일</span>
+          <input type="text" placeholder="이메일을 입력하세요" id="email"/>
+        </div>
+      </div>
+
+      <div class="item-row">
+        <!-- <div class="input-group"> -->
+
+          <div class="main-input sex" >
+            <span>성별</span>
+              <input type="radio" name="sex" checked="checked" value="남" /> <span>남</span>
+              <input type="radio" name="sex" value="여" /> <span>여</span>
+            <!-- <input type="text" placeholder="남/여" id="sex"/> -->
+          </div>
+
+        <!-- </div> -->
+      </div>
+      <div class="item-row">
+        <div class="main-input birth">
+          <span>생일</span>
+          <input type="date" data-date="" data-date-format="DD MMMM YYYY" value="1990-01-01" id="birthDay">
+        </div>
+      </div>
+      <!-- <div class="item-row">
+        <div class="main-checkbox birth" >
+          <input type="checkbox" id="secureCheck"/> <span>이용약관 동의 / 정보수집 및 이용동의</span>
+        </div>
+      </div> -->
+
+
+      <div class="main-button finished cursor-pointer" id="registSubMenu">
+        회원가입
+      </div>
+    </div>
+  </div>
+</template>

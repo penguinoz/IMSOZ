@@ -1,0 +1,147 @@
+<template name="contentsEditorBucket">
+  <div class="fake-div"></div>
+  <div class="content-editor bucket">
+    <div class="step2 max768">
+      <div class="detail-header txt-menu">
+        <div class="sticky">
+          <div class="max768">
+            <div class="wrap">
+              <div class="item-list">
+
+                <div class="item cursor-pointer">
+                  <a href="#" class="back-step" id="back">
+                    <div class="icon cursor-pointer">
+                      <i class="imsm-icon icon-back"></i>
+                    </div>
+                  </a>
+                </div>
+                <div class="item title">
+                  버킷리스트 쓰기
+                </div>
+                <div class="item cursor-pointer save">
+                  저장
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="sticky">
+          <div class="max768">
+            <div class="wrap">
+              <!-- 카테고리입력 -->
+              <div class="item-row date-row">
+                <div class="item date-label">
+                  카테고리
+                </div>
+                <div class="item date">
+                  <select class="selectpicker ml10" data-width="75px" name="lockOp" id="category" title="카테고리를 선택해주세요." required>
+                    {{#each hpCodeList}}
+                      <option value="{{code}}">{{name}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+              </div>
+
+              <!-- 날짜입력 -->
+              <!-- <div class="item-row date-row">
+                <div class="item date-label">
+                  {{hpDateTitle}}
+                </div>
+                <div class="item date">
+                  <input type="date" data-date="" data-date-format="DD MMMM YYYY" id="mDate">
+                </div>
+              </div> -->
+
+              <!-- 제목 -->
+              <div class="item-row">
+                <div class="main-input title" >
+                    <input type="text" id="title" value="" placeholder="제목"/>
+                </div>
+              </div>
+
+              <!-- 내용 -->
+              <div class="item-row">
+                <div class="main-input context" >
+                    <textarea name="Text1" placeholder="버킷리스트 작성" id="context" value=""></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-bottom">
+        <div class="max768">
+          <div class="tag-and-image">
+            <div class="prevent over-pop">
+              <div class="max768">
+                <div class=slide-anime>
+
+                  <div class="pop-top" style="{{#if hpShowCamera}}height:121px;{{/if}}">
+                    <div class="tag-area">
+                      <div class="main-input" >
+                        <input type="text" placeholder="#태그 ' , '로 구분하여 입력" id="tag"/>
+                      </div>
+                    </div>
+                    <div class="slide">
+
+                    {{#if hpShowCamera}}
+                      <!-- 추가된 사진 이미지 목록 -->
+                      <div class="camera-slide">
+                        <div class="item">
+                          <input type="file" name="attachment[]" multiple="multiple" accept="image/*" style="display: none;" id="addImage"/>
+                          <a href="javascript:document.getElementById('addImage').click();" class="" id="addherf">
+                            <div class="btn-add-img">
+                              <i class="imsm-icon icon-plus"></i>
+                            </div>
+                          </a>
+                        </div>
+                        {{#each hpImageList}}
+                          <div class="item">
+                            <div class="img-wrap">
+                              <!-- <a href="{{g_getThumbUri this.data}}" download="aaaaa"> -->
+                                <img src="{{g_getThumbUri this.data}}" alt="image-place" data-modal-template="editProfileImage" class="{{this.imageClass}}">
+                              <!-- </a> -->
+                            </div>
+                            <div class="icon cursor-pointer" id="btnDelete">
+                              <i class="imsm-icon icon-close-thin"></i>
+                            </div>
+                          </div>
+                        {{/each}}
+                      </div>
+                    {{/if}}
+                    </div>
+                  </div>
+
+                  <div class="pop-bottom">
+                    <div class="bottom-menu">
+                      <div  class="btn-camera {{#if hpShowCamera}} selected {{/if}}">
+                        <div class="input-article icon cursor-pointer-style">
+                          <a href="" class="">
+                            <i class="imsm-icon icon-camera"></i>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="btn-lock">
+                        <div class="toggle" style="font-size: 15px; color: #00c5bc;">
+                          전체공개
+                          <label class="switch">
+                            <input type="checkbox" id="lock">
+                            <div class="slider round"></div>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- detail-bottom -->
+    </div>
+  </div>
+</template>

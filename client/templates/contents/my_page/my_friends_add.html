@@ -1,0 +1,40 @@
+<template name="myFriendsAdd">
+  {{#with hpAddUserInfo}}
+  <div class="max768">
+    <div>
+      <div class="prevent over-pop display-none">
+        <div class="max768">
+          <div class=slide-anime>
+            <div class="pop-top">
+              <div class="main-button cursor-pointer">
+                <div class="info">
+                  <div class="profile-img">
+                    <img src="{{this.profileImg}}" alt="image-place" data-modal-template="editProfileImage">
+                  </div>
+                  <div class="context">
+                    {{this.nickName}}
+                  </div>
+                  <div class="title">
+                    친구추가를 하시겠습니까?
+                  </div>
+                </div>
+                <div class="btn-title btn-confirm">예</div>
+              </div>
+            </div>
+            <div class="pop-bottom">
+              <div class="main-button cursor-pointer">
+                <div class="btn-title btn-cancel">
+                  아니요
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/with}}
+  <div class="black-over" id="modal" data-backdrop="static" aria-hidden="false" style=""></div>
+</template>

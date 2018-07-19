@@ -1,0 +1,92 @@
+<template name="timelineTemplate03">
+  <!-- 버킷리스트 -->
+    <!-- 아이콘 -->
+    <div class="icon">
+      <!-- <i class="imsm-icon {{icon}}"></i> -->
+      <img src="/images/icon/timeline/{{icon}}" alt="">
+    </div>
+    {{#if isShared}}
+    <div class="icon lock">
+      <img src="/images/icon/timeline/shared.svg" alt="">
+    </div>
+    {{/if}}
+    {{#if lock}}
+    <div class="icon lock">
+      <img src="/images/icon/timeline/lock.svg" alt="">
+    </div>
+    {{/if}}
+
+    <!-- template_content 영역 -->
+    <div class="content">
+      <!-- <div id="titleTag" class="txt-sub-title ellipsis-singleline">버킷리스트
+        {{#if isCompleted}}
+          <span class="color-green">"{{g_getCodeName 'subject' subType}}"</span> 성공 !!
+        {{else}}
+          <span class="color-green">{{g_getCodeName 'subject' subType}}</span> 시작 !!
+        {{/if}}
+      </div>
+      <div class="timeline-context ellipsis-singleline txt-bold">{{title}}</div> -->
+      <!-- <div class="gallery">
+
+          <figure class="cursor-pointer">
+            <div class="list-img">
+              <a href="#" style="background:url({{g_makeImageSrc image 'thumb'}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                <div class="trans-overlay">
+                  <img src="/images/bg/shadow_cover.png" class="img-frame-shadow" itemprop="thumbnail" alt="">
+                </div>
+              </a>
+              <div class="overlay-contents">
+                {{#if isCompleted}}
+                <div class="completed color-lemon">
+                  <div class="icon">
+                    <i class="imsm-icon icon-crown"></i>
+                  </div>
+                  <div class="complete-txt">
+                    나 이거 했어!
+                  </div>
+                </div>
+                {{/if}}
+              </div>
+            </div>
+          </figure>
+      </div> -->
+      <div class="thumbnail-wrapper">
+        <figure class="thumbnail">
+          <div class="image">
+            {{#if g_isExist image}}
+              <a href="#" style="background:url({{g_makeImageSrc image ''}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                <div class="trans-overlay">
+                  <!-- <img src="{{#if isCompleted}}/images/bg/shadow_cover.png{{else}}/images/bg/img_frame.png{{/if}}" class="img-frame-shadow" itemprop="thumbnail" alt=""  id="imageTag"> -->
+                  <img src="/images/bg/shadow_cover.png" class="img-frame-shadow" itemprop="thumbnail" alt=""  id="imageTag">
+                </div>
+              </a>
+              <!-- <img id="imageTag" class="width-100" src="{{g_makeImageSrc image 'thumb'}}" alt="" > -->
+            {{/if}}
+          </div>
+          <!-- {{#if isCompleted}} -->
+          <div class="title">
+            <!-- <div class="icon">
+            </div> -->
+            {{#if isCompleted}}
+              <div class="completed title-txt txt-sub-title color-white">
+                  <div><i class="imsm-icon icon-crown color-lemon"></i></div>
+                  {{title}}
+              </div>
+            {{else}}
+              <div class="title-txt txt-sub-title color-white">{{title}}</div>
+            {{/if}}
+          </div>
+          <!-- {{/if}} -->
+        </figure>
+      </div>
+      <!-- <div class="timeline-context ellipsis-singleline txt-bold">{{title}}</div> -->
+      {{#if isCompleted}}
+        <div class="timeline-context ellipsis-singleline color-green">[{{g_getCodeName 'bucket' category}}] <span class="color-black">나 이거 했어!!</span> </div>
+        <!-- <div class="timeline-context ellipsis-singleline">따라한지 {{g_getDateRange followDate mDate}} 만에 성공</div> -->
+        <div class="timeline-context ellipsis-singleline">버킷리스트 <span class="color-green">{{g_getDateRange followDate mDate}}</span> 만에 {{completeOrder}}번째 <span class="color-green">성공</span></div>
+      {{else}}
+      <div class="timeline-context ellipsis-singleline color-green">[{{g_getCodeName 'bucket' category}}] <span class="color-black">버킷리스트 시작</span></div>
+        <div class="timeline-context ellipsis-singleline">시작한지 {{g_getDateRange regDate ''}}</div>
+      {{/if}}
+    </div>
+</template>

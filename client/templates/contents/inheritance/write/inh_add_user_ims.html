@@ -1,0 +1,59 @@
+<template name="inhAddUserIms">
+  <div class="user-list">
+    <div class="search-user">
+      <div class="roundtype-input">
+        <div class="round-radius">
+          <div class="type-input">
+            <input type="text" placeholder="이름 혹은 ID를 입력" id="searchWord"/>
+          </div>
+          <div class="btn-save">
+            <a href="#" class="" id="searchFrdList">
+              <i class="imsm-icon icon-search"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="search-list">
+      {{#each hpSearchResult}}
+        {{#unless type}}
+        <div class="user-profile-list">
+          <!-- 이미지 파일 -->
+          <div class="profile-img">
+            <img src="{{g_makeImageSrc profile.profileImg ''}}" alt="image-place" data-modal-template="editProfileImage">
+          </div>
+
+
+          <div class="profile-text">
+            <!-- 이름 -->
+            <div class="profile-name">
+              {{profile.name}}
+            </div>
+            <!-- 아이디 -->
+            <div class="profile-sub">
+              {{username}}
+            </div>
+          </div>
+          <div class="btn-select  round-radius {{#if hpSelect @index}} selected {{/if}}" id={{@index}}>
+            <div class="right">
+              선택
+            </div>
+          </div>
+        </div>
+        {{/unless}}
+      {{/each}}
+    </div>
+    <div>
+      <div class="btn-bottom">
+        <div class="sticky-bottom">
+          <div class="max768">
+            <div class="txt-sub-title">
+              다음
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</template>

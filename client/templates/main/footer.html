@@ -1,0 +1,58 @@
+<template name="footer">
+  <div class="footer max768">
+    <div class="">
+      <div class="max768">
+        <div class="wrap">
+          <div class="tab-menu">
+            <div class="menu service" id="endingNote">
+              <a herf="#" class="{{#if hpSelected 'endingNote'}}selected{{/if}}">
+                <!-- {{#if hpSelected 'endingNote'}}
+                  <span class="selected-menu">엔딩노트</span>
+                {{else}} -->
+                  <i class="imsm-icon icon-book"></i>
+                  <p style="padding-left: 8px;">엔딩노트</p>
+                <!-- {{/if}} -->
+              </a>
+            </div>
+            {{#if isMine}}
+              <div class="menu service" id="bucketList" style="font-size:33px; margin-top: -10px;">
+                <a herf="#" class="{{#if hpSelected 'bucketList'}}selected{{/if}}">
+                    <!-- {{#if hpSelected 'bucketList'}}
+                      <span class="selected-menu">버킷리스트</span>
+                    {{else}} -->
+                      <i class="imsm-icon icon-menu-bucket"></i>
+                      <p>버킷리스트</p>
+                    <!-- {{/if}} -->
+                </a>
+              </div>
+              <div class="menu service"  id="inheritance">
+                <a herf="#" class="{{#if hpSelected 'inheritance'}}selected{{/if}}">
+                  <!-- {{#if hpSelected 'inheritance'}}
+                    <span class="selected-menu">상속</span>
+                  {{else}} -->
+                    <i class="imsm-icon icon-present"></i>
+                    <p>상속</p>
+                  <!-- {{/if}} -->
+                </a>
+              </div>
+            {{/if}}
+            <!-- 출판은 추후 진행 -->
+            <!-- <div class="">
+              <a herf="#" id="makeBook" class="{{#if hpSelected 'makeBook'}}selected{{/if}}">
+                <strong>
+                  <i class="imsm-icon icon-document"></i>
+                </strong>
+              </a>
+            </div> -->
+            <div class="menu" id="my" >
+              <a herf="#" class="{{#if hpSelected 'my'}}selected{{/if}}">
+                  <i class="imsm-icon icon-dot-3"></i>
+                  <p>설정</p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

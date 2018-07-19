@@ -1,0 +1,81 @@
+<template name="addFamily">
+
+    <div class="add-family max768">
+      <div class="detail-header txt-menu">
+        <div class="sticky">
+          <div class="max768">
+            <div class="wrap">
+              <div class="item-list">
+                <div class="item cursor-pointer" id="backAddFamily">
+                  <a href="#" class="defaultmouse">
+                    <div class="icon">
+                      <i class="imsm-icon icon-back"></i>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div class="detail-body sub">
+      <div class="profile">
+        <div class="profile-img">
+          <img src="{{g_makeImageSrc hpProfileImage ''}}" alt="image-place" data-modal-template="editProfileImage">
+          <div class="edit-img cursor-pointer">
+            <div class="icon">
+              <i class="imsm-icon icon-my"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="main-input name">
+          <span>이름</span>
+          <input type="text" placeholder="이름을 입력하세요" id="userName" />
+        </div>
+      </div>
+      <!-- <div class="item-row">
+        <div class="input-group">
+          <div class="main-input sex" >
+            <span>성별</span>
+              <input type="radio" name="sex" checked="checked" value="남" id="male"/> <span>남</span>
+              <input type="radio" name="sex" value="여" id="female"/> <span>여</span>
+          </div>
+          <div class="main-input birth">
+            <span>생일</span>
+            <input type="date" data-date="" data-date-format="DD MMMM YYYY" value="1990-01-01" id="birthDay">
+          </div>
+        </div>
+      </div> -->
+      <div class="item-row">
+        <div class="main-input sex" >
+          <span>성별</span>
+            <input type="radio" name="sex" checked="checked" value="남" id="male"/> <span>남</span>
+            <input type="radio" name="sex" value="여" id="female"/> <span>여</span>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="main-input birth">
+          <span>생일</span>
+          <!-- <input type="date" data-date="" data-date-format="DD MMMM YYYY" value="1990-01-01" id="birthDay"> -->
+          {{> anyDatePicker date=hpBirthDay }}
+        </div>
+      </div>
+
+      <div>
+        <div class="btn-bottom cursor-pointer" id="save">
+          <div class="sticky-bottom">
+            <div class="max768">
+              <div class="txt-sub-title">
+                저장
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</template>

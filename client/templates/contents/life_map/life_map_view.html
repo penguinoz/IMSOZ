@@ -1,0 +1,89 @@
+<template name="lifeMapView">
+  <div class="lifeMap contents-detail max768" id="lifeMapPage">
+    <div class="content-editor">
+      <!-- 라이프맵 생성 화면 -->
+      <div class="detail-header txt-menu">
+        <div class="sticky">
+          <div class="max768">
+            <div class="wrap">
+              <div class="item-list">
+
+                <div class="item">
+                  <a href="#" class="back" id="back">
+                    <div class="icon cursor-pointer color-black">
+                      <i class="imsm-icon icon-close-thin"></i> 라이프 맵
+                    </div>
+                  </a>
+                </div>
+                <div class="item">
+                  {{#if hpShowDownLoadMap}}
+                    {{#unless hpIsVisit}}
+                      <a href="#" class="defaultmouse" id="save">
+                        <div class="icon">
+                          <i class="imsm-icon icon-save-map"></i>
+                        </div>
+                        <p></p>
+                      </a>
+                    {{/unless}}
+                  {{/if}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-body step2 color-black">
+        <div class="max768">
+          <div class="info">
+
+            {{#with hpProfileData}}
+            <div class="profile">
+              <img src="{{g_makeImageSrc profileImg ''}}" alt="image-place" data-modal-template="editProfileImage">
+              <div class="title">
+                It's my story
+              </div>
+              <div class="text">
+                {{name}}님의 라이프맵입니다.
+              </div>
+            </div>
+            {{/with}}
+
+          </div>
+          <div class="map-area">
+            <table>
+              {{#each hpMapData}}
+              <tr>
+                {{#each this}}
+                  <td class="{{class}}" rowspan="{{rowspan}}">
+                    <div class="map-content" id="{{contentId}}">
+                      <div class="image">
+                        <img src="{{image}}"/>
+                      </div>
+                      <div class="line">
+                        <img src="{{lineImage}}"/>
+                      </div>
+                      <div class="date">
+                        {{{mDate}}}
+                      </div>
+                      <div class="keyword">
+                        {{keyword}}
+                      </div>
+                    </div>
+                  </td>
+                  {{/each}}
+              </tr>
+              {{/each}}
+            </table>
+          </div>
+          <div class="image">
+            <img src="/images/bg/book.svg" alt="">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  {{#if hpOpenCapsuleConfirmData}}
+    {{> timecapsuleOpenConfirm hpOpenCapsuleConfirmData}}
+  {{/if}}
+</template>

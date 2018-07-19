@@ -1,0 +1,106 @@
+<template name="bucketListEditor">
+
+  <div class="fake-div"></div>
+  <div class="content-editor">
+    <div class="step1 max768">
+      <div class="detail-header txt-menu">
+        <div class="sticky">
+          <div class="max768">
+            <div class="wrap">
+              <div class="item-list">
+
+                <div class="item">
+                  <a href="#" class="back" id="back">
+                    <div class="icon cursor-pointer">
+                      <i class="imsm-icon icon-close-thin"></i>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="item-row">
+          <div class="item">
+            카테고리
+          </div>
+          <div class="item">
+            <select class="selectpicker ml10" data-width="75px" name="lockOp" id="category" title="카테고리를 선택해주세요." required>
+              {{#with hpCodeType}}
+                {{#each g_getCodeList this}}
+                  <option value="{{code}}">{{name}}</option>
+                {{/each}}
+              {{/with}}
+            </select>
+          </div>
+        </div>
+        <div class="item-row">
+          <div class="main-input title"  style="width: 100%;">
+              <input type="text" placeholder="제목" id="title"/>
+          </div>
+        </div>
+
+        <div class="item-row">
+          <div class="item">
+            대표이미지
+          </div>
+          {{#each hpImageList}}
+            <div class="item">
+              <div class="img-wrap">
+                <a href="{{g_getThumbUri this.data}}" download="aaaaa">
+                  <img src="{{g_getThumbUri this.data}}" alt="image-place" data-modal-template="editProfileImage" class="{{this.imageClass}}">
+                </a>
+              </div>
+              <div class="icon cursor-pointer" id="btnDelete">
+                <i class="imsm-icon icon-close-thin"></i>
+              </div>
+            </div>
+          {{/each}}
+          <div class="item">
+            <input type="file" name="attachment[]" multiple="multiple" accept="image/*" style="display: none;" id="addImage"/>
+            <a href="javascript:document.getElementById('addImage').click();" class="">
+              <div class="btn-add-img">
+                <i class="imsm-icon icon-plus"> </i> 파일추가
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="item-row" style="display: flex;">
+          <div class="editor-content" style="width: 100%;">
+            {{> froalaReactive hpGetContext }}
+          </div>
+        </div>
+        <div class="item-row">
+          <div class="tag-area"  style="width: 100%;">
+            <div class="main-input" >
+              <input type="text" placeholder="#태그 ' , '로 구분하여 입력" id="tag"/>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+      <!-- btn-group -->
+      <div class="fix-btnset">
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+          <div class="btn-group" role="group">
+            <a hreg="#" class="btn btn-primary btn-lg btn-block btn-cancle" id='cancelWriteMe' role="button">취소</a>
+          </div>
+          <div class="btn-group" role="group">
+            <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="saveTemp" role="button"><span class="imsr-icon icon-me0038"></span>임시저장</a>
+          </div>
+          <div class="btn-group" role="group">
+            <a hreg="#" class="btn btn-primary btn-lg btn-block btn-confirm" id="saveWriteMe" role="button"><span class="imsr-icon icon-me0038"></span>저장</a>
+          </div>
+        </div>
+      </div>
+      <!-- //btn-group -->
+    </div>
+
+</template>

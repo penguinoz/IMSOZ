@@ -1,0 +1,265 @@
+<template name="contentDetailVs">
+  {{#with hpStoryData}}
+  <div class="contents-detail max768">
+    <!-- 상세 헤더메뉴 -->
+    <div class="detail-header txt-menu">
+      <div class="sticky">
+        <div class="max768">
+          <!-- <div class="wrap {{#unless g_isExist this.titleImage}} black-transparency {{/unless}}"> -->
+          <div class="wrap">
+            <div class="item-list">
+
+              <div class="item cursor-pointer" id="back">
+                <a href="#" class="defaultmouse">
+                  <div class="icon">
+                    <i class="imsm-icon icon-back"></i>
+                  </div>
+                  <p></p>
+                </a>
+              </div>
+              <div class="item">
+                <a href="#" class="defaultmouse" id="home">
+                  <div class="icon">
+                    <i class="imsm-icon icon-home"></i>
+                  </div>
+                  <p></p>
+                </a>
+              </div>
+
+              {{#if g_isLogined}}
+                {{#if g_isEqual g_isLogined this.userId}}
+                <div class="item">
+                  <a href="#" class="defaultmouse" id="removeStory">
+                    <div class="icon">
+                      <i class="imsm-icon icon-trash-can"></i>
+                    </div>
+                    <p></p>
+                  </a>
+                </div>
+                {{/if}}
+              {{/if}}
+              <div class="item">
+                <a href="#" class="defaultmouse" id="moveComment">
+                  <div class="icon">
+                    <i class="imsm-icon icon-comment"></i>
+                  </div>
+                  <p></p>
+                </a>
+              </div>
+              <div class="item">
+                <a href="#" class="defaultmouse" id="like">
+                  <div class="icon">
+                      <i class="imsm-icon {{#if hpIsLiked}}icon-heart-fill color-red{{else}}icon-heart-line{{/if}}"></i>
+                  </div>
+                  <p></p>
+                </a>
+              </div>
+              {{#if g_isLogined}}
+                {{#if g_isEqual g_isLogined this.userId}}
+                <div class="item">
+                  <a href="#" class="defaultmouse" id="editStory">
+                    <div class="icon">
+                      <i class="imsm-icon icon-pen"></i>
+                    </div>
+                    <p></p>
+                  </a>
+                </div>
+                {{/if}}
+              {{/if}}
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 상세 내용 -->
+    <div class="detail-body">
+
+      <!-- story 타이틀 -->
+      <div class="dic-summary {{#unless g_isExist this.titleImage}} margin-top-60 {{/unless}}">
+        <div class="context-area">
+          {{#if g_isExist this.titleImage}}
+          <!-- {{#with hpBucketData}} -->
+            <div class="image-area">
+              <figure id="123">
+                <div class="image">
+                  <!-- <a href="#" style="background:url({{this.titleImage}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize"> -->
+                  <a href="#" style="background:url({{g_makeImageSrc this.titleImage ''}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                    <div class="trans-overlay">
+                      <img src="/images/bg/img_frame.png" class="img-frame-shadow" itemprop="thumbnail" alt="">
+                    </div>
+                  </a>
+                </div>
+              </figure>
+            </div>
+            {{/if}}
+          </div>
+
+        <!-- {{/with}} -->
+      </div>
+
+      <!-- 스토리 영역  -->
+      <div class="story">
+        <div class="story-list">
+          <div class="sub-info">
+            {{g_dateFormChange this.mDate 'korYMD'}} {{#if g_isExist this.category}}<span class="category"><strong>{{this.category}}</strong></span>{{/if}}
+          </div>
+          <div class="title txt-title-lg">
+            <div class="quotes">
+              <i class="imsm-icon icon-double-quotes-start"></i>
+            </div>
+            {{this.title}}
+            <div class="quotes">
+              <i class="imsm-icon icon-double-quotes-end"></i>
+            </div>
+
+          </div>
+          <div class="story-summery">
+            <div class="user-profile">
+              <!-- 이미지 파일 -->
+              <div class="profile-img">
+                <img src="{{g_makeImageSrc this.profileImg  ''}}" alt="image-place" data-modal-template="editProfileImage">
+              </div>
+
+              <div class="profile-text">
+                <!-- 이름 -->
+                <div class="profile-name txt-bold txt-darker">
+                  {{#unless g_isEqual this.type 'BS'}}
+                    {{this.name}}
+                    {{else}}
+                    {{this.nickName}}
+                  {{/unless}}
+                </div>
+              </div>
+            </div>
+            <div class="context-area">
+              <div class="content">
+                {{{this.context}}}
+              </div>
+            </div>
+            {{#each this.images}}
+              <div class="image-area">
+                <figure id="123">
+                  <div class="image">
+                    <!-- {{hpBucketData.dic.imageUrl}} -->
+                    <a href="#" style="background:url({{g_makeImageSrc this ''}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                      <div class="trans-overlay">
+                        <img src="/images/bg/img_frame.png" class="img-frame-shadow" itemprop="thumbnail" alt="">
+                      </div>
+                    </a>
+                  </div>
+                </figure>
+              </div>
+              {{/each}}
+              <div class="tag-area txt-title color-default">
+                {{#each this.tagList}}
+                  <span class="tag">#{{this}} </span>
+                {{/each}}
+              </div>
+          </div>
+        </div>
+
+        <div class="sub-info">
+
+          <a href="#" class="cursor-default" id="likeCnt">
+            좋아요 <span><strong>{{hpLikeData.length}} </strong></span>
+          </a>
+          <a href="#" class="cursor-default" id="commentCnt">
+            댓글 <span><strong>{{hpCommentData.length}}</strong></span>
+          </a>
+        </div>
+      </div>
+      <!-- story end -->
+      <!-- 댓글리스트 -->
+      <!-- {{#if hpIsEmpty hpCommentData}} -->
+      {{#with hpCommentData}}
+      <div class="comment-list-area" data-target="#reples">
+        {{#each this}}
+        <div class="comment-list">
+          <div class="comment-item">
+            <!-- 이미지 파일 -->
+            <div class="profile-img">
+              <img src="{{g_makeImageSrc profileImg ''}}" alt="image-place" data-modal-template="editProfileImage">
+            </div>
+
+            <div class="profile-text">
+              <!-- 이름 -->
+              <div class="profile-name txt-bold txt-darker">
+                {{#unless g_isEqual hpStoryData.type 'BS'}}
+                  {{userName}}
+                  {{else}}
+                  {{nickName}}
+                {{/unless}}
+                <span>{{regDate}}</span>
+              </div>
+
+              <!-- 댓글 -->
+              <div class="profile-sub ellipsis-singleline">
+                {{comment}}
+              </div>
+            </div>
+
+            <!-- 댓글 관리 -->
+            {{#if g_isLogined}}
+              {{#if g_isEqual userId g_isLogined}}
+                <div class="comment-control cursor-pointer">
+                  <i class="imsm-icon icon-down"></i>
+                </div>
+              {{/if}}
+            {{/if}}
+          </div>
+        </div>
+        {{/each}}
+        <!-- 스크롤이동용 가짜 템플릿 -->
+        {{> moveCommentTemp}}
+      </div>
+      {{else}}
+        <!-- 스크롤이동용 가짜 템플릿 -->
+        {{> moveCommentTempEmpty}}
+      {{/with}}
+      <!-- {{else}} -->
+
+      <!-- {{/if}} -->
+      <!-- 댓글 입력란 -->
+      <div class="roundtype-input">
+        <div class="round-radius">
+          <div class="type-input">
+            <input type="text" id="comment" placeholder="댓글 입력"/>
+          </div>
+          <div class="btn-save">
+            <a href="#" class="" id="setComment">
+              등록
+            </a>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <!-- {{> floatButton}} -->
+    <!-- <dic class="float-button">
+      <div class="float-layer">
+        <div class="max768">
+          <a href="#" class="writeStory">
+            <div class="icon">
+              <i class="imsm-icon icon-search"></i>
+            </div>
+          </a>
+        </div>
+      </div>
+    </dic> -->
+  </div>
+    {{#if hpCommentControlPageOpen}}
+      {{> commentControl hpSelectedComment}}
+    {{/if}}
+
+  {{/with}}
+</template>
+
+<template name="moveCommentTempVs">
+</template>
+
+<template name="moveCommentTempEmptyVs">
+</template>

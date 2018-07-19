@@ -1,0 +1,93 @@
+<template name="timelineTemplate05">
+  <!-- 타임캡슐 -->
+  {{#unless isOpened}}
+    <!-- 아이콘 -->
+    <div class="icon">
+      <!-- <i class="imsm-icon {{icon}}"></i> -->
+      <img src="/images/icon/timeline/{{icon}}" alt="">
+    </div>
+    {{#if isShared}}
+    <div class="icon lock">
+      <img src="/images/icon/timeline/shared.svg" alt="">
+    </div>
+    {{/if}}
+    {{#if lock}}
+    <div class="icon lock">
+      <img src="/images/icon/timeline/lock.svg" alt="">
+    </div>
+    {{/if}}
+
+    <!-- template_content 영역 -->
+    <div class="content">
+      <!-- image -->
+      <!-- <img class="image" id="tlTempImg" src="{{img}}" alt="" style="width:80%;"> -->
+      <div class="thumbnail-wrapper">
+        <div class="thumbnail">
+          <div class="image">
+            <img id="imageTag"  class="" src="{{capsuleImage}}" alt="">
+          </div>
+          <div class="d-day {{#if isOpened}}opened{{/if}}">
+            {{{context}}}
+          </div>
+        </div>
+      </div>
+      <!-- text -->
+      <div class="" id="tlTempTitle">
+        {{{title}}}
+        <div class="sub-info">
+          {{sendDate}} <br/>
+          {{shareInfo}}
+        </div>
+      </div>
+      <!-- <div class="timeline-context ellipsis-multi2">D{{{context}}}</div> -->
+    </div>
+
+
+  {{else}}
+  <!-- 오픈됨 -->
+  <!-- 큰 이미지 사용 -->
+  <!-- 아이콘 -->
+  <div class="icon">
+    <!-- <i class="imsm-icon {{icon}}"></i> -->
+    <img src="/images/icon/timeline/{{icon}}" alt="">
+  </div>
+  {{#if lock}}
+  <div class="icon lock">
+    <img src="/images/icon/timeline/lock.svg" alt="">
+  </div>
+  {{/if}}
+
+  <!-- template_content 영역 -->
+  <div class="content">
+    <!-- image -->
+    <!-- <img class="image" id="tlTempImg" src="{{img}}" alt="" style="width:80%;"> -->
+
+    <!-- <div class="sub-info opened">
+      {{sendDate}}
+    </div> -->
+    <div class="thumbnail-wrapper opened {{#unless g_isExist image}}display-none {{/unless}}">
+      <figure class="thumbnail">
+        <div class="image">
+          <!-- <img id="imageTag"  class="{{image.imageClass}}" src="{{g_makeImageSrc image ''}}" alt=""> -->
+          <a href="#" style="background:url({{g_makeImageSrc image ''}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+            <div class="trans-overlay">
+              <img src="/images/bg/img_frame.png" class="img-frame-shadow" itemprop="thumbnail" alt="">
+            </div>
+          </a>
+        </div>
+      </figure>
+    </div>
+
+    <!-- text -->
+    <div class="ellipsis-singleline color-black">{{{title}}}</div>
+    <!-- <div class="timeline-context ellipsis-multi2">{{{context}}}</div> -->
+    <div id="user-info" class="ellipsis-singleline">
+        {{{subTitle}}}
+    </div>
+  </div>
+
+
+
+  {{/unless}}
+
+</template>

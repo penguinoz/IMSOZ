@@ -1,0 +1,100 @@
+<template name="inheritanceToList">
+  {{#if or (g_isGreaterThan hpInhListData.length 0) (g_isGreaterThan hpNonUserInhListData.length 0)}}
+    <div class="inherit-List">
+      <div class="gallery">
+        {{#each hpInhListData}}
+          <figure id="{{_id}}">
+            <div class="list-img">
+              <a href="#" style="background:url({{image}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                <div class="trans-overlay">
+                  <img src="/images/bg/shadow_cover.png" class="img-frame-shadow" itemprop="thumbnail" alt="">
+                </div>
+              </a>
+              <div class="overlay-contents head-button">
+                <a href="#" class="note" id="note">
+                  <i class="imsm-icon icon-message {{#if hpIsExistLetter _id}}color-yellow{{/if}}"></i>
+                </a>
+                <a href="#" class="delInhUser" id="delInhUser">
+                  <i class="imsm-icon icon-close-thin color-white cursor-pointer" ></i>
+                </a>
+                <!-- <div class="note cursor-pointer {{#if hpIsExistLetter _id}}color-yellow{{/if}}">
+
+                </div> -->
+              </div>
+              <div class="overlay-contents upside">
+                <!-- <ul class="ellipsis-multi2-thumb">
+                  <li>{{introduction}}</li>
+                </ul> -->
+              </div>
+              <div class="overlay-contents downside">
+                <div class="profile">
+                  <img src="{{g_makeImageSrc profileImg ''}}" alt="image-place" data-modal-template="editProfileImage">
+                  <div class="nick-name">
+                    {{name}}
+                  </div>
+                </div>
+                <!-- <div class="note color-yellow">
+                  <i class="imsm-icon icon-message"></i>
+                </div> -->
+
+              </div>
+            </div>
+            <!-- <button type="button" >삭제</button> -->
+          </figure>
+        {{/each}}
+        <!-- 비유져 리스트 -->
+        {{#each hpNonUserInhListData}}
+          <figure id="{{_id}}">
+            <div class="list-img">
+              <a href="#" style="background:url({{image}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                <div class="trans-overlay">
+                  <img src="/images/bg/shadow_cover.png" class="img-frame-shadow" itemprop="thumbnail" alt="">
+                </div>
+              </a>
+              <!-- <div class="overlay-contents delete cursor-pointer">
+                <i class="imsm-icon icon-close-thin color-white" id="delNonUserInhUser"></i>
+                <div class="note cursor-pointer {{#if hpIsExistLetter _id}}color-yellow{{/if}}">
+                  <i class="imsm-icon icon-message"></i>
+                </div>
+              </div> -->
+              <div class="overlay-contents head-button">
+                <a href="#" class="note" id="note" >
+                  <i class="imsm-icon icon-message {{#if hpIsExistLetter _id}}color-yellow{{/if}}"></i>
+                </a>
+                <a href="#" class="delInhUser" id="delNonUserInhUser">
+                  <i class="imsm-icon icon-close-thin color-white cursor-pointer" ></i>
+                </a>
+                <!-- <div class="note cursor-pointer {{#if hpIsExistLetter _id}}color-yellow{{/if}}">
+
+                </div> -->
+              </div>
+              <div class="overlay-contents upside">
+                <!-- <ul class="ellipsis-multi2-thumb">
+                  <li>{{introduction}}</li>
+                </ul> -->
+              </div>
+              <div class="overlay-contents downside">
+                <div class="profile">
+                  <img src="{{g_makeImageSrc profileImg ''}}" alt="image-place" data-modal-template="editProfileImage">
+                  <div class="nick-name">
+                    {{name}}
+                  </div>
+                </div>
+                <!-- <div class="note color-yellow">
+                  <i class="imsm-icon icon-message"></i>
+                </div> -->
+
+              </div>
+            </div>
+            <!-- <button type="button" >삭제</button> -->
+          </figure>
+        {{/each}}
+      </div>
+    </div>
+  {{else}}
+    {{> inheritanceEmpty}}
+  {{/if}}
+    {{> floatButton type='addInheritor'}}
+
+  {{> inheritancePrevent}}
+</template>

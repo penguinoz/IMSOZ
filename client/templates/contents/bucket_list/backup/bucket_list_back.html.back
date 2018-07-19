@@ -1,0 +1,152 @@
+<template name="bucketList">
+  <div class="bucket-list max768">
+    <div class="top-sub-menu">
+      <!-- 카테고리 슬라이드 -->
+      <div class='category-slide sticky'>
+        <div class="max768">
+          <div class="category-slide-wrap">
+            <div class="category-list">
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="defaultmouse {{#if hpSelected 'BL0001'}} selected {{/if}}" id=BL0001>
+                    <div class="icon">
+                      <i class="imsm-icon icon-airplane"></i>
+                      <!-- <i class="glyphicon glyphicon-star"></i> -->
+                    </div>
+                    <p>전체</p>
+                  </a>
+                </div>
+              </div>
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="defaultmouse {{#if hpSelected 'BL0002'}} selected {{/if}}" id=BL0002>
+                    <div class="icon">
+                      <i class="imsm-icon icon-fork-spoon"></i>
+                      <!-- <i class="glyphicon glyphicon-cutlery"></i> -->
+                    </div>
+                    <p>먹고싶은</p>
+                  </a>
+                </div>
+              </div>
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="defaultmouse {{#if hpSelected 'BL0003'}} selected {{/if}}" id=BL0003>
+                    <div class="icon">
+                      <i class="imsm-icon icon-flight"></i>
+                      <!-- <i class="glyphicon glyphicon-map-marker"></i> -->
+                    </div>
+                    <p>가고싶은</p>
+                  </a>
+                </div>
+              </div>
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="defaultmouse {{#if hpSelected 'BL0004'}} selected {{/if}}" id=BL0004>
+                    <div class="icon">
+                      <i class="imsm-icon icon-my-heart"></i>
+                      <!-- <i class="glyphicon glyphicon-thumbs-up"></i> -->
+                    </div>
+                    <p>하고싶은</p>
+                  </a>
+                </div>
+              </div>
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="defaultmouse {{#if hpSelected 'BL0005'}} selected {{/if}}" id=BL0005>
+                    <div class="icon">
+                      <i class="imsm-icon icon-present"></i>
+                      <!-- <i class="glyphicon glyphicon-gift"></i> -->
+                    </div>
+                    <p>갖고싶은</p>
+                  </a>
+                </div>
+              </div>
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="defaultmouse {{#if hpSelected 'BL0006'}} selected {{/if}}" id=BL0006>
+                    <div class="icon">
+                      <i class="imsm-icon icon-star"></i>
+                      <!-- <i class="glyphicon glyphicon-user"></i> -->
+                    </div>
+                    <p>되고싶은</p>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 작은 메뉴 -->
+      <div class='category-slide-mini sticky display-none'>
+        <div class="max768">
+          <div class="category-slide-wrap">
+            <div class="category-list">
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="defaultmouse {{#if hpSelected 'BL0001'}} selected {{/if}}" id=BL0001>
+                    <div class="icon">
+                      <i class="imsm-icon icon-airplane"></i>
+                    </div>
+                    <!-- <p>전체</p> -->
+                  </a>
+                </div>
+              </div>
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="defaultmouse {{#if hpSelected 'BL0002'}} selected {{/if}}" id=BL0002>
+                    <div class="icon">
+                      <i class="imsm-icon icon-fork-spoon"></i>
+                    </div>
+                    <!-- <p>먹고싶은</p> -->
+                  </a>
+                </div>
+              </div>
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="defaultmouse {{#if hpSelected 'BL0003'}} selected {{/if}}" id=BL0003>
+                    <div class="icon">
+                      <i class="imsm-icon icon-flight"></i>
+                    </div>
+                    <!-- <p>가고싶은</p> -->
+                  </a>
+                </div>
+              </div>
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="defaultmouse {{#if hpSelected 'BL0004'}} selected {{/if}}" id=BL0004>
+                    <div class="icon">
+                      <i class="imsm-icon icon-my-heart"></i>
+                    </div>
+                    <!-- <p>하고싶은</p> -->
+                  </a>
+                </div>
+              </div>
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="defaultmouse {{#if hpSelected 'BL0005'}} selected {{/if}}" id=BL0005>
+                    <div class="icon">
+                      <i class="imsm-icon icon-present"></i>
+                    </div>
+                    <!-- <p>갖고싶은</p> -->
+                  </a>
+                </div>
+              </div>
+              <div class="category-position">
+                <div class="category-item">
+                  <a href="#" class="defaultmouse {{#if hpSelected 'BL0006'}} selected {{/if}}" id=BL0006>
+                    <div class="icon">
+                      <i class="imsm-icon icon-star"></i>
+                    </div>
+                    <!-- <p>되고싶은</p> -->
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{> bucketDicHome filter=hpBucketFilter}}
+  </div>
+</template>

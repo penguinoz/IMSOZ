@@ -1,0 +1,62 @@
+<template name="guardianToList">
+  {{#if hpCheckUnless}}
+   {{> inheritanceEmpty}}
+  {{else}}
+    <div class="user-list">
+      <div class="search-list">
+        {{#each hpGuardianListData}}
+        <div class="user-profile-list">
+          <!-- 이미지 파일 -->
+          <div class="profile-img">
+            <img src="{{g_makeImageSrc profile.profileImg ''}}" alt="image-place" data-modal-template="editProfileImage">
+            <!-- todo profileimg 고정값 수정 -->
+            <!-- <img src="{{profile.profileImg}}" alt="image-place" data-modal-template="editProfileImage"> -->
+          </div>
+          <div class="profile-text">
+            <!-- 이름 -->
+            <div class="profile-name">
+              {{profile.nickName}}({{profile.name}})
+            </div>
+            <!-- 아이디 -->
+            <div class="profile-sub">
+              {{username}}
+            </div>
+          </div>
+          <div class="btn-select  round-radius {{#if hpSelect @index}} selected {{/if}}" id={{@index}} name="delGuardian">
+            <div class="right">
+              삭제
+            </div>
+          </div>
+        </div>
+        {{/each}}
+        <!-- nonUser -->
+        {{#each hpNonUserGuardianList}}
+        <div class="user-profile-list">
+          <!-- 이미지 파일 -->
+          <div class="profile-img">
+            <img src="{{g_makeImageSrc '' ''}}" alt="image-place" data-modal-template="">
+            <!-- todo profileimg 고정값 수정 -->
+            <!-- <img src="{{profile.profileImg}}" alt="image-place" data-modal-template="editProfileImage"> -->
+          </div>
+          <div class="profile-text">
+            <!-- 이름 -->
+            <div class="profile-name">
+              {{name}}
+            </div>
+            <!-- 아이디 -->
+            <div class="profile-sub">
+              {{email}}
+            </div>
+          </div>
+          <div class="btn-select  round-radius {{#if hpSelect @index}} selected {{/if}}" id={{@index}} name="delNonUGuardian">
+            <div class="right" >
+              삭제
+            </div>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+    {{/if}}
+    {{> floatButton type='addGuardian'}}
+</template>

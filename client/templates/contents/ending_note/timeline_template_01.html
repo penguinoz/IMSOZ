@@ -1,0 +1,51 @@
+<template name="timelineTemplate01">
+  <!-- 큰 이미지 사용 -->
+    <!-- 아이콘 -->
+    <div class="icon">
+      <!-- <i class="imsm-icon {{icon}}"></i> -->
+      <img src="/images/icon/timeline/{{icon}}" alt="">
+    </div>
+    {{#if isShared}}
+    <div class="icon lock">
+      <img src="/images/icon/timeline/shared.svg" alt="">
+    </div>
+    {{/if}}
+    {{#if lock}}
+      <div class="icon lock">
+        <img src="/images/icon/timeline/lock.svg" alt="">
+      </div>
+    {{/if}}
+
+
+    <!-- template_content 영역 -->
+    <div class="content">
+      <!-- image -->
+      <!-- <div class="image-area {{#unless g_isExist image}}display-none {{/unless}}">
+        <figure id="123">
+          <div class="image">
+            <a href="#" style="background:url({{g_makeImageSrc image ''}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+              <div class="trans-overlay">
+                <img src="/images/bg/img_frame.png" class="img-frame-shadow" itemprop="thumbnail" alt="" style="max-height:148px;">
+              </div>
+            </a>
+          </div>
+        </figure>
+      </div> -->
+      <!-- <img class="image" id="tlTempImg" src="{{img}}" alt="" style="width:80%;"> -->
+      <div class="thumbnail-wrapper {{#unless g_isExist image}}display-none {{/unless}}">
+        <figure class="thumbnail">
+          <div class="image">
+              <!-- <img id="imageTag"  class="{{image.imageClass}}" src="{{g_makeImageSrc image ''}}" alt=""> -->
+              <a href="#" style="background:url({{g_makeImageSrc image ''}}) no-repeat center center" itemprop="contentUrl" data-size="700x487.9" class="setimgsize">
+                <div class="trans-overlay">
+                  <img src="/images/bg/img_frame.png" class="img-frame-shadow" itemprop="thumbnail" alt="">
+                </div>
+              </a>
+          </div>
+        </figure>
+      </div>
+      <!-- text -->
+      <div class="color-black ellipsis-singleline" id="tlTempTitle">{{title}}</div>
+      <div class="timeline-context ellipsis-multi2">{{{context}}}</div>
+    </div>
+</template>

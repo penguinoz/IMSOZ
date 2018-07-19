@@ -1,0 +1,126 @@
+import {global} from '/imports/global/global_things.js';
+Template.bucketList.onCreated(function(){
+  var instance = this;
+  var blStatue = Session.get("bucketListStatus")
+  if(blStatue){
+    instance.selectedMenu = new ReactiveVar(blStatue.filter);
+  }else{
+    instance.selectedMenu = new ReactiveVar('BL0001');
+  }
+  // Session.set("bucket_selectedMenu", 'BL0001');
+
+});
+
+Template.bucketList.onRendered(function(){
+  var scroll = $(window);
+  $(window).scroll( function() {
+    // console.log('check :', scroll.scrollTop());
+    if(scroll.scrollTop() > 145) {
+      $(".bucket-list .category-slide").slideUp(0);
+      $(".bucket-list .category-slide-mini").slideDown(0);
+
+    } else if(scroll.scrollTop() < 1){
+      $(".bucket-list .category-slide").slideDown(0);
+      $(".bucket-list .category-slide-mini").slideUp(0);
+    }
+  });
+});
+
+Template.bucketList.helpers({
+  hpSelected: function(_id){
+    // var seletedId = Session.get("bucket_selectedMenu");
+    var seletedId = Template.instance().selectedMenu.get();
+    var result = false;
+    if(_id === seletedId){
+      result = true;
+    }
+    return result;
+  },
+  hpBucketFilter: function(){
+    // console.log('필터변경', Template.instance().selectedMenu.get());
+    return Template.instance().selectedMenu.get();
+  }
+});
+
+Template.bucketList.events({
+  "click .top-sub-menu a": function(e, t){
+    e.preventDefault();
+    // Session.set('bucketListData', null);
+
+    var menuId = e.currentTarget.id;
+    t.selectedMenu.set(menuId);
+
+    switch(menuId){
+      case 'BL0001':
+      Router.go('bucketList',{category:'1'},{replaceState: false});
+      break;
+      case 'BL0002':
+      Router.go('bucketList',{category:'2'},{replaceState: false});
+      break;
+      case 'BL0003':
+      Router.go('bucketList',{category:'3'},{replaceState: false});
+      break;
+      case 'BL0004':
+      Router.go('bucketList',{category:'4'},{replaceState: false});
+      break;
+      case 'BL0005':
+      Router.go('bucketList',{category:'5'},{replaceState: false});
+      break;
+      case 'BL0006':
+      Router.go('bucketList',{category:'6'},{replaceState: false});
+      break;
+      default :
+      Router.go('bucketList',{category:'7'},{replaceState: false});
+    }
+
+    // 1. 로그 사용여부확인
+    if(global.writeLog){
+      //2. 로그 생성
+      Meteor.call('setLog', 'LG0016', Meteor.userId(), 'BL', menuId); //버킷리스트 카테고리 클BL
+    }
+    // Session.set("bucket_selectedMenu", menuId);
+
+    //
+    // { group:'g0006', code : 'BL0001',  name : '전체', order : 1, regDate : global.fn_dateFormat().HMS},
+    // { group:'g0006', code : 'BL0002',  name : '먹고싶은', order : 2, regDate : global.fn_dateFormat().HMS},
+    // { group:'g0006', code : 'BL0003',  name : '가고싶은', order : 3, regDate : global.fn_dateFormat().HMS},
+    // { group:'g0006', code : 'BL0004',  name : '하고싶은', order : 4, regDate : global.fn_dateFormat().HMS},
+    // { group:'g0006', code : 'BL0005',  name : '갖고싶은', order : 5, regDate : global.fn_dateFormat().HMS},
+    // { group:'g0006', code : 'BL0006',  name : '되고싶은', order : 6, regDate : global.fn_dateFormat().HMS},
+    //
+    // switch(menuId){
+    //   case 'BL0001':
+    //     t.selectedMenu.set('BL0001');
+    //     // Router.go('inheritanceTo');
+    //     // t.selectedTemplate.set('inheritanceToList');
+    //     break;
+    //   case 'BL0002':
+    //     t.selectedMenu.set('BL0002');
+    //     // Router.go('inheritanceFrom');
+    //     // t.selectedTemplate.set('inheritanceFromList');
+    //     break;
+    //   case 'BL0003':
+    //     t.selectedMenu.set('BL0003');
+    //     // Router.go('guardian');
+    //     // t.selectedTemplate.set('guardianToList');
+    //     break;
+    //   case 'BL0004':
+    //     t.selectedMenu.set('BL0004');
+    //     // $('.funaral-menu').removeClass("display-none");
+    //     // $('.black-over').removeClass("display-none");
+    //     break;
+    //   case 'BL0005':
+    //     t.selectedMenu.set('BL0005');
+    //     // $('.funaral-menu').removeClass("display-none");
+    //     // $('.black-over').removeClass("display-none");
+    //     break;
+    //   case 'BL0006':
+    //     t.selectedMenu.set('BL0006');
+    //     // $('.funaral-menu').removeClass("display-none");
+    //     // $('.black-over').removeClass("display-none");
+    //     break;
+    //   default :
+    //     t.selectedMenu.set('BL0001');
+    // }
+  },
+});
